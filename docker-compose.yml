@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  audiology-clinic:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: audiology-clinic
+    restart: unless-stopped
+    networks:
+      - proxy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - DATABASE_URL=postgresql://audiology:audiology123@host.docker.internal:5432/audiology_clinic
+      - NEXTAUTH_URL=https://veritashearing.readj.dev
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    labels:
+      - "traefik.enable=true"
+
+      # HTTP Router (for Cloudflare Tunnel)
+      - "traefik.http.routers.audiology-clinic.rule=Host(`veritashearing.readj.dev`)"
+      - "traefik.http.routers.audiology-clinic.entrypoints=web"
+      - "traefik.http.routers.audiology-clinic.service=audiology-clinic"
+
+      # HTTPS Router (if direct access needed)
+      - "traefik.http.routers.audiology-clinic-secure.rule=Host(`veritashearing.readj.dev`)"
+      - "traefik.http.routers.audiology-clinic-secure.entrypoints=websecure"
+      - "traefik.http.routers.audiology-clinic-secure.service=audiology-clinic"
+      - "traefik.http.routers.audiology-clinic-secure.tls=true"
+
+      # Service
+      - "traefik.http.services.audiology-clinic.loadbalancer.server.port=3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+networks:
+  proxy:
+    external: true
