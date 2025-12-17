@@ -5,10 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      cache_from:
-        - audiology-clinic:latest
-      args:
-        BUILDKIT_INLINE_CACHE: 1
     container_name: audiology-clinic
     restart: unless-stopped
     networks:
