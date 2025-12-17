@@ -273,7 +273,7 @@ export default function RegisterPage() {
                         ? "border-[var(--error)]"
                         : "border-[var(--border)]"
                     } focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
-                    placeholder="(555) 123-4567"
+                    placeholder="021 123 4567"
                   />
                 </div>
                 {errors.phone && (

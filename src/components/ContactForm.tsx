@@ -181,7 +181,7 @@ export default function ContactForm() {
           className={`w-full px-4 py-2.5 rounded-lg border ${
             errors.phone ? "border-[var(--error)]" : "border-[var(--border)]"
           } focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-colors`}
-          placeholder="(555) 123-4567"
+          placeholder="021 123 4567"
         />
         {errors.phone && (
           <p className="mt-1 text-sm text-[var(--error)]">{errors.phone}</p>

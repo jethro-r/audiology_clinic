@@ -85,7 +85,7 @@ const faqs = [
   {
     question: "How much do hearing aids cost?",
     answer:
-      "Hearing aids range from around $1,500 to $6,000+ per pair depending on technology level. I'll always discuss your budget upfront and recommend options that match both your hearing needs and financial situation. There's no pressure to choose premium options.",
+      "Hearing aids range from around $2,500 to $10,000+ per pair depending on technology level. I'll always discuss your budget upfront and recommend options that match both your hearing needs and financial situation. There's no pressure to choose premium options.",
   },
   {
     question: "I'm not sure if I need a hearing test. What are the signs?",

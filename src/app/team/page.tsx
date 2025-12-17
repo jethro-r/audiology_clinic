@@ -12,7 +12,7 @@ const teamMembers = [
     title: "Founder & Audiologist",
     credentials: "",
     bio: "I founded Veritas Hearing to provide the kind of hearing care I believe everyone deserves—honest, thorough, and pressure-free. With a passion for helping people hear better, I take the time to understand each client's unique needs and lifestyle before making any recommendations.",
-    specializations: ["Hearing Assessments", "Hearing Aid Fitting", "Tinnitus Support"],
+    specialisations: ["Hearing Assessments", "Hearing Aid Fitting", "Tinnitus Support"],
   },
 ];
 
@@ -102,9 +102,9 @@ export default function TeamPage() {
               <Link href="/contact">
                 <Button size="lg">Schedule Appointment</Button>
               </Link>
-              <Link href="tel:+15551234567">
+              <Link href="tel:+6480055551">
                 <Button variant="outline" size="lg">
-                  Call (555) 123-4567
+                  Call 0800 555 051
                 </Button>
               </Link>
             </div>

@@ -19,13 +19,13 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
-const navigation = [
+const allNavigation = [
   { name: "Dashboard", href: "/portal/dashboard", icon: LayoutDashboard },
   { name: "Appointments", href: "/portal/appointments", icon: Calendar },
   { name: "Profile", href: "/portal/profile", icon: User },
   { name: "Documents", href: "/portal/documents", icon: FileText },
-  { name: "Billing", href: "/portal/billing", icon: CreditCard },
-  { name: "Messages", href: "/portal/messages", icon: MessageSquare },
+  { name: "Billing", href: "/portal/billing", icon: CreditCard, adminOnly: true },
+  { name: "Messages", href: "/portal/messages", icon: MessageSquare, adminOnly: true },
 ];
 
 export default function PortalLayout({
@@ -36,6 +36,11 @@ export default function PortalLayout({
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+
+  // Filter navigation based on user role
+  const navigation = allNavigation.filter(
+    (item) => !item.adminOnly || session?.user?.role === "ADMIN"
+  );
 
   useEffect(() => {
     if (status === "unauthenticated") {

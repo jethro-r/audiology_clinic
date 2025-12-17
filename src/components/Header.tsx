@@ -41,10 +41,6 @@ export default function Header() {
   }, [userMenuOpen]);
 
   const getDashboardLink = () => {
-    if (!session?.user?.role) return "/portal/dashboard";
-    if (["ADMIN", "AUDIOLOGIST", "RECEPTIONIST"].includes(session.user.role)) {
-      return "/admin/dashboard";
-    }
     return "/portal/dashboard";
   };
 

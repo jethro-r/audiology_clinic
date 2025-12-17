@@ -6,9 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Audiology clinic website with four phases:
 1. **Marketing website** (COMPLETE) - Public-facing pages with contact form
-2. **Booking/reservation system** (COMPLETE) - Patient portal, appointment scheduling, admin dashboard
+2. **Booking/reservation system** (COMPLETE) - Patient portal and appointment scheduling
 3. Online payment system (Stripe)
-4. Patient documentation system (HIPAA-compliant)
+4. Patient documentation system (Privacy Act 2020 compliant)
 
 ## Technology Stack
 
@@ -67,12 +67,6 @@ src/
 │   │   ├── appointments/       # View/manage appointments
 │   │   │   └── new/            # Multi-step booking flow
 │   │   └── profile/            # Patient profile
-│   ├── admin/                  # Admin portal (protected)
-│   │   ├── layout.tsx          # Admin layout with sidebar
-│   │   ├── dashboard/          # Admin dashboard with stats
-│   │   ├── appointments/       # Appointment management
-│   │   ├── patients/           # Patient management
-│   │   └── availability/       # Provider schedule management
 │   └── api/
 │       ├── auth/
 │       │   ├── [...nextauth]/  # NextAuth.js handler
@@ -81,9 +75,6 @@ src/
 │       ├── appointment-types/  # Service types
 │       ├── audiologists/       # Provider list
 │       ├── availability/       # Time slot calculation
-│       ├── admin/
-│       │   ├── patients/       # Patient list (admin)
-│       │   └── availability/   # Provider schedule (admin)
 │       └── contact/            # Contact form
 ├── components/
 │   ├── Header.tsx              # Navigation
@@ -133,9 +124,6 @@ CSS variables in `globals.css`:
 ## Test Credentials (after seeding)
 
 ```
-Admin: admin@hearwell.com / admin123
-Audiologist: sarah.chen@hearwell.com / doctor123
-Receptionist: reception@hearwell.com / reception123
 Patient: john.smith@example.com / patient123
 ```
 
@@ -147,15 +135,15 @@ Patient: john.smith@example.com / patient123
 - Payment history
 
 ### Phase 4: Patient Documentation
-- HIPAA-compliant document storage
+- Privacy Act 2020 compliant document storage
 - Audiogram upload and viewing
 - Secure messaging
 - Audit logging
 
 ## Security Requirements (Phase 4)
 
-HIPAA-compliant healthcare application requirements:
-- Encrypt sensitive data at rest (SSN, insurance numbers, medical info)
-- All PHI access must be audit logged
+Privacy Act 2020 and Health Information Privacy Code (HIPC) compliant healthcare application requirements:
+- Encrypt sensitive data at rest (NHI numbers, health information, medical records)
+- All health information access must be audit logged
 - Session timeout after 15 minutes idle
 - RBAC for all protected routes

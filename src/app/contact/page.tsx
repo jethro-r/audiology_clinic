@@ -33,8 +33,13 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-[var(--card)] to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative pt-32 pb-16 bg-gradient-to-br from-[var(--card)] to-white overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary-light)]/10" />
+          <div className="absolute inset-0 bg-[url('/images/contact-bg.jpg')] bg-cover bg-center opacity-10" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -171,7 +176,7 @@ export default function ContactPage() {
           <p className="text-[var(--foreground)]">
             <strong>For emergencies:</strong> If you are experiencing sudden
             hearing loss, severe ear pain, or dizziness, please seek immediate
-            medical attention or call 911.
+            medical attention or call 111.
           </p>
         </div>
       </section>

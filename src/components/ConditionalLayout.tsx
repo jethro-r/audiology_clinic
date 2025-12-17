@@ -10,11 +10,10 @@ export default function ConditionalLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  
+
   // Routes that should NOT show the main header/footer
   const isPortalRoute = pathname?.startsWith("/portal");
-  const isAdminRoute = pathname?.startsWith("/admin");
-  const hideMainLayout = isPortalRoute || isAdminRoute;
+  const hideMainLayout = isPortalRoute;
 
   if (hideMainLayout) {
     return <>{children}</>;

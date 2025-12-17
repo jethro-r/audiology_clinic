@@ -7,7 +7,6 @@ import {
   Headphones,
   Volume2,
   Shield,
-  Baby,
   Wrench,
   ArrowRight,
   Clock,
@@ -49,19 +48,19 @@ const services = [
     ],
   },
   {
-    id: "tinnitus",
-    title: "Tinnitus Management",
+    id: "annual-review",
+    title: "Ear Annual Hearing Review",
     description:
-      "Tinnitus affects millions of people. Our comprehensive tinnitus management program helps you find relief through proven strategies and the latest treatment options.",
+      "Our comprehensive annual hearing review includes a complete hearing assessment, Redux moisture removal service, and professional hearing aid servicing and tuning to ensure your devices are performing optimally.",
     icon: Volume2,
-    duration: "45-60 minutes",
+    duration: "60-90 minutes",
     includes: [
-      "Comprehensive tinnitus evaluation",
-      "Sound therapy options",
-      "Cognitive behavioral strategies",
-      "Hearing aid tinnitus features",
-      "Relaxation techniques",
-      "Ongoing support and counseling",
+      "Comprehensive hearing test",
+      "Redux moisture removal service",
+      "Hearing aid cleaning and servicing",
+      "Hearing aid programming and tuning",
+      "Performance verification",
+      "Detailed results and recommendations",
     ],
   },
   {
@@ -78,22 +77,6 @@ const services = [
       "Swim molds",
       "Industrial protection",
       "Sleep plugs",
-    ],
-  },
-  {
-    id: "pediatric",
-    title: "Pediatric Audiology",
-    description:
-      "Early detection of hearing loss is crucial for speech and language development. Our pediatric services are designed to make testing comfortable and fun for children of all ages.",
-    icon: Baby,
-    duration: "45-60 minutes",
-    includes: [
-      "Age-appropriate testing methods",
-      "Play audiometry",
-      "School hearing screenings",
-      "Hearing aid fittings for children",
-      "Parent education and support",
-      "Coordination with schools and specialists",
     ],
   },
   {
@@ -237,9 +220,9 @@ export default function ServicesPage() {
               <Link href="/contact">
                 <Button size="lg">Contact Us Today</Button>
               </Link>
-              <Link href="tel:+15551234567">
+              <Link href="tel:+6480055551">
                 <Button variant="outline" size="lg">
-                  Call (555) 123-4567
+                  Call 0800 555 051
                 </Button>
               </Link>
             </div>

@@ -10,15 +10,8 @@ import Button from "@/components/Button";
 
 // Helper function to get redirect URL based on role
 function getRedirectByRole(role: string): string {
-  switch (role) {
-    case "ADMIN":
-    case "RECEPTIONIST":
-    case "AUDIOLOGIST":
-      return "/admin/dashboard";
-    case "PATIENT":
-    default:
-      return "/portal/dashboard";
-  }
+  // All users redirect to patient portal
+  return "/portal/dashboard";
 }
 
 function LoginForm() {

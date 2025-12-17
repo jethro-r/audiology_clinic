@@ -8,7 +8,7 @@ interface TeamMemberProps {
   title: string;
   credentials: string;
   bio: string;
-  specializations: string[];
+  specialisations: string[];
   imageUrl?: string;
   index?: number;
 }
@@ -18,7 +18,7 @@ export default function TeamMember({
   title,
   credentials,
   bio,
-  specializations,
+  specialisations,
   imageUrl,
   index = 0,
 }: TeamMemberProps) {
@@ -57,9 +57,9 @@ export default function TeamMember({
         <p className="text-sm text-[var(--muted)] mb-3">{credentials}</p>
         <p className="text-[var(--muted)] text-sm mb-4">{bio}</p>
 
-        {/* Specializations */}
+        {/* Specialisations */}
         <div className="flex flex-wrap gap-2">
-          {specializations.map((spec) => (
+          {specialisations.map((spec) => (
             <span
               key={spec}
               className="text-xs bg-[var(--card)] text-[var(--muted)] px-2 py-1 rounded-full"
