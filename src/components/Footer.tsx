@@ -1,24 +1,43 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin, Ear } from "lucide-react";
 
 const quickLinks = [
   { name: "About Us", href: "/about" },
   { name: "Services", href: "/services" },
+  { name: "Packages", href: "/packages" },
   { name: "Our Team", href: "/team" },
   { name: "Resources", href: "/resources" },
   { name: "Contact", href: "/contact" },
 ];
 
-const services = [
-  { name: "Hearing Evaluations", href: "/services#evaluations" },
-  { name: "Hearing Aids", href: "/services#hearing-aids" },
-  { name: "Tinnitus Management", href: "/services#tinnitus" },
-  { name: "Custom Ear Protection", href: "/services#ear-protection" },
-  { name: "Pediatric Audiology", href: "/services#pediatric" },
-];
+
+interface ServiceLink {
+  name: string;
+  href: string;
+}
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [services, setServices] = useState<ServiceLink[]>([]);
+
+  useEffect(() => {
+    fetch("/api/services?footer=true")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setServices(
+            data.map((s: { title: string; slug: string }) => ({
+              name: s.title,
+              href: `/services#${s.slug}`,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <footer className="bg-gray-900 text-gray-300">
@@ -47,7 +66,7 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[var(--primary)] transition-colors"
+                className="hover:text-primary transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5" />
@@ -56,7 +75,7 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[var(--primary)] transition-colors"
+                className="hover:text-primary transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5" />
@@ -65,7 +84,7 @@ export default function Footer() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[var(--primary)] transition-colors"
+                className="hover:text-primary transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
@@ -81,7 +100,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm hover:text-[var(--primary)] transition-colors"
+                    className="text-sm hover:text-primary transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -98,7 +117,7 @@ export default function Footer() {
                 <li key={service.name}>
                   <Link
                     href={service.href}
-                    className="text-sm hover:text-[var(--primary)] transition-colors"
+                    className="text-sm hover:text-primary transition-colors"
                   >
                     {service.name}
                   </Link>
@@ -112,41 +131,39 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-[var(--primary)] flex-shrink-0 mt-0.5" />
+                <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <span className="text-sm">
-                  42a Hillcrest Road
+                  37 Lake Road
                   <br />
-                  Hillcrest, Hamilton 3216
+                  Frankton, Hamilton 3204
                   <br />
                   New Zealand
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-[var(--primary)] flex-shrink-0" />
+                <Phone className="h-5 w-5 text-primary flex-shrink-0" />
                 <a
                   href="tel:+6480055551"
-                  className="text-sm hover:text-[var(--primary)] transition-colors"
+                  className="text-sm hover:text-primary transition-colors"
                 >
-                  0800 555 051
+                  029 0451 0839
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-[var(--primary)] flex-shrink-0" />
+                <Mail className="h-5 w-5 text-primary flex-shrink-0" />
                 <a
                   href="mailto:info@veritashearing.co.nz"
-                  className="text-sm hover:text-[var(--primary)] transition-colors"
+                  className="text-sm hover:text-primary transition-colors"
                 >
                   info@veritashearing.co.nz
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Clock className="h-5 w-5 text-[var(--primary)] flex-shrink-0 mt-0.5" />
+                <Clock className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <span className="text-sm">
                   Mon-Fri: 8:00 AM - 5:00 PM
                   <br />
-                  Sat: 9:00 AM - 1:00 PM
-                  <br />
-                  Sun: Closed
+                  Sat-Sun: Closed
                 </span>
               </li>
             </ul>
@@ -159,13 +176,13 @@ export default function Footer() {
             © {currentYear} Veritas Hearing. All rights reserved.
           </p>
           <div className="flex gap-4 text-sm text-gray-400">
-            <Link href="/privacy" className="hover:text-[var(--primary)] transition-colors">
+            <Link href="/privacy" className="hover:text-primary transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-[var(--primary)] transition-colors">
+            <Link href="/terms" className="hover:text-primary transition-colors">
               Terms of Service
             </Link>
-            <Link href="/accessibility" className="hover:text-[var(--primary)] transition-colors">
+            <Link href="/accessibility" className="hover:text-primary transition-colors">
               Accessibility
             </Link>
           </div>

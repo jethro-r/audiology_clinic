@@ -147,10 +147,10 @@ export default function DocumentsPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-2xl lg:text-3xl font-bold text-[var(--foreground)]">
+        <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
           My Documents
         </h1>
-        <p className="text-[var(--muted)] mt-1">
+        <p className="text-muted mt-1">
           Access your medical records, test results, and other documents
         </p>
       </motion.div>
@@ -160,24 +160,24 @@ export default function DocumentsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="bg-white rounded-xl border border-[var(--border)] p-4"
+        className="bg-white rounded-xl border border-border p-4"
       >
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
             <input
               type="text"
               placeholder="Search documents..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
           {/* Filter Buttons */}
           <div className="flex items-center gap-2 overflow-x-auto">
-            <Filter className="h-5 w-5 text-[var(--muted)] flex-shrink-0" />
+            <Filter className="h-5 w-5 text-muted flex-shrink-0" />
             <div className="flex gap-1">
               {(Object.keys(categoryLabels) as DocumentCategory[]).map(
                 (category) => (
@@ -186,8 +186,8 @@ export default function DocumentsPage() {
                     onClick={() => setFilter(category)}
                     className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                       filter === category
-                        ? "bg-[var(--primary)] text-white"
-                        : "bg-[var(--card)] text-[var(--foreground)] hover:bg-gray-200"
+                        ? "bg-primary text-white"
+                        : "bg-card text-foreground hover:bg-gray-200"
                     }`}
                   >
                     {categoryLabels[category]}
@@ -212,15 +212,15 @@ export default function DocumentsPage() {
             return (
               <div
                 key={doc.id}
-                className="bg-white rounded-xl border border-[var(--border)] p-4 hover:shadow-md transition-shadow"
+                className="bg-white rounded-xl border border-border p-4 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-[var(--primary)]/10 rounded-lg flex items-center justify-center">
-                      <FileIcon className="h-6 w-6 text-[var(--primary)]" />
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <FileIcon className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-[var(--foreground)]">
+                      <h3 className="font-semibold text-foreground">
                         {doc.name}
                       </h3>
                       <div className="flex items-center gap-3 mt-1">
@@ -231,11 +231,11 @@ export default function DocumentsPage() {
                         >
                           {categoryLabels[doc.category]}
                         </span>
-                        <span className="flex items-center gap-1 text-sm text-[var(--muted)]">
+                        <span className="flex items-center gap-1 text-sm text-muted">
                           <Calendar className="h-3.5 w-3.5" />
                           {doc.date}
                         </span>
-                        <span className="text-sm text-[var(--muted)]">
+                        <span className="text-sm text-muted">
                           {doc.size}
                         </span>
                       </div>
@@ -271,12 +271,12 @@ export default function DocumentsPage() {
             );
           })
         ) : (
-          <div className="bg-white rounded-xl border border-[var(--border)] p-8 text-center">
-            <FileText className="h-12 w-12 text-[var(--muted)] mx-auto mb-4" />
-            <h3 className="font-semibold text-[var(--foreground)] mb-2">
+          <div className="bg-white rounded-xl border border-border p-8 text-center">
+            <FileText className="h-12 w-12 text-muted mx-auto mb-4" />
+            <h3 className="font-semibold text-foreground mb-2">
               No Documents Found
             </h3>
-            <p className="text-[var(--muted)]">
+            <p className="text-muted">
               {filter === "all"
                 ? "You don't have any documents yet."
                 : `You don't have any ${categoryLabels[filter].toLowerCase()} documents.`}

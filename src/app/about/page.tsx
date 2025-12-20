@@ -62,7 +62,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-[var(--card)] to-white">
+      <section className="pt-32 pb-16 bg-gradient-to-br from-card to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -70,13 +70,13 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="inline-block bg-[var(--primary)]/10 text-[var(--primary)] px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
               About Us
             </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-[var(--foreground)] mb-6">
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
               Your Partners in Hearing Health
             </h1>
-            <p className="text-lg text-[var(--muted)]">
+            <p className="text-lg text-muted">
               Based in Hamilton, Veritas Hearing is dedicated to
               helping our community hear better and live fuller lives through
               compassionate, expert care.
@@ -95,10 +95,10 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl font-bold text-[var(--foreground)] mb-6">
+              <h2 className="text-3xl font-bold text-foreground mb-6">
                 Our Story
               </h2>
-              <div className="space-y-4 text-[var(--muted)]">
+              <div className="space-y-4 text-muted">
                 <p>
                   Veritas Hearing is a newly established independent audiology practice
                   in Hillcrest, Hamilton. I started this clinic because I believe
@@ -124,14 +124,14 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="relative aspect-[4/3] bg-gradient-to-br from-[var(--primary)]/10 to-[var(--primary-light)]/10 rounded-2xl"
+              className="relative aspect-[4/3] bg-gradient-to-br from-primary/10 to-[var(--primary-light)]/10 rounded-2xl"
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center p-8">
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[var(--primary)]/20 flex items-center justify-center">
-                    <Users className="w-12 h-12 text-[var(--primary)]" />
+                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Users className="w-12 h-12 text-primary" />
                   </div>
-                  <p className="text-[var(--muted)] text-sm">
+                  <p className="text-muted text-sm">
                     Our clinic and team
                   </p>
                 </div>
@@ -142,7 +142,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Statement */}
-      <section className="py-16 bg-[var(--primary)]">
+      <section className="py-16 bg-primary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -170,10 +170,10 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-[var(--foreground)] mb-4">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               Our Values
             </h2>
-            <p className="text-[var(--muted)] max-w-2xl mx-auto">
+            <p className="text-muted max-w-2xl mx-auto">
               These core values guide everything we do at Veritas Hearing.
             </p>
           </motion.div>
@@ -188,13 +188,13 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="w-16 h-16 mx-auto mb-4 bg-[var(--primary)]/10 rounded-full flex items-center justify-center">
-                  <value.icon className="h-8 w-8 text-[var(--primary)]" />
+                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                  <value.icon className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-[var(--foreground)] mb-2">
+                <h3 className="text-lg font-semibold text-foreground mb-2">
                   {value.title}
                 </h3>
-                <p className="text-[var(--muted)] text-sm">
+                <p className="text-muted text-sm">
                   {value.description}
                 </p>
               </motion.div>
@@ -204,7 +204,7 @@ export default function AboutPage() {
       </section>
 
       {/* Certifications */}
-      <section className="py-16 bg-[var(--card)]">
+      <section className="py-16 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -213,11 +213,11 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-8"
           >
-            <Shield className="h-12 w-12 text-[var(--primary)] mx-auto mb-4" />
-            <h2 className="text-3xl font-bold text-[var(--foreground)] mb-4">
+            <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               Certifications & Accreditations
             </h2>
-            <p className="text-[var(--muted)] max-w-2xl mx-auto">
+            <p className="text-muted max-w-2xl mx-auto">
               Our audiologists maintain the highest professional standards and
               credentials.
             </p>
@@ -231,9 +231,9 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white px-6 py-3 rounded-full border border-[var(--border)] shadow-sm"
+                className="bg-white px-6 py-3 rounded-full border border-border shadow-sm"
               >
-                <span className="font-medium text-[var(--foreground)]">
+                <span className="font-medium text-foreground">
                   {cert}
                 </span>
               </motion.div>
@@ -252,14 +252,14 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="relative aspect-[4/3] bg-gradient-to-br from-[var(--primary)]/10 to-[var(--primary-light)]/10 rounded-2xl"
+              className="relative aspect-[4/3] bg-gradient-to-br from-primary/10 to-[var(--primary-light)]/10 rounded-2xl"
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center p-8">
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[var(--primary)]/20 flex items-center justify-center">
-                    <Award className="w-12 h-12 text-[var(--primary)]" />
+                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Award className="w-12 h-12 text-primary" />
                   </div>
-                  <p className="text-[var(--muted)] text-sm">
+                  <p className="text-muted text-sm">
                     Award-winning care
                   </p>
                 </div>
@@ -272,7 +272,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl font-bold text-[var(--foreground)] mb-6">
+              <h2 className="text-3xl font-bold text-foreground mb-6">
                 Why Choose Veritas Hearing?
               </h2>
               <ul className="space-y-3 mb-8">
@@ -286,7 +286,7 @@ export default function AboutPage() {
                     className="flex items-start gap-3"
                   >
                     <CheckCircle className="h-5 w-5 text-[var(--success)] flex-shrink-0 mt-0.5" />
-                    <span className="text-[var(--foreground)]">{item}</span>
+                    <span className="text-foreground">{item}</span>
                   </motion.li>
                 ))}
               </ul>

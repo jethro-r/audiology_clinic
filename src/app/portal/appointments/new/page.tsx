@@ -242,7 +242,7 @@ export default function NewAppointmentPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--primary)]" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -253,36 +253,36 @@ export default function NewAppointmentPage() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white rounded-xl border border-[var(--border)] p-8 text-center"
+          className="bg-white rounded-xl border border-border p-8 text-center"
         >
           <div className="w-16 h-16 bg-[var(--success)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="h-8 w-8 text-[var(--success)]" />
           </div>
-          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2">
+          <h2 className="text-2xl font-bold text-foreground mb-2">
             Appointment Booked!
           </h2>
-          <p className="text-[var(--muted)] mb-6">
+          <p className="text-muted mb-6">
             Your appointment has been successfully scheduled. We&apos;ve sent a
             confirmation email to your registered email address.
           </p>
 
-          <div className="bg-[var(--card)] rounded-lg p-4 mb-6 text-left">
-            <h3 className="font-semibold text-[var(--foreground)] mb-2">
+          <div className="bg-card rounded-lg p-4 mb-6 text-left">
+            <h3 className="font-semibold text-foreground mb-2">
               Appointment Details
             </h3>
             <div className="space-y-1 text-sm">
               <p>
-                <span className="text-[var(--muted)]">Service:</span>{" "}
+                <span className="text-muted">Service:</span>{" "}
                 {selectedService?.name}
               </p>
               <p>
-                <span className="text-[var(--muted)]">Provider:</span>{" "}
+                <span className="text-muted">Provider:</span>{" "}
                 {selectedAudiologist
                   ? `${selectedAudiologist.firstName} ${selectedAudiologist.lastName}`
                   : ""}
               </p>
               <p>
-                <span className="text-[var(--muted)]">Date:</span>{" "}
+                <span className="text-muted">Date:</span>{" "}
                 {bookingData.date?.toLocaleDateString("en-NZ", {
                   weekday: "long",
                   year: "numeric",
@@ -291,7 +291,7 @@ export default function NewAppointmentPage() {
                 })}
               </p>
               <p>
-                <span className="text-[var(--muted)]">Time:</span>{" "}
+                <span className="text-muted">Time:</span>{" "}
                 {bookingData.time ? formatTime(bookingData.time) : ""}
               </p>
             </div>
@@ -323,15 +323,15 @@ export default function NewAppointmentPage() {
       >
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-[var(--muted)] hover:text-[var(--foreground)] mb-4"
+          className="flex items-center gap-2 text-muted hover:text-foreground mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
         </button>
-        <h1 className="text-2xl lg:text-3xl font-bold text-[var(--foreground)]">
+        <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
           Book an Appointment
         </h1>
-        <p className="text-[var(--muted)] mt-1">
+        <p className="text-muted mt-1">
           Schedule your visit in just a few steps
         </p>
       </motion.div>
@@ -359,8 +359,8 @@ export default function NewAppointmentPage() {
                   currentStep > step.id
                     ? "bg-[var(--success)] text-white"
                     : currentStep === step.id
-                    ? "bg-[var(--primary)] text-white"
-                    : "bg-[var(--card)] text-[var(--muted)]"
+                    ? "bg-primary text-white"
+                    : "bg-card text-muted"
                 }`}
               >
                 {currentStep > step.id ? (
@@ -372,8 +372,8 @@ export default function NewAppointmentPage() {
               <span
                 className={`ml-2 text-sm hidden sm:block ${
                   currentStep >= step.id
-                    ? "text-[var(--foreground)]"
-                    : "text-[var(--muted)]"
+                    ? "text-foreground"
+                    : "text-muted"
                 }`}
               >
                 {step.name}
@@ -383,7 +383,7 @@ export default function NewAppointmentPage() {
                   className={`w-12 sm:w-20 h-0.5 mx-2 ${
                     currentStep > step.id
                       ? "bg-[var(--success)]"
-                      : "bg-[var(--border)]"
+                      : "bg-border"
                   }`}
                 />
               )}
@@ -400,12 +400,12 @@ export default function NewAppointmentPage() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
-          className="bg-white rounded-xl border border-[var(--border)] p-6"
+          className="bg-white rounded-xl border border-border p-6"
         >
           {/* Step 1: Select Service */}
           {currentStep === 1 && (
             <div>
-              <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Select a Service
               </h2>
               <div className="space-y-3">
@@ -417,24 +417,24 @@ export default function NewAppointmentPage() {
                     }
                     className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
                       bookingData.serviceId === type.id
-                        ? "border-[var(--primary)] bg-[var(--primary)]/5"
-                        : "border-[var(--border)] hover:border-[var(--primary)]/50"
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50"
                     }`}
                   >
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="font-medium text-[var(--foreground)]">
+                        <h3 className="font-medium text-foreground">
                           {type.name}
                         </h3>
-                        <p className="text-sm text-[var(--muted)] mt-1">
+                        <p className="text-sm text-muted mt-1">
                           {type.description}
                         </p>
-                        <p className="text-sm text-[var(--muted)] mt-1">
+                        <p className="text-sm text-muted mt-1">
                           Duration: {type.durationMinutes} minutes
                         </p>
                       </div>
                       {type.price && (
-                        <span className="text-lg font-semibold text-[var(--primary)]">
+                        <span className="text-lg font-semibold text-primary">
                           ${Number(type.price).toFixed(0)}
                         </span>
                       )}
@@ -448,7 +448,7 @@ export default function NewAppointmentPage() {
           {/* Step 2: Select Audiologist */}
           {currentStep === 2 && (
             <div>
-              <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Choose a Provider
               </h2>
               <div className="grid sm:grid-cols-2 gap-3">
@@ -463,19 +463,19 @@ export default function NewAppointmentPage() {
                     }
                     className={`text-left p-4 rounded-lg border-2 transition-colors ${
                       bookingData.audiologistId === audiologist.id
-                        ? "border-[var(--primary)] bg-[var(--primary)]/5"
-                        : "border-[var(--border)] hover:border-[var(--primary)]/50"
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
-                        <User className="h-6 w-6 text-[var(--primary)]" />
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                        <User className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-medium text-[var(--foreground)]">
+                        <h3 className="font-medium text-foreground">
                           {audiologist.firstName} {audiologist.lastName}
                         </h3>
-                        <p className="text-sm text-[var(--muted)]">
+                        <p className="text-sm text-muted">
                           {audiologist.role === "AUDIOLOGIST"
                             ? "Audiologist"
                             : audiologist.role}
@@ -491,13 +491,13 @@ export default function NewAppointmentPage() {
           {/* Step 3: Select Date & Time */}
           {currentStep === 3 && (
             <div>
-              <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Select Date & Time
               </h2>
 
               {/* Date Selection */}
               <div className="mb-6">
-                <h3 className="text-sm font-medium text-[var(--foreground)] mb-3 flex items-center gap-2">
+                <h3 className="text-sm font-medium text-foreground mb-3 flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
                   Available Dates
                 </h3>
@@ -510,14 +510,14 @@ export default function NewAppointmentPage() {
                       }
                       className={`p-2 rounded-lg text-center transition-colors ${
                         bookingData.date?.toDateString() === date.toDateString()
-                          ? "bg-[var(--primary)] text-white"
-                          : "bg-[var(--card)] hover:bg-gray-200"
+                          ? "bg-primary text-white"
+                          : "bg-card hover:bg-gray-200"
                       }`}
                     >
                       <div className={`text-xs ${
                         bookingData.date?.toDateString() === date.toDateString()
                           ? "text-white/80"
-                          : "text-[var(--muted)]"
+                          : "text-muted"
                       }`}>
                         {date.toLocaleDateString("en-NZ", { weekday: "short" })}
                       </div>
@@ -539,13 +539,13 @@ export default function NewAppointmentPage() {
               {/* Time Selection */}
               {bookingData.date && (
                 <div>
-                  <h3 className="text-sm font-medium text-[var(--foreground)] mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-medium text-foreground mb-3 flex items-center gap-2">
                     <Clock className="h-4 w-4" />
                     Available Times
                   </h3>
                   {loadingSlots ? (
                     <div className="flex items-center justify-center h-20">
-                      <Loader2 className="h-6 w-6 animate-spin text-[var(--primary)]" />
+                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
                     </div>
                   ) : (
                     <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
@@ -559,9 +559,9 @@ export default function NewAppointmentPage() {
                           disabled={!slot.available}
                           className={`p-2 rounded-lg text-sm font-medium transition-colors ${
                             bookingData.time === slot.time
-                              ? "bg-[var(--primary)] text-white"
+                              ? "bg-primary text-white"
                               : slot.available
-                              ? "bg-[var(--card)] hover:bg-gray-200"
+                              ? "bg-card hover:bg-gray-200"
                               : "bg-gray-100 text-gray-400 cursor-not-allowed"
                           }`}
                         >
@@ -578,24 +578,24 @@ export default function NewAppointmentPage() {
           {/* Step 4: Confirmation */}
           {currentStep === 4 && (
             <div>
-              <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Confirm Your Appointment
               </h2>
 
               <div className="space-y-4">
-                <div className="bg-[var(--card)] rounded-lg p-4">
-                  <h3 className="font-medium text-[var(--foreground)] mb-3">
+                <div className="bg-card rounded-lg p-4">
+                  <h3 className="font-medium text-foreground mb-3">
                     Appointment Summary
                   </h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-[var(--muted)]">Service:</span>
+                      <span className="text-muted">Service:</span>
                       <span className="font-medium">
                         {selectedService?.name}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--muted)]">Provider:</span>
+                      <span className="text-muted">Provider:</span>
                       <span className="font-medium">
                         {selectedAudiologist
                           ? `${selectedAudiologist.firstName} ${selectedAudiologist.lastName}`
@@ -603,7 +603,7 @@ export default function NewAppointmentPage() {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--muted)]">Date:</span>
+                      <span className="text-muted">Date:</span>
                       <span className="font-medium">
                         {bookingData.date?.toLocaleDateString("en-NZ", {
                           weekday: "long",
@@ -614,21 +614,21 @@ export default function NewAppointmentPage() {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--muted)]">Time:</span>
+                      <span className="text-muted">Time:</span>
                       <span className="font-medium">
                         {bookingData.time ? formatTime(bookingData.time) : ""}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--muted)]">Duration:</span>
+                      <span className="text-muted">Duration:</span>
                       <span className="font-medium">
                         {selectedService?.durationMinutes} minutes
                       </span>
                     </div>
                     {selectedService?.price && (
-                      <div className="flex justify-between pt-2 border-t border-[var(--border)]">
-                        <span className="text-[var(--muted)]">Estimated Cost:</span>
-                        <span className="font-semibold text-[var(--primary)]">
+                      <div className="flex justify-between pt-2 border-t border-border">
+                        <span className="text-muted">Estimated Cost:</span>
+                        <span className="font-semibold text-primary">
                           ${Number(selectedService.price).toFixed(0)}
                         </span>
                       </div>
@@ -637,7 +637,7 @@ export default function NewAppointmentPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+                  <label className="block text-sm font-medium text-foreground mb-2">
                     Additional Notes (optional)
                   </label>
                   <textarea
@@ -647,11 +647,11 @@ export default function NewAppointmentPage() {
                     }
                     placeholder="Any concerns or questions you'd like to discuss..."
                     rows={3}
-                    className="w-full px-4 py-2 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
+                    className="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                   />
                 </div>
 
-                <p className="text-sm text-[var(--muted)]">
+                <p className="text-sm text-muted">
                   By booking this appointment, you agree to our cancellation
                   policy. Please arrive 15 minutes before your scheduled time.
                 </p>

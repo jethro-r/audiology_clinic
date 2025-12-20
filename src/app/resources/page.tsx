@@ -80,7 +80,7 @@ export default function ResourcesPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-[var(--card)] to-white">
+      <section className="pt-32 pb-16 bg-gradient-to-br from-card to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -88,13 +88,13 @@ export default function ResourcesPage() {
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="inline-block bg-[var(--primary)]/10 text-[var(--primary)] px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
               Patient Resources
             </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-[var(--foreground)] mb-6">
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
               Resources & Information
             </h1>
-            <p className="text-lg text-[var(--muted)]">
+            <p className="text-lg text-muted">
               Everything you need to know about your visit, insurance, and
               hearing health. We&apos;re here to make your experience as smooth as
               possible.
@@ -114,12 +114,12 @@ export default function ResourcesPage() {
             className="text-center mb-12"
           >
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Calendar className="h-6 w-6 text-[var(--primary)]" />
-              <h2 className="text-3xl font-bold text-[var(--foreground)]">
+              <Calendar className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl font-bold text-foreground">
                 What to Expect at Your First Visit
               </h2>
             </div>
-            <p className="text-[var(--muted)] max-w-2xl mx-auto">
+            <p className="text-muted max-w-2xl mx-auto">
               We want you to feel prepared and comfortable. Here&apos;s what to
               expect before, during, and after your appointment.
             </p>
@@ -133,18 +133,18 @@ export default function ResourcesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-[var(--card)] rounded-xl p-6"
+                className="bg-card rounded-xl p-6"
               >
-                <h3 className="text-xl font-semibold text-[var(--foreground)] mb-4">
+                <h3 className="text-xl font-semibold text-foreground mb-4">
                   {section.title}
                 </h3>
                 <ul className="space-y-3">
                   {section.items.map((item) => (
                     <li
                       key={item}
-                      className="flex items-start gap-2 text-[var(--muted)]"
+                      className="flex items-start gap-2 text-muted"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] mt-2 flex-shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -156,7 +156,7 @@ export default function ResourcesPage() {
       </section>
 
       {/* Downloadable Forms */}
-      <section className="py-16 bg-[var(--card)]">
+      <section className="py-16 bg-card">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -166,12 +166,12 @@ export default function ResourcesPage() {
             className="text-center mb-8"
           >
             <div className="flex items-center justify-center gap-2 mb-4">
-              <FileText className="h-6 w-6 text-[var(--primary)]" />
-              <h2 className="text-3xl font-bold text-[var(--foreground)]">
+              <FileText className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl font-bold text-foreground">
                 Downloadable Forms
               </h2>
             </div>
-            <p className="text-[var(--muted)]">
+            <p className="text-muted">
               Save time by completing forms before your visit. Print, fill out,
               and bring to your appointment.
             </p>
@@ -185,15 +185,15 @@ export default function ResourcesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-lg border border-[var(--border)] p-4 flex items-center justify-between hover:border-[var(--primary)]/30 transition-colors"
+                className="bg-white rounded-lg border border-border p-4 flex items-center justify-between hover:border-primary/30 transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <FileText className="h-5 w-5 text-[var(--primary)]" />
-                  <span className="font-medium text-[var(--foreground)]">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <span className="font-medium text-foreground">
                     {form.name}
                   </span>
                 </div>
-                <button className="flex items-center gap-1 text-[var(--primary)] hover:text-[var(--primary-dark)] transition-colors">
+                <button className="flex items-center gap-1 text-primary hover:text-primary-dark transition-colors">
                   <Download className="h-4 w-4" />
                   <span className="text-sm">{form.type}</span>
                 </button>
@@ -214,12 +214,12 @@ export default function ResourcesPage() {
             className="text-center mb-12"
           >
             <div className="flex items-center justify-center gap-2 mb-4">
-              <BookOpen className="h-6 w-6 text-[var(--primary)]" />
-              <h2 className="text-3xl font-bold text-[var(--foreground)]">
+              <BookOpen className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl font-bold text-foreground">
                 Hearing Health Articles
               </h2>
             </div>
-            <p className="text-[var(--muted)] max-w-2xl mx-auto">
+            <p className="text-muted max-w-2xl mx-auto">
               Learn more about hearing health, hearing aids, and how to protect
               your hearing.
             </p>
@@ -233,15 +233,15 @@ export default function ResourcesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-[var(--card)] rounded-xl p-6 hover:shadow-md transition-shadow cursor-pointer"
+                className="bg-card rounded-xl p-6 hover:shadow-md transition-shadow cursor-pointer"
               >
-                <span className="inline-block bg-[var(--primary)]/10 text-[var(--primary)] px-3 py-1 rounded-full text-sm font-medium mb-3">
+                <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium mb-3">
                   {article.category}
                 </span>
-                <h3 className="text-xl font-semibold text-[var(--foreground)] mb-2">
+                <h3 className="text-xl font-semibold text-foreground mb-2">
                   {article.title}
                 </h3>
-                <p className="text-[var(--muted)]">{article.excerpt}</p>
+                <p className="text-muted">{article.excerpt}</p>
               </motion.article>
             ))}
           </div>

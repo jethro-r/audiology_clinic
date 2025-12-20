@@ -14,7 +14,7 @@ const benefits = [
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-[var(--card)] to-white pt-32 pb-16 lg:pt-40 lg:pb-24">
+    <section className="relative bg-gradient-to-br from-card to-white pt-32 pb-16 lg:pt-40 lg:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
@@ -23,15 +23,15 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block bg-[var(--primary)]/10 text-[var(--primary)] px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
               Independent Audiology in Hamilton
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[var(--foreground)] leading-tight mb-6">
-              Hear better.{" "}
-              <span className="text-[var(--primary)]">Live fully.</span>
+            <h1 className="text-4xl font-bold text-foreground leading-tight mb-6">
+              Clear Hearing,{" "}
+              <span className="text-4xl"> supported for the long term.</span>
             </h1>
-            <p className="text-lg text-[var(--muted)] mb-8 max-w-xl">
-              Veritas Hearing is an independent, clinician-led audiology practice dedicated to providing clear, honest, and evidence-based hearing care. We focus on accurate diagnosis, personalised treatment, and taking the time to truly understand each client&apos;s needs.
+            <p className="text-lg text-muted mb-8 max-w-xl">
+              At Veritas Hearing, we offer structured hearing aid packages across multiple tiers, each backed by ongoing professional care. From precise diagnostics to long-term follow-up and fine-tuning, we support your hearing journey well beyond the initial fitting — with clarity, honesty, and independence.
             </p>
 
             {/* Benefits list */}
@@ -45,7 +45,7 @@ export default function Hero() {
                   className="flex items-center gap-3"
                 >
                   <CheckCircle className="h-5 w-5 text-[var(--success)] flex-shrink-0" />
-                  <span className="text-[var(--foreground)]">{benefit}</span>
+                  <span className="text-foreground">{benefit}</span>
                 </motion.li>
               ))}
             </ul>
@@ -54,13 +54,13 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact">
                 <Button size="lg" className="w-full sm:w-auto">
-                  Schedule Appointment
+                  Book a Comprehensive Hearing Assessment
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link href="/services">
                 <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  Explore Services
+                  Explore Hearing Aid Packages
                 </Button>
               </Link>
             </div>
@@ -73,13 +73,13 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative aspect-[4/3] bg-gradient-to-br from-[var(--primary)]/20 to-[var(--primary-light)]/20 rounded-2xl overflow-hidden">
+            <div className="relative aspect-[4/3] bg-gradient-to-br from-primary/20 to-[var(--primary-light)]/20 rounded-2xl overflow-hidden">
               {/* Placeholder for hero image */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center p-8">
-                  <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-[var(--primary)]/30 flex items-center justify-center">
+                  <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-primary/30 flex items-center justify-center">
                     <svg
-                      className="w-16 h-16 text-[var(--primary)]"
+                      className="w-16 h-16 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -92,7 +92,7 @@ export default function Hero() {
                       />
                     </svg>
                   </div>
-                  <p className="text-[var(--muted)] text-sm">
+                  <p className="text-muted text-sm">
                     Professional hearing care image
                   </p>
                 </div>
@@ -104,19 +104,19 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 border border-[var(--border)]"
+              className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 border border-border"
             >
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[var(--primary)]/10 rounded-full flex items-center justify-center">
-                  <span className="text-2xl font-bold text-[var(--primary)]">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">
                     20+
                   </span>
                 </div>
                 <div>
-                  <p className="font-semibold text-[var(--foreground)]">
+                  <p className="font-semibold text-foreground">
                     Years Experience
                   </p>
-                  <p className="text-sm text-[var(--muted)]">Trusted care</p>
+                  <p className="text-sm text-muted">Trusted care</p>
                 </div>
               </div>
             </motion.div>
@@ -126,7 +126,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-4 border border-[var(--border)]"
+              className="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-4 border border-border"
             >
               <div className="flex items-center gap-2">
                 <div className="flex">
@@ -143,7 +143,7 @@ export default function Hero() {
                 </div>
                 <span className="font-semibold">4.9</span>
               </div>
-              <p className="text-sm text-[var(--muted)] mt-1">500+ Reviews</p>
+              <p className="text-sm text-muted mt-1">500+ Reviews</p>
             </motion.div>
           </motion.div>
         </div>

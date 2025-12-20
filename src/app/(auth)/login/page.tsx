@@ -60,25 +60,25 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-br from-[var(--card)] to-white">
+    <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-br from-card to-white">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md mx-4"
       >
-        <div className="bg-white rounded-2xl shadow-lg border border-[var(--border)] p-8">
+        <div className="bg-white rounded-2xl shadow-lg border border-border p-8">
           {/* Logo */}
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <div className="flex items-center justify-center w-12 h-12 bg-[var(--primary)] rounded-full">
+              <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-full">
                 <Ear className="h-7 w-7 text-white" />
               </div>
             </Link>
-            <h1 className="text-2xl font-bold text-[var(--foreground)]">
+            <h1 className="text-2xl font-bold text-foreground">
               Welcome Back
             </h1>
-            <p className="text-[var(--muted)] mt-1">
+            <p className="text-muted mt-1">
               Sign in to your patient portal
             </p>
           </div>
@@ -96,12 +96,12 @@ function LoginForm() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-[var(--foreground)] mb-1"
+                className="block text-sm font-medium text-foreground mb-1"
               >
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="email"
                   id="email"
@@ -109,7 +109,7 @@ function LoginForm() {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="you@example.com"
                   required
                 />
@@ -119,12 +119,12 @@ function LoginForm() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-[var(--foreground)] mb-1"
+                className="block text-sm font-medium text-foreground mb-1"
               >
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="password"
                   id="password"
@@ -132,7 +132,7 @@ function LoginForm() {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   placeholder="••••••••"
                   required
                 />
@@ -143,13 +143,13 @@ function LoginForm() {
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)]"
+                  className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
                 />
-                <span className="text-sm text-[var(--muted)]">Remember me</span>
+                <span className="text-sm text-muted">Remember me</span>
               </label>
               <Link
                 href="/forgot-password"
-                className="text-sm text-[var(--primary)] hover:underline"
+                className="text-sm text-primary hover:underline"
               >
                 Forgot password?
               </Link>
@@ -174,11 +174,11 @@ function LoginForm() {
 
           {/* Register Link */}
           <div className="mt-6 text-center">
-            <p className="text-[var(--muted)]">
+            <p className="text-muted">
               Don&apos;t have an account?{" "}
               <Link
                 href="/register"
-                className="text-[var(--primary)] font-medium hover:underline"
+                className="text-primary font-medium hover:underline"
               >
                 Create one
               </Link>
@@ -190,7 +190,7 @@ function LoginForm() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]"
+            className="text-sm text-muted hover:text-foreground"
           >
             ← Back to Home
           </Link>
@@ -203,8 +203,8 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-br from-[var(--card)] to-white">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--primary)]" />
+      <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-br from-card to-white">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     }>
       <LoginForm />

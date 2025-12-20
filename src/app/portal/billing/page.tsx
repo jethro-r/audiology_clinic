@@ -514,7 +514,7 @@ export default function PatientBillingPage() {
                         <body>
                           <h1>Veritas Hearing</h1>
                           <p>42a Hillcrest Road, Hillcrest, Hamilton 3216</p>
-                          <p>Phone: 0800 555 051</p>
+                          <p>Phone: 029 0451 0839</p>
                           <hr />
                           <h2>Invoice ${selectedInvoice.invoiceNumber}</h2>
                           <p>Issue Date: ${formatDate(selectedInvoice.issueDate)}</p>

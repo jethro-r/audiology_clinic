@@ -61,7 +61,7 @@ const mockAppointments: Appointment[] = [
 ];
 
 const statusColors: Record<AppointmentStatus, string> = {
-  upcoming: "bg-[var(--primary)]/10 text-[var(--primary)]",
+  upcoming: "bg-primary/10 text-primary",
   completed: "bg-[var(--success)]/10 text-[var(--success)]",
   cancelled: "bg-[var(--error)]/10 text-[var(--error)]",
 };
@@ -87,10 +87,10 @@ export default function AppointmentsPage() {
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-[var(--foreground)]">
+          <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
             My Appointments
           </h1>
-          <p className="text-[var(--muted)] mt-1">
+          <p className="text-muted mt-1">
             View and manage your appointments
           </p>
         </div>
@@ -107,24 +107,24 @@ export default function AppointmentsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="bg-white rounded-xl border border-[var(--border)] p-4"
+        className="bg-white rounded-xl border border-border p-4"
       >
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
             <input
               type="text"
               placeholder="Search appointments..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
           {/* Filter Buttons */}
           <div className="flex items-center gap-2">
-            <Filter className="h-5 w-5 text-[var(--muted)]" />
+            <Filter className="h-5 w-5 text-muted" />
             <div className="flex gap-1">
               {(["all", "upcoming", "completed", "cancelled"] as const).map(
                 (status) => (
@@ -133,8 +133,8 @@ export default function AppointmentsPage() {
                     onClick={() => setFilter(status)}
                     className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                       filter === status
-                        ? "bg-[var(--primary)] text-white"
-                        : "bg-[var(--card)] text-[var(--foreground)] hover:bg-gray-200"
+                        ? "bg-primary text-white"
+                        : "bg-card text-foreground hover:bg-gray-200"
                     }`}
                   >
                     {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -158,18 +158,18 @@ export default function AppointmentsPage() {
             <Link
               key={appointment.id}
               href={`/portal/appointments/${appointment.id}`}
-              className="block bg-white rounded-xl border border-[var(--border)] p-4 hover:shadow-md transition-shadow"
+              className="block bg-white rounded-xl border border-border p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex items-center justify-between">
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-[var(--primary)]/10 rounded-lg flex items-center justify-center">
-                    <Calendar className="h-6 w-6 text-[var(--primary)]" />
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Calendar className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[var(--foreground)]">
+                    <h3 className="font-semibold text-foreground">
                       {appointment.type}
                     </h3>
-                    <div className="flex items-center gap-4 mt-1 text-sm text-[var(--muted)]">
+                    <div className="flex items-center gap-4 mt-1 text-sm text-muted">
                       <span className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         {appointment.date}
@@ -179,7 +179,7 @@ export default function AppointmentsPage() {
                         {appointment.time}
                       </span>
                     </div>
-                    <p className="text-sm text-[var(--muted)] mt-1">
+                    <p className="text-sm text-muted mt-1">
                       with {appointment.audiologist}
                     </p>
                   </div>
@@ -192,18 +192,18 @@ export default function AppointmentsPage() {
                   >
                     {appointment.status}
                   </span>
-                  <ChevronRight className="h-5 w-5 text-[var(--muted)]" />
+                  <ChevronRight className="h-5 w-5 text-muted" />
                 </div>
               </div>
             </Link>
           ))
         ) : (
-          <div className="bg-white rounded-xl border border-[var(--border)] p-8 text-center">
-            <Calendar className="h-12 w-12 text-[var(--muted)] mx-auto mb-4" />
-            <h3 className="font-semibold text-[var(--foreground)] mb-2">
+          <div className="bg-white rounded-xl border border-border p-8 text-center">
+            <Calendar className="h-12 w-12 text-muted mx-auto mb-4" />
+            <h3 className="font-semibold text-foreground mb-2">
               No Appointments Found
             </h3>
-            <p className="text-[var(--muted)] mb-4">
+            <p className="text-muted mb-4">
               {filter === "all"
                 ? "You don't have any appointments yet."
                 : `You don't have any ${filter} appointments.`}

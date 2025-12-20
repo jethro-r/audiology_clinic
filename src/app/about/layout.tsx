@@ -3,11 +3,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about HearWell Audiology Clinic - our mission, values, and commitment to providing compassionate hearing healthcare since 2005.",
+    "Learn about Veritas Hearing Audiology Clinic - our mission, values, and commitment to providing compassionate hearing healthcare since 2005.",
   openGraph: {
-    title: "About Us | HearWell Audiology Clinic",
+    title: "About Us | Veritas Hearing Audiology Clinic",
     description:
-      "Since 2005, HearWell Audiology Clinic has been dedicated to helping our community hear better through expert, compassionate care.",
+      "Since 2005, Veritas Hearing Audiology Clinic has been dedicated to helping our community hear better through expert, compassionate care.",
   },
 };
 

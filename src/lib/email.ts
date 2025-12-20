@@ -31,7 +31,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
   // Example with Resend:
   // const resend = new Resend(process.env.RESEND_API_KEY);
   // await resend.emails.send({
-  //   from: 'HearWell Audiology <appointments@hearwell.com>',
+  //   from: 'Veritas Hearing Audiology <appointments@veritashearing.co.nz>',
   //   to: options.to,
   //   subject: options.subject,
   //   html: options.html,
@@ -110,13 +110,13 @@ export async function sendAppointmentConfirmation(
             <li>Any previous hearing test results</li>
           </ul>
 
-          <p>If you need to reschedule or cancel your appointment, please do so at least 24 hours in advance through our patient portal or by calling 0800 555 051.</p>
+          <p>If you need to reschedule or cancel your appointment, please do so at least 24 hours in advance through our patient portal or by calling 029 0451 0839.</p>
 
           <a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/portal/appointments" class="button">View Appointment</a>
         </div>
         <div class="footer">
           <p>Veritas Hearing<br>
-          0800 555 051 | info@veritashearing.co.nz</p>
+          029 0451 0839 | info@veritashearing.co.nz</p>
           <p>This email was sent to ${details.patientEmail}</p>
         </div>
       </div>
@@ -151,7 +151,7 @@ What to bring:
 If you need to reschedule or cancel, please do so at least 24 hours in advance.
 
 Veritas Hearing
-0800 555 051 | info@veritashearing.co.nz
+029 0451 0839 | info@veritashearing.co.nz
   `;
 
   return sendEmail({
@@ -199,13 +199,13 @@ export async function sendAppointmentReminder(
           </div>
 
           <p>Please remember to bring your photo ID and insurance card.</p>
-          <p>If you need to reschedule, please contact us as soon as possible at 0800 555 051.</p>
+          <p>If you need to reschedule, please contact us as soon as possible at 029 0451 0839.</p>
 
           <p>We look forward to seeing you!</p>
         </div>
         <div class="footer">
           <p>Veritas Hearing<br>
-          0800 555 051 | info@veritashearing.co.nz</p>
+          029 0451 0839 | info@veritashearing.co.nz</p>
         </div>
       </div>
     </body>
@@ -258,13 +258,13 @@ export async function sendAppointmentCancellation(
             ${reason ? `<p><strong>Reason:</strong> ${reason}</p>` : ""}
           </div>
 
-          <p>If you'd like to reschedule your appointment, please use our online booking system or call us at 0800 555 051.</p>
+          <p>If you'd like to reschedule your appointment, please use our online booking system or call us at 029 0451 0839.</p>
 
           <a href="${process.env.NEXTAUTH_URL || "http://localhost:3000"}/portal/appointments/new" class="button">Book New Appointment</a>
         </div>
         <div class="footer">
           <p>Veritas Hearing<br>
-          0800 555 051 | info@veritashearing.co.nz</p>
+          029 0451 0839 | info@veritashearing.co.nz</p>
         </div>
       </div>
     </body>

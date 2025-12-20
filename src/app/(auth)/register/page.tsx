@@ -117,49 +117,49 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-br from-[var(--card)] to-white">
+      <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-br from-card to-white">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white rounded-2xl shadow-lg border border-[var(--border)] p-8 text-center max-w-md mx-4"
+          className="bg-white rounded-2xl shadow-lg border border-border p-8 text-center max-w-md mx-4"
         >
           <div className="w-16 h-16 bg-[var(--success)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="h-8 w-8 text-[var(--success)]" />
           </div>
-          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2">
+          <h2 className="text-2xl font-bold text-foreground mb-2">
             Account Created!
           </h2>
-          <p className="text-[var(--muted)] mb-4">
+          <p className="text-muted mb-4">
             Your account has been successfully created. Redirecting you to
             login...
           </p>
-          <Loader2 className="h-6 w-6 animate-spin mx-auto text-[var(--primary)]" />
+          <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary" />
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-br from-[var(--card)] to-white">
+    <div className="min-h-screen pt-24 pb-12 flex items-center justify-center bg-gradient-to-br from-card to-white">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-lg mx-4"
       >
-        <div className="bg-white rounded-2xl shadow-lg border border-[var(--border)] p-8">
+        <div className="bg-white rounded-2xl shadow-lg border border-border p-8">
           {/* Logo */}
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <div className="flex items-center justify-center w-12 h-12 bg-[var(--primary)] rounded-full">
+              <div className="flex items-center justify-center w-12 h-12 bg-primary rounded-full">
                 <Ear className="h-7 w-7 text-white" />
               </div>
             </Link>
-            <h1 className="text-2xl font-bold text-[var(--foreground)]">
+            <h1 className="text-2xl font-bold text-foreground">
               Create Your Account
             </h1>
-            <p className="text-[var(--muted)] mt-1">
-              Join HearWell to manage your appointments online
+            <p className="text-muted mt-1">
+              Join Veritas Hearing to manage your appointments online
             </p>
           </div>
 
@@ -176,11 +176,11 @@ export default function RegisterPage() {
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                   First Name <span className="text-[var(--error)]">*</span>
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                   <input
                     type="text"
                     name="firstName"
@@ -189,8 +189,8 @@ export default function RegisterPage() {
                     className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${
                       errors.firstName
                         ? "border-[var(--error)]"
-                        : "border-[var(--border)]"
-                    } focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
+                        : "border-border"
+                    } focus:outline-none focus:ring-2 focus:ring-primary`}
                     placeholder="John"
                   />
                 </div>
@@ -202,11 +202,11 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                   Last Name <span className="text-[var(--error)]">*</span>
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                   <input
                     type="text"
                     name="lastName"
@@ -215,8 +215,8 @@ export default function RegisterPage() {
                     className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${
                       errors.lastName
                         ? "border-[var(--error)]"
-                        : "border-[var(--border)]"
-                    } focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
+                        : "border-border"
+                    } focus:outline-none focus:ring-2 focus:ring-primary`}
                     placeholder="Doe"
                   />
                 </div>
@@ -230,11 +230,11 @@ export default function RegisterPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Email Address <span className="text-[var(--error)]">*</span>
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="email"
                   name="email"
@@ -243,8 +243,8 @@ export default function RegisterPage() {
                   className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${
                     errors.email
                       ? "border-[var(--error)]"
-                      : "border-[var(--border)]"
-                  } focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
+                      : "border-border"
+                  } focus:outline-none focus:ring-2 focus:ring-primary`}
                   placeholder="john@example.com"
                 />
               </div>
@@ -258,11 +258,11 @@ export default function RegisterPage() {
             {/* Phone & DOB */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                   Phone Number
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                   <input
                     type="tel"
                     name="phone"
@@ -271,8 +271,8 @@ export default function RegisterPage() {
                     className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${
                       errors.phone
                         ? "border-[var(--error)]"
-                        : "border-[var(--border)]"
-                    } focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
+                        : "border-border"
+                    } focus:outline-none focus:ring-2 focus:ring-primary`}
                     placeholder="021 123 4567"
                   />
                 </div>
@@ -284,17 +284,17 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+                <label className="block text-sm font-medium text-foreground mb-1">
                   Date of Birth
                 </label>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                   <input
                     type="date"
                     name="dateOfBirth"
                     value={formData.dateOfBirth}
                     onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -302,11 +302,11 @@ export default function RegisterPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Password <span className="text-[var(--error)]">*</span>
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="password"
                   name="password"
@@ -315,8 +315,8 @@ export default function RegisterPage() {
                   className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${
                     errors.password
                       ? "border-[var(--error)]"
-                      : "border-[var(--border)]"
-                  } focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
+                      : "border-border"
+                  } focus:outline-none focus:ring-2 focus:ring-primary`}
                   placeholder="••••••••"
                 />
               </div>
@@ -325,18 +325,18 @@ export default function RegisterPage() {
                   {errors.password}
                 </p>
               )}
-              <p className="mt-1 text-xs text-[var(--muted)]">
+              <p className="mt-1 text-xs text-muted">
                 Must be at least 8 characters
               </p>
             </div>
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Confirm Password <span className="text-[var(--error)]">*</span>
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="password"
                   name="confirmPassword"
@@ -345,8 +345,8 @@ export default function RegisterPage() {
                   className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${
                     errors.confirmPassword
                       ? "border-[var(--error)]"
-                      : "border-[var(--border)]"
-                  } focus:outline-none focus:ring-2 focus:ring-[var(--primary)]`}
+                      : "border-border"
+                  } focus:outline-none focus:ring-2 focus:ring-primary`}
                   placeholder="••••••••"
                 />
               </div>
@@ -363,20 +363,20 @@ export default function RegisterPage() {
                 type="checkbox"
                 id="terms"
                 required
-                className="mt-1 w-4 h-4 rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)]"
+                className="mt-1 w-4 h-4 rounded border-border text-primary focus:ring-primary"
               />
-              <label htmlFor="terms" className="text-sm text-[var(--muted)]">
+              <label htmlFor="terms" className="text-sm text-muted">
                 I agree to the{" "}
                 <Link
                   href="/terms"
-                  className="text-[var(--primary)] hover:underline"
+                  className="text-primary hover:underline"
                 >
                   Terms of Service
                 </Link>{" "}
                 and{" "}
                 <Link
                   href="/privacy"
-                  className="text-[var(--primary)] hover:underline"
+                  className="text-primary hover:underline"
                 >
                   Privacy Policy
                 </Link>
@@ -402,11 +402,11 @@ export default function RegisterPage() {
 
           {/* Login Link */}
           <div className="mt-6 text-center">
-            <p className="text-[var(--muted)]">
+            <p className="text-muted">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="text-[var(--primary)] font-medium hover:underline"
+                className="text-primary font-medium hover:underline"
               >
                 Sign in
               </Link>
@@ -418,7 +418,7 @@ export default function RegisterPage() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-sm text-[var(--muted)] hover:text-[var(--foreground)]"
+            className="text-sm text-muted hover:text-foreground"
           >
             ← Back to Home
           </Link>

@@ -43,7 +43,7 @@ export default function FAQPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-[var(--card)] to-white">
+      <section className="pt-32 pb-16 bg-gradient-to-br from-card to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -51,13 +51,13 @@ export default function FAQPage() {
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="inline-block bg-[var(--primary)]/10 text-[var(--primary)] px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
               FAQ
             </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-[var(--foreground)] mb-6">
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
               Frequently Asked Questions
             </h1>
-            <p className="text-lg text-[var(--muted)]">
+            <p className="text-lg text-muted">
               Find answers to common questions about hearing health and our
               services. Can&apos;t find what you&apos;re looking for? Contact us directly.
             </p>
@@ -76,23 +76,23 @@ export default function FAQPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="border border-[var(--border)] rounded-lg overflow-hidden"
+                className="border border-border rounded-lg overflow-hidden"
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full flex items-center justify-between p-4 text-left bg-white hover:bg-[var(--card)] transition-colors"
+                  className="w-full flex items-center justify-between p-4 text-left bg-white hover:bg-card transition-colors"
                 >
-                  <span className="font-medium text-[var(--foreground)]">
+                  <span className="font-medium text-foreground">
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`h-5 w-5 text-[var(--muted)] transition-transform duration-200 ${
+                    className={`h-5 w-5 text-muted transition-transform duration-200 ${
                       openFaq === index ? "rotate-180" : ""
                     }`}
                   />
                 </button>
                 {openFaq === index && (
-                  <div className="px-4 pb-4 text-[var(--muted)]">
+                  <div className="px-4 pb-4 text-muted">
                     {faq.answer}
                   </div>
                 )}

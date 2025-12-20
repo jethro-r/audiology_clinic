@@ -31,7 +31,7 @@ export default function ForgotPasswordPage() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--card)] to-white px-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-card to-white px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -41,20 +41,20 @@ export default function ForgotPasswordPage() {
             <div className="w-16 h-16 bg-[var(--success)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="h-8 w-8 text-[var(--success)]" />
             </div>
-            <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
               Check Your Email
             </h1>
-            <p className="text-[var(--muted)] mb-6">
+            <p className="text-muted mb-6">
               We&apos;ve sent password reset instructions to{" "}
-              <span className="font-medium text-[var(--foreground)]">
+              <span className="font-medium text-foreground">
                 {email}
               </span>
             </p>
-            <p className="text-sm text-[var(--muted)] mb-6">
+            <p className="text-sm text-muted mb-6">
               Didn&apos;t receive the email? Check your spam folder or{" "}
               <button
                 onClick={() => setIsSubmitted(false)}
-                className="text-[var(--primary)] hover:underline"
+                className="text-primary hover:underline"
               >
                 try again
               </button>
@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[var(--card)] to-white px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-card to-white px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -82,15 +82,15 @@ export default function ForgotPasswordPage() {
           <div className="text-center mb-8">
             <Link
               href="/login"
-              className="inline-flex items-center text-sm text-[var(--muted)] hover:text-[var(--foreground)] mb-4"
+              className="inline-flex items-center text-sm text-muted hover:text-foreground mb-4"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Login
             </Link>
-            <h1 className="text-2xl font-bold text-[var(--foreground)]">
+            <h1 className="text-2xl font-bold text-foreground">
               Forgot Password?
             </h1>
-            <p className="text-[var(--muted)] mt-2">
+            <p className="text-muted mt-2">
               Enter your email address and we&apos;ll send you instructions to
               reset your password.
             </p>
@@ -98,18 +98,18 @@ export default function ForgotPasswordPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
@@ -130,11 +130,11 @@ export default function ForgotPasswordPage() {
             </Button>
           </form>
 
-          <p className="text-center text-sm text-[var(--muted)] mt-6">
+          <p className="text-center text-sm text-muted mt-6">
             Remember your password?{" "}
             <Link
               href="/login"
-              className="text-[var(--primary)] hover:underline font-medium"
+              className="text-primary hover:underline font-medium"
             >
               Sign in
             </Link>

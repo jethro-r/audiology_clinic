@@ -1,4 +1,4 @@
-// Prisma schema for HearWell Audiology Clinic
+// Prisma schema for Veritas Hearing Audiology Clinic
 // Phase 2: Booking Reservation System
 
 generator client {
@@ -276,15 +276,6 @@ enum PaymentMethod {
 // Settings Models
 // ============================================
 
-model SystemSetting {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  value     String   @db.Text
-  updatedAt DateTime @updatedAt
-
-  @@map("system_settings")
-}
-
 model UserPreference {
   id                      String   @id @default(cuid())
   userId                  String   @unique
@@ -368,4 +359,27 @@ enum DocumentCategory {
   INVOICES
   FORMS
   OTHER
+}
+
+// ============================================
+// Service Models (Marketing/Display)
+// ============================================
+
+model Service {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  shortDescription String   @db.Text
+  fullDescription  String   @db.Text
+  duration         String   // e.g., "60-90 minutes"
+  iconName         String   // Lucide icon name
+  features         Json     // Array of feature strings
+  sortOrder        Int      @default(0)
+  active           Boolean  @default(true)
+  showOnHomepage   Boolean  @default(true)
+  showInFooter     Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("services")
 }

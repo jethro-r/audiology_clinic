@@ -10,6 +10,7 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
+  { name: "Packages", href: "/packages" },
   { name: "Team", href: "/team" },
   { name: "Resources", href: "/resources" },
   { name: "Contact", href: "/contact" },
@@ -53,11 +54,11 @@ export default function Header() {
       }`}
     >
       {/* Top bar */}
-      <div className="bg-[var(--primary)] text-white py-2 px-4">
+      <div className="bg-primary text-white py-2 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center gap-2">
             <Phone className="h-4 w-4" />
-            <span>0800 555 051</span>
+            <span>029 0451 0839</span>
           </div>
           <div className="hidden sm:block">
             Mon-Fri: 8:00 AM - 5:00 PM | Sat: 9:00 AM - 1:00 PM
@@ -76,7 +77,7 @@ export default function Header() {
               className="h-10 w-auto"
             />
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-[var(--foreground)]">
+              <span className="text-xl font-bold text-foreground">
                 Veritas Hearing
               </span>
               <span className="text-xs text-[var(--secondary)] -mt-1">
@@ -91,7 +92,7 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors font-medium"
+                className="text-foreground hover:text-primary transition-colors font-medium"
               >
                 {item.name}
               </Link>
@@ -106,22 +107,22 @@ export default function Header() {
               <div className="relative user-menu-container">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--card)] transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-card transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
-                    <User className="h-4 w-4 text-[var(--primary)]" />
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User className="h-4 w-4 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-[var(--foreground)]">
+                  <span className="text-sm font-medium text-foreground">
                     {session.user?.name?.split(" ")[0]}
                   </span>
-                  <ChevronDown className={`h-4 w-4 text-[var(--muted)] transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`h-4 w-4 text-muted transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
                 </button>
                 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-[var(--border)] py-1 z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-border py-1 z-50">
                     <Link
                       href={getDashboardLink()}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--card)]"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:bg-card"
                       onClick={() => setUserMenuOpen(false)}
                     >
                       <User className="h-4 w-4" />
@@ -132,7 +133,7 @@ export default function Header() {
                         setUserMenuOpen(false);
                         signOut({ callbackUrl: "/" });
                       }}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--card)] w-full text-left"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:bg-card w-full text-left"
                     >
                       <LogOut className="h-4 w-4" />
                       Sign Out
@@ -155,7 +156,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             type="button"
-            className="lg:hidden p-2 text-[var(--foreground)]"
+            className="lg:hidden p-2 text-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <span className="sr-only">Open menu</span>
@@ -169,19 +170,19 @@ export default function Header() {
 
         {/* Mobile navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-[var(--border)]">
+          <div className="lg:hidden py-4 border-t border-border">
             <div className="flex flex-col gap-4">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-[var(--foreground)] hover:text-[var(--primary)] transition-colors font-medium py-2"
+                  className="text-foreground hover:text-primary transition-colors font-medium py-2"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="border-t border-[var(--border)] pt-4 space-y-3">
+              <div className="border-t border-border pt-4 space-y-3">
                 {session ? (
                   <>
                     <Link href={getDashboardLink()} onClick={() => setMobileMenuOpen(false)}>
@@ -195,7 +196,7 @@ export default function Header() {
                         setMobileMenuOpen(false);
                         signOut({ callbackUrl: "/" });
                       }}
-                      className="w-full text-center text-sm text-[var(--muted)] hover:text-[var(--foreground)] py-2"
+                      className="w-full text-center text-sm text-muted hover:text-foreground py-2"
                     >
                       Sign Out
                     </button>

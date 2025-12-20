@@ -205,13 +205,13 @@ export default function MessagesPage() {
       {/* Search & New Message */}
       <div className="flex gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
           <input
             type="text"
             placeholder="Search messages..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full pl-10 pr-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <Button onClick={() => setShowNewMessage(true)}>
@@ -227,50 +227,50 @@ export default function MessagesPage() {
             <div
               key={conv.id}
               onClick={() => handleSelectConversation(conv)}
-              className={`bg-white rounded-xl border border-[var(--border)] p-4 cursor-pointer hover:shadow-md transition-shadow ${
-                conv.unread ? "border-l-4 border-l-[var(--primary)]" : ""
+              className={`bg-white rounded-xl border border-border p-4 cursor-pointer hover:shadow-md transition-shadow ${
+                conv.unread ? "border-l-4 border-l-primary" : ""
               }`}
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-[var(--primary)]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <User className="h-5 w-5 text-[var(--primary)]" />
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <User className="h-5 w-5 text-primary" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <h3 className={`font-semibold text-[var(--foreground)] ${conv.unread ? "" : "font-normal"}`}>
+                      <h3 className={`font-semibold text-foreground ${conv.unread ? "" : "font-normal"}`}>
                         {conv.participant}
                       </h3>
-                      <span className="text-xs text-[var(--muted)]">
+                      <span className="text-xs text-muted">
                         {conv.participantRole}
                       </span>
                     </div>
-                    <p className={`text-sm ${conv.unread ? "font-medium text-[var(--foreground)]" : "text-[var(--muted)]"}`}>
+                    <p className={`text-sm ${conv.unread ? "font-medium text-foreground" : "text-muted"}`}>
                       {conv.subject}
                     </p>
-                    <p className="text-sm text-[var(--muted)] truncate mt-1">
+                    <p className="text-sm text-muted truncate mt-1">
                       {conv.lastMessage}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs text-[var(--muted)]">
+                  <span className="text-xs text-muted">
                     {conv.lastMessageTime}
                   </span>
                   {conv.unread && (
-                    <span className="w-2 h-2 bg-[var(--primary)] rounded-full"></span>
+                    <span className="w-2 h-2 bg-primary rounded-full"></span>
                   )}
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <div className="bg-white rounded-xl border border-[var(--border)] p-8 text-center">
-            <MessageSquare className="h-12 w-12 text-[var(--muted)] mx-auto mb-4" />
-            <h3 className="font-semibold text-[var(--foreground)] mb-2">
+          <div className="bg-white rounded-xl border border-border p-8 text-center">
+            <MessageSquare className="h-12 w-12 text-muted mx-auto mb-4" />
+            <h3 className="font-semibold text-foreground mb-2">
               No Messages Found
             </h3>
-            <p className="text-[var(--muted)] mb-4">
+            <p className="text-muted mb-4">
               {searchQuery
                 ? "No messages match your search."
                 : "You don't have any messages yet."}
@@ -294,7 +294,7 @@ export default function MessagesPage() {
       className="flex flex-col h-[calc(100vh-200px)] min-h-[500px]"
     >
       {/* Header */}
-      <div className="bg-white rounded-t-xl border border-[var(--border)] p-4">
+      <div className="bg-white rounded-t-xl border border-border p-4">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setSelectedConversation(null)}
@@ -302,14 +302,14 @@ export default function MessagesPage() {
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <div className="w-10 h-10 bg-[var(--primary)]/10 rounded-full flex items-center justify-center">
-            <User className="h-5 w-5 text-[var(--primary)]" />
+          <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+            <User className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold text-[var(--foreground)]">
+            <h3 className="font-semibold text-foreground">
               {selectedConversation?.participant}
             </h3>
-            <p className="text-sm text-[var(--muted)]">
+            <p className="text-sm text-muted">
               {selectedConversation?.subject}
             </p>
           </div>
@@ -317,7 +317,7 @@ export default function MessagesPage() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 bg-gray-50 border-x border-[var(--border)] p-4 overflow-y-auto">
+      <div className="flex-1 bg-gray-50 border-x border-border p-4 overflow-y-auto">
         <div className="space-y-4">
           {selectedConversation?.messages.map((msg) => (
             <div
@@ -329,18 +329,18 @@ export default function MessagesPage() {
               <div
                 className={`max-w-[80%] rounded-xl p-3 ${
                   msg.sender === "patient"
-                    ? "bg-[var(--primary)] text-white"
-                    : "bg-white border border-[var(--border)]"
+                    ? "bg-primary text-white"
+                    : "bg-white border border-border"
                 }`}
               >
-                <p className={msg.sender === "patient" ? "text-white" : "text-[var(--foreground)]"}>
+                <p className={msg.sender === "patient" ? "text-white" : "text-foreground"}>
                   {msg.content}
                 </p>
                 <div
                   className={`flex items-center gap-2 mt-2 text-xs ${
                     msg.sender === "patient"
                       ? "text-white/70"
-                      : "text-[var(--muted)]"
+                      : "text-muted"
                   }`}
                 >
                   <Clock className="h-3 w-3" />
@@ -356,9 +356,9 @@ export default function MessagesPage() {
       </div>
 
       {/* Input */}
-      <div className="bg-white rounded-b-xl border border-[var(--border)] p-4">
+      <div className="bg-white rounded-b-xl border border-border p-4">
         <div className="flex items-end gap-2">
-          <button className="p-2 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors">
+          <button className="p-2 text-muted hover:text-foreground transition-colors">
             <Paperclip className="h-5 w-5" />
           </button>
           <textarea
@@ -366,7 +366,7 @@ export default function MessagesPage() {
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message..."
             rows={1}
-            className="flex-1 resize-none rounded-lg border border-[var(--border)] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="flex-1 resize-none rounded-lg border border-border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
@@ -394,15 +394,15 @@ export default function MessagesPage() {
         animate={{ opacity: 1, scale: 1 }}
         className="bg-white rounded-xl p-6 max-w-lg w-full"
       >
-        <h3 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+        <h3 className="text-lg font-semibold text-foreground mb-4">
           New Message
         </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
               To
             </label>
-            <select className="w-full px-4 py-2 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]">
+            <select className="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary">
               <option value="">Select recipient...</option>
               <option value="reception">Reception / General Inquiry</option>
               <option value="billing">Billing Department</option>
@@ -410,23 +410,23 @@ export default function MessagesPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Subject
             </label>
             <input
               type="text"
               placeholder="What is this about?"
-              className="w-full px-4 py-2 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+              className="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Message
             </label>
             <textarea
               rows={4}
               placeholder="Type your message..."
-              className="w-full px-4 py-2 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
+              className="w-full px-4 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary resize-none"
             />
           </div>
         </div>
@@ -455,10 +455,10 @@ export default function MessagesPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-2xl lg:text-3xl font-bold text-[var(--foreground)]">
+        <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
           Messages
         </h1>
-        <p className="text-[var(--muted)] mt-1">
+        <p className="text-muted mt-1">
           Communicate with your care team securely
         </p>
       </motion.div>
@@ -475,12 +475,12 @@ export default function MessagesPage() {
           {selectedConversation ? (
             <ConversationDetail />
           ) : (
-            <div className="bg-white rounded-xl border border-[var(--border)] p-8 text-center h-[calc(100vh-200px)] min-h-[500px] flex flex-col items-center justify-center">
-              <MessageSquare className="h-16 w-16 text-[var(--muted)] mb-4" />
-              <h3 className="font-semibold text-[var(--foreground)] mb-2">
+            <div className="bg-white rounded-xl border border-border p-8 text-center h-[calc(100vh-200px)] min-h-[500px] flex flex-col items-center justify-center">
+              <MessageSquare className="h-16 w-16 text-muted mb-4" />
+              <h3 className="font-semibold text-foreground mb-2">
                 Select a Conversation
               </h3>
-              <p className="text-[var(--muted)]">
+              <p className="text-muted">
                 Choose a conversation from the list to view messages
               </p>
             </div>

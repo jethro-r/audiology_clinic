@@ -51,8 +51,8 @@ export async function POST(request: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     await resend.emails.send({
-      from: 'HearWell Clinic <noreply@hearwellclinic.com>',
-      to: ['info@hearwellclinic.com'],
+      from: 'Veritas Hearing Clinic <noreply@veritashearing.co.nz>',
+      to: ['info@veritashearing.co.nz'],
       subject: `New Contact Form Submission from ${body.name}`,
       html: `
         <h2>New Contact Form Submission</h2>

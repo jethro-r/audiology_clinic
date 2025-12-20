@@ -15,13 +15,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        "bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)] focus-visible:ring-[var(--primary)]",
+        "bg-primary text-white hover:bg-primary-dark focus-visible:ring-primary",
       secondary:
         "bg-[var(--secondary)] text-white hover:bg-[var(--secondary-dark)] focus-visible:ring-[var(--secondary)]",
       outline:
-        "border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white focus-visible:ring-[var(--primary)]",
+        "border-2 border-primary text-primary hover:bg-primary hover:text-white focus-visible:ring-primary",
       ghost:
-        "text-[var(--foreground)] hover:bg-gray-100 focus-visible:ring-gray-500",
+        "text-foreground hover:bg-gray-100 focus-visible:ring-gray-500",
     };
 
     const sizes = {

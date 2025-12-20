@@ -92,92 +92,147 @@ async function main() {
 
   console.log(`✅ Created ${appointmentTypes.length} appointment types`);
 
+  // Create services (marketing/display)
+  const services = await Promise.all([
+    prisma.service.upsert({
+      where: { slug: "hearing-assessments" },
+      update: {},
+      create: {
+        slug: "hearing-assessments",
+        title: "Comprehensive Hearing Assessments",
+        shortDescription:
+          "Advanced hearing assessments delivering clear answers and confidence through precise, evidence-based diagnostic testing.",
+        fullDescription:
+          "Advanced hearing assessments delivering clear answers and confidence through precise, evidence-based diagnostic testing.",
+        duration: "60-90 minutes",
+        iconName: "Ear",
+        features: [
+          "Complete medical history review",
+          "Otoscopic examination",
+          "Pure-tone audiometry",
+          "Speech recognition testing",
+          "Detailed results explanation",
+          "Personalized recommendations",
+        ],
+        sortOrder: 1,
+        showOnHomepage: true,
+        showInFooter: true,
+      },
+    }),
+    prisma.service.upsert({
+      where: { slug: "hearing-aid-solutions" },
+      update: {},
+      create: {
+        slug: "hearing-aid-solutions",
+        title: "Hearing Aid Solutions & Packages",
+        shortDescription:
+          "Independent hearing aid solutions with tiered packages tailored to your hearing, lifestyle, and needs.",
+        fullDescription:
+          "Independent hearing aid solutions with tiered packages tailored to your hearing, lifestyle, and needs.",
+        duration: "60-90 minutes",
+        iconName: "Headphones",
+        features: [
+          "Multiple package tiers available",
+          "Personalized hearing aid selection",
+          "Custom fitting and programming",
+          "Real-ear measurements",
+          "Trial period available",
+          "Follow-up adjustments included",
+        ],
+        sortOrder: 2,
+        showOnHomepage: true,
+        showInFooter: true,
+      },
+    }),
+    prisma.service.upsert({
+      where: { slug: "ongoing-care" },
+      update: {},
+      create: {
+        slug: "ongoing-care",
+        title: "Ongoing Hearing Care",
+        shortDescription:
+          "Ongoing hearing care and follow-up services ensuring comfort, performance, and long-term hearing outcomes.",
+        fullDescription:
+          "Ongoing hearing care and follow-up services ensuring comfort, performance, and long-term hearing outcomes.",
+        duration: "30-60 minutes",
+        iconName: "Volume2",
+        features: [
+          "Regular hearing assessments",
+          "Device adjustment and optimization",
+          "Troubleshooting and support",
+          "Device cleaning and maintenance",
+          "Reprogramming services",
+          "Long-term outcome monitoring",
+        ],
+        sortOrder: 3,
+        showOnHomepage: true,
+        showInFooter: true,
+      },
+    }),
+    prisma.service.upsert({
+      where: { slug: "earwax-removal" },
+      update: {},
+      create: {
+        slug: "earwax-removal",
+        title: "Ear Wax Removal",
+        shortDescription:
+          "Professional ear wax removal using safe clinical techniques for comfort, clarity, and immediate improvement.",
+        fullDescription:
+          "Professional ear wax removal using safe clinical techniques for comfort, clarity, and immediate improvement.",
+        duration: "15-30 minutes",
+        iconName: "Wrench",
+        features: [
+          "Safe clinical removal techniques",
+          "Immediate relief and clarity",
+          "Comfortable and professional care",
+          "Prevention advice",
+          "Same-day service available",
+          "No waiting or complications",
+        ],
+        sortOrder: 4,
+        showOnHomepage: true,
+        showInFooter: true,
+      },
+    }),
+  ]);
+
+  console.log(`✅ Created ${services.length} services`);
+
   // Create admin user
-  const adminPassword = await bcrypt.hash("admin123", 12);
+  const adminPassword = await bcrypt.hash("admin!23", 12);
   const admin = await prisma.user.upsert({
-    where: { email: "admin@hearwell.com" },
+    where: { email: "admin@veritashearing.co.nz" },
     update: {},
     create: {
-      email: "admin@hearwell.com",
+      email: "admin@veritashearing.co.nz",
       passwordHash: adminPassword,
       firstName: "Admin",
       lastName: "User",
       role: "ADMIN",
-      phone: "(555) 100-0001",
+      phone: "",
     },
   });
   console.log(`✅ Created admin user: ${admin.email}`);
 
   // Create audiologists
-  const audiologistPassword = await bcrypt.hash("doctor123", 12);
+  const audiologistPassword = await bcrypt.hash("audio!23", 12);
   const audiologists = await Promise.all([
     prisma.user.upsert({
-      where: { email: "sarah.chen@hearwell.com" },
+      where: { email: "paul.hsu@veritashearing.co.nz" },
       update: {},
       create: {
-        email: "sarah.chen@hearwell.com",
+        email: "paul.hsu@veritashearing.co.nz",
         passwordHash: audiologistPassword,
-        firstName: "Sarah",
-        lastName: "Chen",
+        firstName: "Paul",
+        lastName: "Hsu",
         role: "AUDIOLOGIST",
-        phone: "(555) 100-0002",
+        phone: "",
       },
     }),
-    prisma.user.upsert({
-      where: { email: "michael.torres@hearwell.com" },
-      update: {},
-      create: {
-        email: "michael.torres@hearwell.com",
-        passwordHash: audiologistPassword,
-        firstName: "Michael",
-        lastName: "Torres",
-        role: "AUDIOLOGIST",
-        phone: "(555) 100-0003",
-      },
-    }),
-    prisma.user.upsert({
-      where: { email: "emily.watson@hearwell.com" },
-      update: {},
-      create: {
-        email: "emily.watson@hearwell.com",
-        passwordHash: audiologistPassword,
-        firstName: "Emily",
-        lastName: "Watson",
-        role: "AUDIOLOGIST",
-        phone: "(555) 100-0004",
-      },
-    }),
-    prisma.user.upsert({
-      where: { email: "james.park@hearwell.com" },
-      update: {},
-      create: {
-        email: "james.park@hearwell.com",
-        passwordHash: audiologistPassword,
-        firstName: "James",
-        lastName: "Park",
-        role: "AUDIOLOGIST",
-        phone: "(555) 100-0005",
-      },
-    }),
+    
   ]);
 
   console.log(`✅ Created ${audiologists.length} audiologists`);
-
-  // Create receptionist
-  const receptionistPassword = await bcrypt.hash("reception123", 12);
-  const receptionist = await prisma.user.upsert({
-    where: { email: "reception@hearwell.com" },
-    update: {},
-    create: {
-      email: "reception@hearwell.com",
-      passwordHash: receptionistPassword,
-      firstName: "Reception",
-      lastName: "Desk",
-      role: "RECEPTIONIST",
-      phone: "(555) 100-0006",
-    },
-  });
-  console.log(`✅ Created receptionist: ${receptionist.email}`);
 
   // Create availability for audiologists (Monday-Friday, 9 AM - 5 PM)
   for (const audiologist of audiologists) {
@@ -224,9 +279,8 @@ async function main() {
   console.log("\n🎉 Database seeding completed!");
   console.log("\n📋 Test Credentials:");
   console.log("-------------------");
-  console.log("Admin: admin@hearwell.com / admin123");
-  console.log("Audiologist: sarah.chen@hearwell.com / doctor123");
-  console.log("Receptionist: reception@hearwell.com / reception123");
+  console.log("Admin: admin@veritashearing.co.nz / admin!23");
+  console.log("Audiologist: paul.hsu@veritashearing.co.nz / audio!23");
   console.log("Patient: john.smith@example.com / patient123");
 }
 

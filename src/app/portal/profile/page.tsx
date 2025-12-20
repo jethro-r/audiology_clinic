@@ -116,7 +116,7 @@ export default function ProfilePage() {
   if (isFetching) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--primary)]" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -128,10 +128,10 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-2xl lg:text-3xl font-bold text-[var(--foreground)]">
+        <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
           Profile Settings
         </h1>
-        <p className="text-[var(--muted)] mt-1">
+        <p className="text-muted mt-1">
           Manage your personal information and preferences.
         </p>
       </motion.div>
@@ -144,93 +144,93 @@ export default function ProfilePage() {
         className="mt-8 space-y-6"
       >
         {/* Personal Information */}
-        <div className="bg-white rounded-xl border border-[var(--border)] p-6">
-          <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+        <div className="bg-white rounded-xl border border-border p-6">
+          <h2 className="text-lg font-semibold text-foreground mb-4">
             Personal Information
           </h2>
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 First Name *
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="text"
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Last Name
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="text"
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   disabled
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--muted)]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border bg-card text-muted"
                 />
               </div>
-              <p className="text-xs text-[var(--muted)] mt-1">
+              <p className="text-xs text-muted mt-1">
                 Contact support to change your email
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Phone Number
               </label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="021 123 4567"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[var(--foreground)] mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Date of Birth
               </label>
               <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[var(--muted)]" />
+                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
                 <input
                   type="date"
                   name="dateOfBirth"
                   value={formData.dateOfBirth}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>

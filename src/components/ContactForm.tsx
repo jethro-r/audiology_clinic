@@ -1,19 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import Button from "./Button";
 import { validateEmail, validatePhone } from "@/lib/utils";
 
-const services = [
+// Fallback services in case API fails
+const fallbackServices = [
   "Hearing Evaluation",
   "Hearing Aid Fitting",
-  "Tinnitus Management",
+  "Annual Hearing Review",
   "Custom Ear Protection",
-  "Pediatric Audiology",
   "Hearing Aid Repair",
   "Other",
 ];
+
+interface ServiceOption {
+  id: string;
+  title: string;
+}
 
 interface FormData {
   name: string;
@@ -31,6 +36,7 @@ interface FormErrors {
 }
 
 export default function ContactForm() {
+  const [services, setServices] = useState<string[]>(fallbackServices);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -41,6 +47,24 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
+
+  // Fetch services from API on mount
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const response = await fetch("/api/services");
+        if (response.ok) {
+          const data: ServiceOption[] = await response.json();
+          const serviceNames = data.map((s) => s.title);
+          serviceNames.push("Other");
+          setServices(serviceNames);
+        }
+      } catch {
+        // Keep fallback services on error
+      }
+    }
+    fetchServices();
+  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -120,7 +144,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="name"
-          className="block text-sm font-medium text-[var(--foreground)] mb-1"
+          className="block text-sm font-medium text-foreground mb-1"
         >
           Full Name <span className="text-[var(--error)]">*</span>
         </label>
@@ -131,8 +155,8 @@ export default function ContactForm() {
           value={formData.name}
           onChange={handleChange}
           className={`w-full px-4 py-2.5 rounded-lg border ${
-            errors.name ? "border-[var(--error)]" : "border-[var(--border)]"
-          } focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-colors`}
+            errors.name ? "border-[var(--error)]" : "border-border"
+          } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors`}
           placeholder="John Doe"
         />
         {errors.name && (
@@ -144,7 +168,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-[var(--foreground)] mb-1"
+          className="block text-sm font-medium text-foreground mb-1"
         >
           Email Address <span className="text-[var(--error)]">*</span>
         </label>
@@ -155,8 +179,8 @@ export default function ContactForm() {
           value={formData.email}
           onChange={handleChange}
           className={`w-full px-4 py-2.5 rounded-lg border ${
-            errors.email ? "border-[var(--error)]" : "border-[var(--border)]"
-          } focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-colors`}
+            errors.email ? "border-[var(--error)]" : "border-border"
+          } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors`}
           placeholder="john@example.com"
         />
         {errors.email && (
@@ -168,7 +192,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="phone"
-          className="block text-sm font-medium text-[var(--foreground)] mb-1"
+          className="block text-sm font-medium text-foreground mb-1"
         >
           Phone Number
         </label>
@@ -179,8 +203,8 @@ export default function ContactForm() {
           value={formData.phone}
           onChange={handleChange}
           className={`w-full px-4 py-2.5 rounded-lg border ${
-            errors.phone ? "border-[var(--error)]" : "border-[var(--border)]"
-          } focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-colors`}
+            errors.phone ? "border-[var(--error)]" : "border-border"
+          } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors`}
           placeholder="021 123 4567"
         />
         {errors.phone && (
@@ -192,7 +216,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="service"
-          className="block text-sm font-medium text-[var(--foreground)] mb-1"
+          className="block text-sm font-medium text-foreground mb-1"
         >
           Service of Interest
         </label>
@@ -201,7 +225,7 @@ export default function ContactForm() {
           name="service"
           value={formData.service}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-colors bg-white"
+          className="w-full px-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white"
         >
           <option value="">Select a service (optional)</option>
           {services.map((service) => (
@@ -216,7 +240,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="block text-sm font-medium text-[var(--foreground)] mb-1"
+          className="block text-sm font-medium text-foreground mb-1"
         >
           Message <span className="text-[var(--error)]">*</span>
         </label>
@@ -227,8 +251,8 @@ export default function ContactForm() {
           onChange={handleChange}
           rows={5}
           className={`w-full px-4 py-2.5 rounded-lg border ${
-            errors.message ? "border-[var(--error)]" : "border-[var(--border)]"
-          } focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-colors resize-none`}
+            errors.message ? "border-[var(--error)]" : "border-border"
+          } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none`}
           placeholder="How can we help you?"
         />
         {errors.message && (

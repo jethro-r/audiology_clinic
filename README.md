@@ -7,7 +7,7 @@ Modern, professional clinic management system for Veritas Hearing, an audiology 
 - **Company Name:** Veritas Hearing
 - **Location:** 42a Hillcrest Road, Hillcrest, Hamilton 3216, New Zealand
 - **Contact:** 
-  - Phone: 0800 555 051
+  - Phone: 029 0451 0839
   - Email: info@veritashearing.co.nz
 
 ## Features
@@ -133,8 +133,8 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@hearwell.com | admin123 |
-| Audiologist | sarah.chen@hearwell.com | doctor123 |
+| Admin | admin@veritashearing.co.nz | admin123 |
+| Audiologist | sarah.chen@veritashearing.co.nz | doctor123 |
 | Patient | john.smith@example.com | patient123 |
 
 See [TEST_CREDENTIALS.md](./TEST_CREDENTIALS.md) for complete list.

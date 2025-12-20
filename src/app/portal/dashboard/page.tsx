@@ -35,7 +35,7 @@ export default function DashboardPage() {
       description: "Schedule a new appointment",
       href: "/portal/appointments/new",
       icon: Plus,
-      color: "bg-[var(--primary)]",
+      color: "bg-primary",
     },
     {
       title: "View Documents",
@@ -61,10 +61,10 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-2xl lg:text-3xl font-bold text-[var(--foreground)]">
+        <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
           Welcome back, {session?.user?.name?.split(" ")[0]}!
         </h1>
-        <p className="text-[var(--muted)] mt-1">
+        <p className="text-muted mt-1">
           Manage your appointments and health records from your patient portal.
         </p>
       </motion.div>
@@ -75,7 +75,7 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+        <h2 className="text-lg font-semibold text-foreground mb-4">
           Quick Actions
         </h2>
         <div className="grid sm:grid-cols-3 gap-4">
@@ -83,17 +83,17 @@ export default function DashboardPage() {
             <Link
               key={action.title}
               href={action.href}
-              className="bg-white rounded-xl border border-[var(--border)] p-4 hover:shadow-md transition-shadow"
+              className="bg-white rounded-xl border border-border p-4 hover:shadow-md transition-shadow"
             >
               <div
                 className={`w-10 h-10 ${action.color} rounded-lg flex items-center justify-center mb-3`}
               >
                 <action.icon className="h-5 w-5 text-white" />
               </div>
-              <h3 className="font-semibold text-[var(--foreground)]">
+              <h3 className="font-semibold text-foreground">
                 {action.title}
               </h3>
-              <p className="text-sm text-[var(--muted)]">{action.description}</p>
+              <p className="text-sm text-muted">{action.description}</p>
             </Link>
           ))}
         </div>
@@ -106,12 +106,12 @@ export default function DashboardPage() {
         transition={{ duration: 0.5, delay: 0.2 }}
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-[var(--foreground)]">
+          <h2 className="text-lg font-semibold text-foreground">
             Upcoming Appointments
           </h2>
           <Link
             href="/portal/appointments"
-            className="text-sm text-[var(--primary)] hover:underline flex items-center gap-1"
+            className="text-sm text-primary hover:underline flex items-center gap-1"
           >
             View all
             <ArrowRight className="h-4 w-4" />
@@ -123,18 +123,18 @@ export default function DashboardPage() {
             {upcomingAppointments.map((appointment) => (
               <div
                 key={appointment.id}
-                className="bg-white rounded-xl border border-[var(--border)] p-4"
+                className="bg-white rounded-xl border border-border p-4"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex gap-4">
-                    <div className="w-12 h-12 bg-[var(--primary)]/10 rounded-lg flex items-center justify-center">
-                      <Calendar className="h-6 w-6 text-[var(--primary)]" />
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Calendar className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-[var(--foreground)]">
+                      <h3 className="font-semibold text-foreground">
                         {appointment.type}
                       </h3>
-                      <div className="flex items-center gap-4 mt-1 text-sm text-[var(--muted)]">
+                      <div className="flex items-center gap-4 mt-1 text-sm text-muted">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-4 w-4" />
                           {appointment.date}
@@ -144,7 +144,7 @@ export default function DashboardPage() {
                           {appointment.time}
                         </span>
                       </div>
-                      <p className="text-sm text-[var(--muted)] mt-1">
+                      <p className="text-sm text-muted mt-1">
                         with {appointment.audiologist}
                       </p>
                     </div>
@@ -153,7 +153,7 @@ export default function DashboardPage() {
                     {appointment.status}
                   </span>
                 </div>
-                <div className="mt-4 pt-4 border-t border-[var(--border)] flex gap-3">
+                <div className="mt-4 pt-4 border-t border-border flex gap-3">
                   <Link href={`/portal/appointments/${appointment.id}`}>
                     <Button variant="outline" size="sm">
                       View Details
@@ -167,12 +167,12 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-[var(--border)] p-8 text-center">
-            <Calendar className="h-12 w-12 text-[var(--muted)] mx-auto mb-4" />
-            <h3 className="font-semibold text-[var(--foreground)] mb-2">
+          <div className="bg-white rounded-xl border border-border p-8 text-center">
+            <Calendar className="h-12 w-12 text-muted mx-auto mb-4" />
+            <h3 className="font-semibold text-foreground mb-2">
               No Upcoming Appointments
             </h3>
-            <p className="text-[var(--muted)] mb-4">
+            <p className="text-muted mb-4">
               You don&apos;t have any scheduled appointments.
             </p>
             <Link href="/portal/appointments/new">
@@ -191,25 +191,25 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+        <h2 className="text-lg font-semibold text-foreground mb-4">
           Notifications
         </h2>
-        <div className="bg-white rounded-xl border border-[var(--border)] p-4">
+        <div className="bg-white rounded-xl border border-border p-4">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 bg-[var(--secondary)]/10 rounded-lg flex items-center justify-center">
               <Bell className="h-5 w-5 text-[var(--secondary)]" />
             </div>
             <div>
-              <h3 className="font-medium text-[var(--foreground)]">
+              <h3 className="font-medium text-foreground">
                 Complete Your Profile
               </h3>
-              <p className="text-sm text-[var(--muted)] mt-1">
+              <p className="text-sm text-muted mt-1">
                 Add your medical history and insurance information to help us
                 serve you better.
               </p>
               <Link
                 href="/portal/profile"
-                className="text-sm text-[var(--primary)] hover:underline mt-2 inline-block"
+                className="text-sm text-primary hover:underline mt-2 inline-block"
               >
                 Update Profile →
               </Link>

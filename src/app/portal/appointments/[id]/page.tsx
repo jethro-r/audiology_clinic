@@ -43,7 +43,7 @@ const mockAppointments: Record<string, Appointment> = {
     time: "10:00 AM",
     endTime: "11:30 AM",
     audiologist: "Dr. Sarah Chen",
-    audiologistEmail: "sarah.chen@hearwell.com",
+    audiologistEmail: "sarah.chen@veritashearing.co.nz",
     status: "upcoming",
     location: "123 Medical Center Drive, Suite 200, San Francisco, CA 94102",
     notes: "Please bring your current hearing aids if you have any.",
@@ -57,7 +57,7 @@ const mockAppointments: Record<string, Appointment> = {
     time: "2:30 PM",
     endTime: "3:00 PM",
     audiologist: "Dr. Michael Torres",
-    audiologistEmail: "michael.torres@hearwell.com",
+    audiologistEmail: "michael.torres@veritashearing.co.nz",
     status: "upcoming",
     location: "123 Medical Center Drive, Suite 200, San Francisco, CA 94102",
     notes: "Bring your hearing aids and any notes about issues you've experienced.",
@@ -71,7 +71,7 @@ const mockAppointments: Record<string, Appointment> = {
     time: "11:00 AM",
     endTime: "12:30 PM",
     audiologist: "Dr. Sarah Chen",
-    audiologistEmail: "sarah.chen@hearwell.com",
+    audiologistEmail: "sarah.chen@veritashearing.co.nz",
     status: "completed",
     location: "123 Medical Center Drive, Suite 200, San Francisco, CA 94102",
     notes: "Results showed mild hearing loss in high frequencies.",
@@ -84,7 +84,7 @@ const mockAppointments: Record<string, Appointment> = {
     time: "3:00 PM",
     endTime: "4:00 PM",
     audiologist: "Dr. James Park",
-    audiologistEmail: "james.park@hearwell.com",
+    audiologistEmail: "james.park@veritashearing.co.nz",
     status: "cancelled",
     location: "123 Medical Center Drive, Suite 200, San Francisco, CA 94102",
     notes: "Cancelled by patient.",
@@ -95,8 +95,8 @@ const mockAppointments: Record<string, Appointment> = {
 const statusConfig = {
   upcoming: {
     icon: Clock,
-    color: "text-[var(--primary)]",
-    bg: "bg-[var(--primary)]/10",
+    color: "text-primary",
+    bg: "bg-primary/10",
     label: "Upcoming",
   },
   completed: {
@@ -148,7 +148,7 @@ export default function AppointmentDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-[var(--primary)]" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -157,10 +157,10 @@ export default function AppointmentDetailPage() {
     return (
       <div className="text-center py-12">
         <AlertCircle className="h-12 w-12 text-[var(--error)] mx-auto mb-4" />
-        <h2 className="text-xl font-semibold text-[var(--foreground)] mb-2">
+        <h2 className="text-xl font-semibold text-foreground mb-2">
           Appointment Not Found
         </h2>
-        <p className="text-[var(--muted)] mb-6">
+        <p className="text-muted mb-6">
           The appointment you&apos;re looking for doesn&apos;t exist or has been removed.
         </p>
         <Link href="/portal/appointments">
@@ -185,7 +185,7 @@ export default function AppointmentDetailPage() {
       >
         <Link
           href="/portal/appointments"
-          className="inline-flex items-center text-[var(--muted)] hover:text-[var(--foreground)] transition-colors mb-4"
+          className="inline-flex items-center text-muted hover:text-foreground transition-colors mb-4"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Appointments
@@ -193,7 +193,7 @@ export default function AppointmentDetailPage() {
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl lg:text-3xl font-bold text-[var(--foreground)]">
+            <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
               {appointment.type}
             </h1>
             <div className="flex items-center gap-2 mt-2">
@@ -235,29 +235,29 @@ export default function AppointmentDetailPage() {
           className="lg:col-span-2 space-y-6"
         >
           {/* Date & Time Card */}
-          <div className="bg-white rounded-xl border border-[var(--border)] p-6">
-            <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+          <div className="bg-white rounded-xl border border-border p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-4">
               Date & Time
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[var(--primary)]/10 rounded-lg flex items-center justify-center">
-                  <Calendar className="h-5 w-5 text-[var(--primary)]" />
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Calendar className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-[var(--muted)]">Date</p>
-                  <p className="font-medium text-[var(--foreground)]">
+                  <p className="text-sm text-muted">Date</p>
+                  <p className="font-medium text-foreground">
                     {appointment.date}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-[var(--primary)]/10 rounded-lg flex items-center justify-center">
-                  <Clock className="h-5 w-5 text-[var(--primary)]" />
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Clock className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-[var(--muted)]">Time</p>
-                  <p className="font-medium text-[var(--foreground)]">
+                  <p className="text-sm text-muted">Time</p>
+                  <p className="font-medium text-foreground">
                     {appointment.time} - {appointment.endTime}
                   </p>
                 </div>
@@ -266,8 +266,8 @@ export default function AppointmentDetailPage() {
           </div>
 
           {/* Location Card */}
-          <div className="bg-white rounded-xl border border-[var(--border)] p-6">
-            <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+          <div className="bg-white rounded-xl border border-border p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-4">
               Location
             </h2>
             <div className="flex items-start gap-3">
@@ -275,17 +275,17 @@ export default function AppointmentDetailPage() {
                 <MapPin className="h-5 w-5 text-[var(--secondary)]" />
               </div>
               <div>
-                <p className="font-medium text-[var(--foreground)]">
+                <p className="font-medium text-foreground">
                   Veritas Hearing Clinic
                 </p>
-                <p className="text-[var(--muted)]">{appointment.location}</p>
+                <p className="text-muted">{appointment.location}</p>
                 <a
                   href={`https://maps.google.com/?q=${encodeURIComponent(
                     appointment.location
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--primary)] hover:underline text-sm mt-2 inline-block"
+                  className="text-primary hover:underline text-sm mt-2 inline-block"
                 >
                   Get Directions →
                 </a>
@@ -295,26 +295,26 @@ export default function AppointmentDetailPage() {
 
           {/* Instructions Card */}
           {appointment.instructions && (
-            <div className="bg-white rounded-xl border border-[var(--border)] p-6">
-              <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+            <div className="bg-white rounded-xl border border-border p-6">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Preparation Instructions
               </h2>
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
                   <FileText className="h-5 w-5 text-amber-600" />
                 </div>
-                <p className="text-[var(--muted)]">{appointment.instructions}</p>
+                <p className="text-muted">{appointment.instructions}</p>
               </div>
             </div>
           )}
 
           {/* Notes Card */}
           {appointment.notes && (
-            <div className="bg-white rounded-xl border border-[var(--border)] p-6">
-              <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+            <div className="bg-white rounded-xl border border-border p-6">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Notes
               </h2>
-              <p className="text-[var(--muted)]">{appointment.notes}</p>
+              <p className="text-muted">{appointment.notes}</p>
             </div>
           )}
         </motion.div>
@@ -325,32 +325,32 @@ export default function AppointmentDetailPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="bg-white rounded-xl border border-[var(--border)] p-6">
-            <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+          <div className="bg-white rounded-xl border border-border p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-4">
               Your Provider
             </h2>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-[var(--primary)] rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                 <User className="h-6 w-6 text-white" />
               </div>
               <div>
-                <p className="font-semibold text-[var(--foreground)]">
+                <p className="font-semibold text-foreground">
                   {appointment.audiologist}
                 </p>
-                <p className="text-sm text-[var(--muted)]">Audiologist</p>
+                <p className="text-sm text-muted">Audiologist</p>
               </div>
             </div>
-            <div className="space-y-3 pt-4 border-t border-[var(--border)]">
+            <div className="space-y-3 pt-4 border-t border-border">
               <a
                 href={`mailto:${appointment.audiologistEmail}`}
-                className="flex items-center gap-2 text-[var(--muted)] hover:text-[var(--primary)] transition-colors"
+                className="flex items-center gap-2 text-muted hover:text-primary transition-colors"
               >
                 <Mail className="h-4 w-4" />
                 <span className="text-sm">{appointment.audiologistEmail}</span>
               </a>
               <a
                 href="tel:+14155551234"
-                className="flex items-center gap-2 text-[var(--muted)] hover:text-[var(--primary)] transition-colors"
+                className="flex items-center gap-2 text-muted hover:text-primary transition-colors"
               >
                 <Phone className="h-4 w-4" />
                 <span className="text-sm">(415) 555-1234</span>
@@ -360,8 +360,8 @@ export default function AppointmentDetailPage() {
 
           {/* Quick Actions */}
           {appointment.status === "upcoming" && (
-            <div className="bg-white rounded-xl border border-[var(--border)] p-6 mt-6">
-              <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">
+            <div className="bg-white rounded-xl border border-border p-6 mt-6">
+              <h2 className="text-lg font-semibold text-foreground mb-4">
                 Need Help?
               </h2>
               <div className="space-y-3">
@@ -393,10 +393,10 @@ export default function AppointmentDetailPage() {
               <div className="w-12 h-12 bg-[var(--error)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <AlertCircle className="h-6 w-6 text-[var(--error)]" />
               </div>
-              <h3 className="text-lg font-semibold text-[var(--foreground)] mb-2">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
                 Cancel Appointment?
               </h3>
-              <p className="text-[var(--muted)] mb-6">
+              <p className="text-muted mb-6">
                 Are you sure you want to cancel your {appointment.type} appointment
                 on {appointment.date}? This action cannot be undone.
               </p>
