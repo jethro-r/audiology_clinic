@@ -1,41 +1,40 @@
-# Veritas Hearing - Audiology Clinic Management System
+# Veritas Hearing - Audiology Clinic Website
 
-Modern, professional clinic management system for Veritas Hearing, an audiology clinic based in Hamilton, New Zealand.
+Modern, professional website and patient portal for Veritas Hearing, an independent audiology clinic based in Hamilton, New Zealand.
 
 ## Company Information
 
 - **Company Name:** Veritas Hearing
-- **Location:** 42a Hillcrest Road, Hillcrest, Hamilton 3216, New Zealand
-- **Contact:** 
+- **Location:** 37 Lake Road, Frankton, Hamilton 3204, New Zealand
+- **Contact:**
   - Phone: 029 0451 0839
   - Email: info@veritashearing.co.nz
 
 ## Features
 
+- 🌐 **Marketing Website** - Services, team, resources, contact
 - 🏥 **Patient Portal** - Appointments, documents, messaging, billing
-- 👨‍⚕️ **Admin Dashboard** - Clinic management, patient records, scheduling
-- 🔐 **Authentication** - Role-based access (Admin, Audiologist, Receptionist, Patient)
+- 🔐 **Authentication** - Role-based access (Admin, Audiologist, Patient)
 - 📅 **Appointment System** - Online booking with availability management
 - 💳 **Billing & Invoicing** - Payment tracking and invoice generation
-- 📄 **Document Management** - Secure storage for medical records
-- 💬 **Messaging** - Patient-provider secure communication
 
 ## Tech Stack
 
-- **Framework:** Next.js 14 with App Router
+- **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
-- **Database:** PostgreSQL with Prisma ORM
+- **Database:** PostgreSQL with Prisma 7 ORM
 - **Authentication:** NextAuth.js
-- **Styling:** Tailwind CSS
+- **Styling:** Tailwind CSS 4
 - **Animations:** Framer Motion
+- **Deployment:** Docker with Traefik reverse proxy
 
 ## Prerequisites
 
-- Node.js 18+ 
-- PostgreSQL 14+
-- npm or yarn
+- Docker & Docker Compose
+- Node.js 20+ (for local Prisma commands)
+- PostgreSQL 14+ (external to Docker)
 
-## Setup Instructions
+## Development Setup
 
 ### 1. Clone the Repository
 
@@ -44,196 +43,147 @@ git clone https://github.com/jethro-r/audiology_clinic.git
 cd audiology_clinic
 ```
 
-### 2. Install Dependencies
+### 2. Install Dependencies (for local Prisma commands)
 
 ```bash
 npm install
 ```
 
-### 3. Install & Setup PostgreSQL (Linux)
+### 3. Configure Environment Variables
 
-#### Ubuntu/Debian:
-```bash
-# Install PostgreSQL
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-
-# Start PostgreSQL service
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
-
-# Create database
-sudo -u postgres createdb audiology_clinic
-
-# Create user (optional)
-sudo -u postgres psql -c "CREATE USER youruser WITH PASSWORD 'yourpassword';"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE audiology_clinic TO youruser;"
-```
-
-#### Fedora/RHEL/CentOS:
-```bash
-# Install PostgreSQL
-sudo dnf install postgresql-server postgresql-contrib
-
-# Initialize database
-sudo postgresql-setup --initdb
-
-# Start PostgreSQL service
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
-
-# Create database
-sudo -u postgres createdb audiology_clinic
-```
-
-### 4. Configure Environment Variables
-
-Create a `.env.local` file in the root directory:
+Create a `.env` file:
 
 ```bash
-# Database
-DATABASE_URL="postgresql://username:password@localhost:5432/audiology_clinic"
+# Database (local development)
+DATABASE_URL="postgresql://audiology:audiology123@localhost:5432/audiology_clinic"
 
 # NextAuth Configuration
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="your-secret-key-here"  # Generate with: openssl rand -base64 32
-
-# Email Configuration (optional for development)
-EMAIL_SERVER_HOST="smtp.example.com"
-EMAIL_SERVER_PORT="587"
-EMAIL_SERVER_USER="your-email@example.com"
-EMAIL_SERVER_PASSWORD="your-password"
-EMAIL_FROM="noreply@veritashearing.co.nz"
 ```
 
-**Generate NextAuth Secret:**
-```bash
-openssl rand -base64 32
-```
-
-### 5. Setup Database Schema
+### 4. Setup Database
 
 ```bash
-# Push Prisma schema to database
-npm run db:push
+# Push schema to database
+npx prisma db push
 
-# Seed database with test data
-npm run db:seed
+# Generate Prisma client
+npx prisma generate
+
+# Seed with test data
+npx prisma db seed
 ```
 
-### 6. Start Development Server
+### 5. Start Development Server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+## Production Deployment (Docker)
+
+### 1. Configure Production Environment
+
+Create `.env` on your server:
+
+```bash
+DATABASE_URL="postgresql://audiology:audiology123@host.docker.internal:5432/audiology_clinic"
+NEXTAUTH_URL="https://yourdomain.com"
+NEXTAUTH_SECRET="your-production-secret"
+```
+
+### 2. Build and Deploy
+
+```bash
+# Build and start container
+docker compose up -d --build
+
+# View logs
+docker compose logs -f audiology-clinic
+```
+
+### 3. Database Commands (run on server, NOT in Docker)
+
+Prisma commands should be run directly on the server with Node.js installed:
+
+```bash
+# Push schema changes to database
+npx prisma db push
+
+# Regenerate Prisma client after schema changes
+npx prisma generate
+
+# Seed database
+npx prisma db seed
+
+# Open Prisma Studio
+npx prisma studio
+```
+
+### 4. Rebuild After Code Changes
+
+```bash
+git pull origin main
+docker compose down
+docker compose up -d --build
+```
 
 ## Test Accounts
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@veritashearing.co.nz | admin123 |
-| Audiologist | sarah.chen@veritashearing.co.nz | doctor123 |
+| Admin | admin@veritashearing.co.nz | admin!23 |
+| Audiologist | paul.hsu@veritashearing.co.nz | audio!23 |
 | Patient | john.smith@example.com | patient123 |
-
-See [TEST_CREDENTIALS.md](./TEST_CREDENTIALS.md) for complete list.
-
-## Available Commands
-
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run db:push      # Push schema changes to database
-npm run db:seed      # Seed database with test data
-npm run db:studio    # Open Prisma Studio (database GUI)
-```
-
-## Application URLs
-
-- **Homepage:** http://localhost:3000
-- **Login:** http://localhost:3000/login
-- **Patient Portal:** http://localhost:3000/portal/dashboard
-- **Admin Dashboard:** http://localhost:3000/admin/dashboard
 
 ## Project Structure
 
 ```
-├── prisma/              # Database schema and migrations
-├── public/              # Static assets
+├── prisma/
+│   ├── schema.prisma       # Database schema
+│   └── seed.ts             # Database seeding
 ├── src/
-│   ├── app/            # Next.js app router pages
-│   │   ├── (auth)/     # Authentication pages
-│   │   ├── portal/     # Patient portal
-│   │   ├── admin/      # Admin dashboard
-│   │   └── api/        # API routes
-│   ├── components/     # Reusable React components
-│   ├── lib/           # Utility functions and configurations
-│   └── types/         # TypeScript type definitions
-└── ...
+│   ├── app/                # Next.js App Router pages
+│   │   ├── (auth)/         # Login, register
+│   │   ├── portal/         # Patient portal
+│   │   ├── api/            # API routes
+│   │   └── ...             # Public pages
+│   ├── components/         # React components
+│   └── lib/                # Utilities
+├── docker-compose.yml      # Docker configuration
+├── Dockerfile              # Container build
+└── prisma.config.ts        # Prisma 7 configuration
 ```
 
-## Production Deployment
+## Docker Architecture
 
-### Environment Setup
-Ensure all environment variables are properly configured for production:
-- Set `NEXTAUTH_URL` to your production domain
-- Use strong `NEXTAUTH_SECRET`
-- Configure production database connection
-- Setup email service (SMTP)
-
-### Build & Deploy
-```bash
-npm run build
-npm run start
-```
-
-### Recommended Hosting Platforms
-- **Vercel** - Zero-config deployment for Next.js
-- **Railway** - Includes PostgreSQL database
-- **DigitalOcean App Platform** - Full-stack deployment
-- **AWS/GCP/Azure** - For enterprise deployments
-
-## Database Management
-
-### Backup Database
-```bash
-pg_dump audiology_clinic > backup.sql
-```
-
-### Restore Database
-```bash
-psql audiology_clinic < backup.sql
-```
-
-### View Database with Prisma Studio
-```bash
-npm run db:studio
-```
+The application runs in Docker with:
+- **Target:** `runner` stage (optimized production build)
+- **Network:** `proxy` (Traefik integration)
+- **Database:** External PostgreSQL via `host.docker.internal`
 
 ## Troubleshooting
 
-### PostgreSQL Connection Issues
+### Container won't start
 ```bash
-# Check PostgreSQL status
-sudo systemctl status postgresql
-
-# Check if database exists
-sudo -u postgres psql -l | grep audiology_clinic
-
-# Test connection
-psql -U username -d audiology_clinic -h localhost
+docker compose logs audiology-clinic
 ```
 
-### Port Already in Use
+### Database connection issues
 ```bash
-# Find process using port 3000
-sudo lsof -i :3000
+# Ensure PostgreSQL allows connections from Docker
+# Edit pg_hba.conf to allow 172.17.0.0/16
+```
 
-# Kill process
-kill -9 <PID>
+### Schema out of sync
+```bash
+# On server (not in Docker)
+npx prisma db push
+npx prisma generate
+
+# Then rebuild container
+docker compose up -d --build
 ```
 
 ## License
