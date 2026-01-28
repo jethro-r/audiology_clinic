@@ -22,10 +22,10 @@ export async function GET() {
     });
 
     // Calculate paid amounts
-    const invoicesWithPaidAmount = invoices.map((invoice) => ({
+    const invoicesWithPaidAmount = invoices.map((invoice: any) => ({
       ...invoice,
       paidAmount: invoice.payments.reduce(
-        (sum, payment) => sum + Number(payment.amount),
+        (sum: number, payment: any) => sum + Number(payment.amount),
         0
       ),
     }));
