@@ -68,7 +68,11 @@ export default function HomePage() {
   useEffect(() => {
     fetch("/api/services?homepage=true")
       .then((res) => res.json())
-      .then((data) => setServices(data))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setServices(data);
+        }
+      })
       .catch(() => {});
   }, []);
 

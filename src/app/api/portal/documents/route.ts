@@ -29,7 +29,15 @@ export async function GET(request: NextRequest) {
     });
 
     // Transform to match UI expectations
-    const transformedDocuments = documents.map((doc) => ({
+    const transformedDocuments = documents.map((doc: {
+      id: string;
+      name: string;
+      category: string;
+      uploadedAt: Date;
+      fileSize: number;
+      mimeType: string;
+      fileUrl: string;
+    }) => ({
       id: doc.id,
       name: doc.name,
       category: doc.category.toLowerCase().replace("_", "-"),

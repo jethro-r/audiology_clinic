@@ -32,7 +32,11 @@ export default function ServicesPage() {
   useEffect(() => {
     fetch("/api/services")
       .then((res) => res.json())
-      .then((data) => setServices(data))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setServices(data);
+        }
+      })
       .catch(() => {});
   }, []);
 
