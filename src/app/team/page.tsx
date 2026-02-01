@@ -5,112 +5,66 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import TeamMember from "@/components/TeamMember";
 import Button from "@/components/Button";
+import { PageHero, Section, SectionHeader, CTASection } from "@/components/sections";
 
 const teamMembers = [
   {
-    name: "Your Audiologist",
+    name: "Paul Hsu",
     title: "Founder & Audiologist",
-    credentials: "",
-    bio: "I founded Veritas Hearing to provide the kind of hearing care I believe everyone deserves—honest, thorough, and pressure-free. With a passion for helping people hear better, I take the time to understand each client's unique needs and lifestyle before making any recommendations.",
-    specialisations: ["Hearing Assessments", "Hearing Aid Fitting", "Tinnitus Support"],
+    credentials: "MNZAS | ACC Approved | Veteran Affairs Approved",
+    bio: "At Veritas Hearing, I provide evidence-based, patient-focused hearing care tailored to your needs. From comprehensive hearing assessments to hearing aid fittings and long-term support, my goal is to help you achieve measurable improvements in everyday listening and communication. I combine advanced diagnostic tools, real-life outcome measures, premium hearing technologies, and personalised care plans to ensure every patient receives clear guidance and ongoing support.",
+    specialisations: [
+      "Comprehensive Hearing Assessments",
+      "Hearing Aid Fitting & Optimisation",
+      "Auditory Training (LACE AI)",
+      "Long-term Hearing Care",
+    ],
   },
 ];
 
 export default function TeamPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-card to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-              About Me
-            </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
-              Meet Your Audiologist
-            </h1>
-            <p className="text-lg text-muted">
-              At Veritas Hearing, you'll always see the same person—me. I believe
-              continuity of care leads to better outcomes and a more comfortable
-              experience for you.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        badge="About Me"
+        title="Meet Your Audiologist"
+        description="At Veritas Hearing, you'll always see the same person—me. I believe continuity of care leads to better outcomes and a more comfortable experience for you."
+      />
 
-      {/* Team Members */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <TeamMember key={member.name} {...member} index={index} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <Section variant="white">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {teamMembers.map((member, index) => (
+            <TeamMember key={member.name} {...member} index={index} />
+          ))}
+        </motion.div>
+      </Section>
 
-      {/* Join Our Team */}
-      <section className="py-16 bg-card">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Why Independent Matters
-            </h2>
-            <p className="text-muted mb-8 max-w-2xl mx-auto">
-              As an independent audiologist, I have no sales targets or corporate
-              quotas. My only goal is to help you hear better. I can recommend
-              any brand or solution that's right for you—or tell you honestly
-              if you don't need hearing aids at all.
-            </p>
-            <Link href="/contact">
-              <Button>
-                Book a Consultation
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Ready to Meet Us?
-            </h2>
-            <p className="text-muted mb-8 max-w-2xl mx-auto">
-              Schedule an appointment and experience the difference that
-              personalized, expert hearing care can make in your life.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
-                <Button size="lg">Schedule Appointment</Button>
-              </Link>
-              <Link href="tel:+6480055551">
-                <Button variant="outline" size="lg">
-                  Call 029 0451 0839
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <Section variant="cream" containerClassName="max-w-4xl">
+        <SectionHeader
+          title="Why Independent Matters"
+          description="As an independent audiologist, I have no sales targets or corporate quotas. My only goal is to help you hear better. I can recommend any brand or solution that's right for you—or tell you honestly if you don't need hearing aids at all."
+        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <Link href="/contact">
+            <Button>
+              Book Assessment
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </motion.div>
+      </Section>
     </>
   );
 }

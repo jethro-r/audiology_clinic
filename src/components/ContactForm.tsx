@@ -1,24 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Send, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import Button from "./Button";
 import { validateEmail, validatePhone } from "@/lib/utils";
-
-// Fallback services in case API fails
-const fallbackServices = [
-  "Hearing Evaluation",
-  "Hearing Aid Fitting",
-  "Annual Hearing Review",
-  "Custom Ear Protection",
-  "Hearing Aid Repair",
-  "Other",
-];
-
-interface ServiceOption {
-  id: string;
-  title: string;
-}
+import { serviceNames } from "@/lib/static-data";
 
 interface FormData {
   name: string;
@@ -35,8 +21,10 @@ interface FormErrors {
   message?: string;
 }
 
+// TODO: Replace with your Formspree form ID or other form service
+const FORMSPREE_FORM_ID = "your-form-id-here";
+
 export default function ContactForm() {
-  const [services, setServices] = useState<string[]>(fallbackServices);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -47,24 +35,6 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
-
-  // Fetch services from API on mount
-  useEffect(() => {
-    async function fetchServices() {
-      try {
-        const response = await fetch("/api/services");
-        if (response.ok) {
-          const data: ServiceOption[] = await response.json();
-          const serviceNames = data.map((s) => s.title);
-          serviceNames.push("Other");
-          setServices(serviceNames);
-        }
-      } catch {
-        // Keep fallback services on error
-      }
-    }
-    fetchServices();
-  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -101,10 +71,13 @@ export default function ContactForm() {
     setStatus("loading");
 
     try {
-      const response = await fetch("/api/contact", {
+      // Using Formspree for form submission
+      // Replace with your actual form service or configure accordingly
+      const response = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -228,7 +201,7 @@ export default function ContactForm() {
           className="w-full px-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white"
         >
           <option value="">Select a service (optional)</option>
-          {services.map((service) => (
+          {serviceNames.map((service) => (
             <option key={service} value={service}>
               {service}
             </option>

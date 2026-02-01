@@ -1,305 +1,217 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import {
   Award,
   Heart,
-  Users,
   Clock,
   Shield,
   CheckCircle,
-  ArrowRight,
 } from "lucide-react";
-import Button from "@/components/Button";
+import { PageHero, Section, SectionHeader } from "@/components/sections";
 
 const values = [
   {
-    title: "Honesty First",
+    title: "Integrity",
     description:
-      "No sales targets, no commissions. Just honest advice about what you actually need for your hearing health.",
+      "Honest, evidence-based recommendations with your long-term hearing in mind.",
     icon: Heart,
+  },
+  {
+    title: "Clarity",
+    description:
+      "Clear explanations, transparent processes, and measurable outcomes.",
+    icon: Shield,
   },
   {
     title: "Clinical Excellence",
     description:
-      "Evidence-based practice using the latest diagnostic protocols and peer-reviewed research.",
+      "Thorough assessment, objective verification, and best-practice care.",
     icon: Award,
   },
   {
-    title: "Your Time Matters",
+    title: "Long-Term Commitment",
     description:
-      "Unhurried appointments that give you space to ask questions and fully understand your options.",
-    icon: Users,
-  },
-  {
-    title: "Ongoing Support",
-    description:
-      "Your hearing journey doesn't end at fitting. I'm here for adjustments, questions, and long-term care.",
+      "Ongoing support that protects and improves hearing over time.",
     icon: Clock,
   },
 ];
 
 const certifications = [
-  "New Zealand Audiological Society Member",
-  "ACC Registered Provider",
-  "Qualified Audiologist",
-  "Committed to Continuing Professional Development",
+  {
+    title: "Member – New Zealand Audiological Society (NZAS)",
+    description: "Committed to ongoing professional development and best-practice clinical guidelines.",
+  },
+  {
+    title: "ACC Approved Provider",
+    description: "Recognised to provide ACC-supported hearing services.",
+  },
+  {
+    title: "Veteran Affairs Approved Provider",
+    description: "Approved to provide hearing services for eligible veterans.",
+  },
 ];
 
 const whyChooseUs = [
-  "Independent practice - no corporate sales targets",
-  "Direct access to your audiologist",
-  "Thorough, unhurried consultations",
-  "Evidence-based recommendations",
-  "Wide range of hearing aid options",
-  "ACC registered provider",
-  "Flexible appointment times",
-  "Ongoing aftercare and support",
+  {
+    title: "Independent, Client-Focused Care",
+    description: "Personalised hearing services without corporate sales pressures.",
+  },
+  {
+    title: "Direct Access to Your Audiologist",
+    description: "Speak with the clinician who knows your hearing best.",
+  },
+  {
+    title: "Unhurried, Thorough Consultations",
+    description: "Every assessment is detailed and focused on real-world outcomes.",
+  },
+  {
+    title: "Evidence-Based Recommendations",
+    description: "All advice and solutions are grounded in clinical research and measurable results.",
+  },
+  {
+    title: "Tailored Hearing Solutions",
+    description: "A comprehensive range of devices and support services to suit your individual needs.",
+  },
+  {
+    title: "Ongoing Care & Support",
+    description: "From follow-ups to LACE training, Redux care, and professional ear wax removal, we ensure your hearing is protected long-term.",
+  },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-card to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-              About Us
-            </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
-              Your Partners in Hearing Health
-            </h1>
-            <p className="text-lg text-muted">
-              Based in Hamilton, Veritas Hearing is dedicated to
-              helping our community hear better and live fuller lives through
-              compassionate, expert care.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        badge="About Us"
+        title="Your Partners in Hearing Health"
+        description="Based in Hamilton, Veritas Hearing is dedicated to helping our community hear better and live fuller lives through compassionate, expert care."
+      />
 
-      {/* Our Story */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl font-bold text-foreground mb-6">
-                Our Story
-              </h2>
-              <div className="space-y-4 text-muted">
-                <p>
-                  Veritas Hearing is a newly established independent audiology practice
-                  in Hillcrest, Hamilton. I started this clinic because I believe
-                  hearing care should be different—focused on you, not sales targets.
-                </p>
-                <p>
-                  After working in the industry, I saw too many people pushed toward
-                  expensive solutions they didn't need, or rushed through appointments
-                  without truly understanding their options. Veritas Hearing was founded
-                  on a simple principle: honest, evidence-based care without the pressure.
-                </p>
-                <p>
-                  As a small, independent practice, I can offer something larger clinics
-                  often can't—time. Time to listen, time to explain, and time to find
-                  the right solution for your individual needs and budget.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Image placeholder */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative aspect-[4/3] bg-gradient-to-br from-primary/10 to-[var(--primary-light)]/10 rounded-2xl"
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Users className="w-12 h-12 text-primary" />
-                  </div>
-                  <p className="text-muted text-sm">
-                    Our clinic and team
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+      <Section variant="white" containerClassName="max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary rounded-2xl mb-6">
+            <Heart className="h-8 w-8 text-white" />
           </div>
-        </div>
-      </section>
+          <h2 className="text-3xl font-bold text-primary mb-4">Our Mission</h2>
+          <p className="text-xl text-muted max-w-2xl mx-auto">
+            To provide honest, evidence-based hearing care that prioritises long-term outcomes, clear communication, and measurable results.
+          </p>
+        </motion.div>
 
-      {/* Mission Statement */}
-      <section className="py-16 bg-primary">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
+          {values.map((value, index) => (
+            <motion.div
+              key={value.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="bg-white p-6 rounded-2xl text-center border-2 border-border hover:border-primary/30 transition-colors"
+            >
+              <div className="w-14 h-14 mx-auto mb-4 bg-primary/10 rounded-xl flex items-center justify-center">
+                <value.icon className="h-7 w-7 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold text-primary mb-2">
+                {value.title}
+              </h3>
+              <p className="text-muted text-sm">
+                {value.description}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
+
+      <Section variant="cream">
+        <SectionHeader
+          title="Certifications & Accreditation"
+          description="Professional credentials ensuring the highest standard of care."
+        />
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {certifications.map((cert, index) => (
+            <motion.div
+              key={cert.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="bg-white p-6 rounded-xl shadow-sm text-center border border-border"
+            >
+              <div className="w-10 h-10 mx-auto mb-3 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Award className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="font-semibold text-primary mb-2 text-sm">
+                {cert.title}
+              </h3>
+              <p className="text-muted text-sm">
+                {cert.description}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
+
+      <Section variant="white">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Image placeholder */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
+            className="aspect-[4/3] bg-primary rounded-2xl flex items-center justify-center"
           >
-            <h2 className="text-3xl font-bold text-white mb-6">Our Mission</h2>
-            <p className="text-xl text-white/90 leading-relaxed">
-              &quot;To improve lives through better hearing by providing
-              compassionate, comprehensive audiological care using the latest
-              technology and evidence-based practices.&quot;
-            </p>
+            <div className="text-center p-8">
+              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+                <Award className="w-10 h-10 text-secondary" />
+              </div>
+              <p className="text-white font-medium">
+                Trusted Care
+              </p>
+            </div>
           </motion.div>
-        </div>
-      </section>
 
-      {/* Our Values */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Our Values
+            <h2 className="text-3xl font-bold text-primary mb-8">
+              Why Choose Veritas Hearing?
             </h2>
-            <p className="text-muted max-w-2xl mx-auto">
-              These core values guide everything we do at Veritas Hearing.
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <value.icon className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  {value.title}
-                </h3>
-                <p className="text-muted text-sm">
-                  {value.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Certifications */}
-      <section className="py-16 bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-8"
-          >
-            <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Certifications & Accreditations
-            </h2>
-            <p className="text-muted max-w-2xl mx-auto">
-              Our audiologists maintain the highest professional standards and
-              credentials.
-            </p>
-          </motion.div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            {certifications.map((cert, index) => (
-              <motion.div
-                key={cert}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white px-6 py-3 rounded-full border border-border shadow-sm"
-              >
-                <span className="font-medium text-foreground">
-                  {cert}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Image placeholder */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative aspect-[4/3] bg-gradient-to-br from-primary/10 to-[var(--primary-light)]/10 rounded-2xl"
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Award className="w-12 h-12 text-primary" />
+            <ul className="space-y-5">
+              {whyChooseUs.map((item, index) => (
+                <motion.li
+                  key={item.title}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  viewport={{ once: true }}
+                  className="flex items-start gap-3"
+                >
+                  <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                  <div className="relative group cursor-help">
+                    <span className="font-semibold text-primary border-b-2 border-primary/20 hover:border-primary transition-colors">
+                      {item.title}
+                    </span>
+                    <div className="absolute left-0 top-full mt-2 w-64 bg-primary text-white text-sm p-3 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                      {item.description}
+                    </div>
                   </div>
-                  <p className="text-muted text-sm">
-                    Award-winning care
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl font-bold text-foreground mb-6">
-                Why Choose Veritas Hearing?
-              </h2>
-              <ul className="space-y-3 mb-8">
-                {whyChooseUs.map((item, index) => (
-                  <motion.li
-                    key={item}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
-                    viewport={{ once: true }}
-                    className="flex items-start gap-3"
-                  >
-                    <CheckCircle className="h-5 w-5 text-[var(--success)] flex-shrink-0 mt-0.5" />
-                    <span className="text-foreground">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-              <Link href="/contact">
-                <Button>
-                  Schedule Your Visit
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

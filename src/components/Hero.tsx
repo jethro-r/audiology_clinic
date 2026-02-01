@@ -2,19 +2,13 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Button from "./Button";
-
-const benefits = [
-  "Independent, clinician-owned practice",
-  "No sales pressure or commissions",
-  "Unhurried, thorough consultations",
-  "Direct access to your audiologist",
-];
+import Badge from "./Badge";
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-card to-white pt-32 pb-16 lg:pt-40 lg:pb-24">
+    <section className="relative bg-white pt-8 pb-16 lg:pt-12 lg:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
@@ -23,44 +17,27 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+            <Badge variant="primary" className="mb-4">
               Independent Audiology in Hamilton
-            </span>
-            <h1 className="text-4xl font-bold text-foreground leading-tight mb-6">
-              Clear Hearing,{" "}
-              <span className="text-4xl"> supported for the long term.</span>
+            </Badge>
+            <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-6">
+              Premium Hearing Care, <br />
+              <span className="text-primary">Thoughtfully Delivered</span>
             </h1>
             <p className="text-lg text-muted mb-8 max-w-xl">
-              At Veritas Hearing, we offer structured hearing aid packages across multiple tiers, each backed by ongoing professional care. From precise diagnostics to long-term follow-up and fine-tuning, we support your hearing journey well beyond the initial fitting — with clarity, honesty, and independence.
+              At Veritas Hearing, your care is built around long-term hearing health, not one-off transactions. We offer two structured care pathways, each designed to provide full, professional care at every visit — from precise diagnostics and verified fittings to ongoing review, fine-tuning, and support over time.
             </p>
 
-            {/* Benefits list */}
-            <ul className="space-y-3 mb-8">
-              {benefits.map((benefit, index) => (
-                <motion.li
-                  key={benefit}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center gap-3"
-                >
-                  <CheckCircle className="h-5 w-5 text-[var(--success)] flex-shrink-0" />
-                  <span className="text-foreground">{benefit}</span>
-                </motion.li>
-              ))}
-            </ul>
+            <p className="text-lg text-muted mb-8 max-w-xl">
+              Whether your hearing aids were purchased here or elsewhere, your care is delivered with clarity, honesty, and clinical independence, supporting your hearing well beyond the initial fitting.
+            </p>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact">
                 <Button size="lg" className="w-full sm:w-auto">
-                  Book a Comprehensive Hearing Assessment
+                  Book Your Assessment
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/services">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  Explore Hearing Aid Packages
                 </Button>
               </Link>
             </div>
@@ -73,7 +50,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative aspect-[4/3] bg-gradient-to-br from-primary/20 to-[var(--primary-light)]/20 rounded-2xl overflow-hidden">
+            <div className="relative aspect-[4/3] bg-primary/20 rounded-2xl overflow-hidden">
               {/* Placeholder for hero image */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center p-8">
