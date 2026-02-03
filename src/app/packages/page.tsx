@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Check, ArrowRight, Star, Shield, Clock } from "lucide-react";
 import Button from "@/components/Button";
+import { PageHero } from "@/components/sections";
 
 const packages = [
   {
@@ -67,26 +68,11 @@ const packages = [
 export default function PackagesPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="pt-40 pb-20 bg-gradient-to-br from-primary to-primary-dark">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Hearing Aid Packages
-            </h1>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed mb-8">
-              Clear options. Evidence-based care. Long-term support.
-            </p>
-            <p className="text-lg text-white/80 max-w-2xl mx-auto">
-              At Veritas Hearing, we don't sell hearing aids as standalone products. We provide hearing care packages designed around long-term listening outcomes — so you know exactly what's included from the beginning.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        badge="Hearing Aid Packages"
+        title="Clear options. Evidence-based care. Long-term support."
+        description="At Veritas Hearing, we don't sell hearing aids as standalone products. Our hearing care packages are designed around long-term listening outcomes — so you know exactly what's included from the start."
+      />
 
       {/* Key Differentiation */}
       <section className="py-12 bg-card">
