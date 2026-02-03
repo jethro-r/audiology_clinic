@@ -1,251 +1,243 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, X } from "lucide-react";
-import { PageHero, Section, SectionHeader, CTASection } from "@/components/sections";
+import Link from "next/link";
+import { Check, ArrowRight, Star, Shield, Clock } from "lucide-react";
+import Button from "@/components/Button";
 
-const steps = [
+const packages = [
   {
-    number: "1",
-    title: "Choose your care package",
-    description: "Essential (one-off) or Premium (annual subscription)"
+    name: "Essential Package",
+    price: "From $3,995",
+    subtitle: "per pair",
+    description: "Ideal for first-time users or those with straightforward listening needs.",
+    popular: false,
+    features: [
+      "Comprehensive hearing assessment with speech-in-noise (QuickSIN/ACT) baseline testing",
+      "Wideband tympanometry for accurate middle ear assessment",
+      "Professionally fitted hearing aids",
+      "Real-ear verification",
+      "Essential follow-up care: 2–3 follow-ups after the 28-day trial",
+      "Comfort verification and device performance checks",
+      "Minor issue troubleshooting",
+      "Hearing Instrument Test (HIT) verification after maintenance",
+      "Ear wax removal when clinically indicated",
+      "Manufacturer warranty"
+    ]
   },
   {
-    number: "2",
-    title: "Select your hearing aid technology",
-    description: "Based on your lifestyle, hearing needs, and preferences"
+    name: "Standard Package",
+    price: "From $5,495",
+    subtitle: "per pair",
+    description: "Designed for everyday listening confidence, especially in conversations.",
+    popular: true,
+    badge: "Most Popular",
+    features: [
+      "Everything in Essential Package, plus:",
+      "Advanced hearing technology",
+      "Extended diagnostics where clinically indicated",
+      "Additional hearing checks and device verification",
+      "12 months of follow-up care",
+      "Scheduled follow-ups at 1, 3, 6, and 12 months with HIT verification",
+      "Targeted speech-in-noise rechecks if problems are reported",
+      "Minor program or comfort adjustments",
+      "Annual Hearing Review ($200 for Standard clients)"
+    ]
   },
   {
-    number: "3",
-    title: "Receive expert support and optimisation",
-    description: "According to the package you choose"
-  }
-];
-
-const comparisonData = [
-  {
-    feature: "Hearing aid fitting & programming",
-    essential: true,
-    premium: true
-  },
-  {
-    feature: "Real-ear measurement verification",
-    essential: true,
-    premium: true
-  },
-  {
-    feature: "Speech-in-noise outcome tracking",
-    essential: true,
-    premium: true
-  },
-  {
-    feature: "LACE AI auditory training",
-    essential: "—",
-    premium: "Included (auditory training to improve speech comprehension)"
-  },
-  {
-    feature: "Routine fine-tuning & checks",
-    essential: "2–3 visits, 3–6 months",
-    premium: "6–8 visits over 12 months"
-  },
-  {
-    feature: "Annual hearing review (includes device comprehensive service, ear wax removal & Redux moisture management)",
-    essential: "Optional add-on",
-    premium: "Included"
-  },
-  {
-    feature: "Device comprehensive service",
-    essential: "Optional add-on",
-    premium: "Included in Annual Review"
-  },
-  {
-    feature: "Ear wax removal",
-    essential: "Optional add-on",
-    premium: "Included in Annual Review"
-  },
-  {
-    feature: "Redux moisture management",
-    essential: "Optional add-on",
-    premium: "Included in Annual Review"
+    name: "Premium Care Package",
+    price: "From $9,995",
+    subtitle: "per pair",
+    description: "For those who want the highest performance available and long-term reassurance.",
+    popular: false,
+    features: [
+      "Everything in Standard Package, plus:",
+      "Flagship-level hearing technology",
+      "Priority appointments",
+      "Unlimited follow-ups throughout the life of the devices (6–7 years)",
+      "Annual Hearing Reviews included for life",
+      "Proactive Redux moisture management",
+      "HIT verification and speech-in-noise testing (QuickSIN/ACT)",
+      "Optimal real-world performance monitoring",
+      "LACE AI auditory training"
+    ]
   }
 ];
 
 export default function PackagesPage() {
   return (
-    <>
-      <PageHero
-        badge="Hearing Aid Packages"
-        title="Clear options. Evidence-based care. Long-term support."
-        description="At Veritas Hearing, we don't sell hearing aids as standalone products. Our hearing care packages are designed around long-term listening outcomes — so you know exactly what's included from the start."
-      />
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="pt-40 pb-20 bg-gradient-to-br from-primary to-primary-dark">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+              Hearing Aid Packages
+            </h1>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed mb-8">
+              Clear options. Evidence-based care. Long-term support.
+            </p>
+            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+              At Veritas Hearing, we don't sell hearing aids as standalone products. We provide hearing care packages designed around long-term listening outcomes — so you know exactly what's included from the beginning.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-      <Section variant="white" containerClassName="max-w-5xl">
-        <SectionHeader
-          title="How it works"
-        />
-        <div className="grid md:grid-cols-3 gap-6">
-          {steps.map((step, index) => (
-            <motion.div
-              key={step.number}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-background rounded-2xl p-6 text-center"
-            >
-              <div className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-lg font-bold">
-                {step.number}
+      {/* Key Differentiation */}
+      <section className="py-12 bg-card">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-sm">
+                <Shield className="h-8 w-8 text-primary" />
+                <div className="text-left">
+                  <p className="font-semibold text-foreground">Essential</p>
+                  <p className="text-sm text-muted">2–3 follow-ups after trial</p>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">
-                {step.title}
-              </h3>
-              <p className="text-sm text-muted">
-                {step.description}
-              </p>
-            </motion.div>
-          ))}
+              <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-sm">
+                <Clock className="h-8 w-8 text-primary" />
+                <div className="text-left">
+                  <p className="font-semibold text-foreground">Standard</p>
+                  <p className="text-sm text-muted">12 months scheduled care</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-sm">
+                <Star className="h-8 w-8 text-primary" />
+                <div className="text-left">
+                  <p className="font-semibold text-foreground">Premium</p>
+                  <p className="text-sm text-muted">Lifetime proactive care</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="text-center text-muted max-w-4xl mx-auto"
+          >
+            All tiers include speech-in-noise testing at the initial assessment. Essential clients get 2–3 follow-ups after the trial, Standard clients get 12 months of scheduled follow-ups, and Premium clients receive proactive, performance-verified SIN testing and maintenance for the life of the devices.
+          </motion.p>
         </div>
-      </Section>
+      </section>
 
-      <Section variant="cream" containerClassName="max-w-5xl">
-        <SectionHeader
-          title="Key highlights"
-        />
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Essential Care */}
+      {/* Packages */}
+      <section className="py-16 lg:py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-3 gap-8">
+            {packages.map((pkg, index) => (
+              <motion.div
+                key={pkg.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`relative bg-white rounded-2xl border-2 overflow-hidden ${
+                  pkg.popular 
+                    ? "border-primary shadow-xl scale-105" 
+                    : "border-border shadow-sm hover:shadow-lg"
+                } transition-all duration-300`}
+              >
+                {pkg.popular && (
+                  <div className="absolute top-0 left-0 right-0 bg-primary text-white text-center py-2 text-sm font-medium">
+                    {pkg.badge}
+                  </div>
+                )}
+                
+                <div className={`p-8 ${pkg.popular ? "pt-12" : ""}`}>
+                  <h3 className="text-2xl font-bold text-foreground mb-2">
+                    {pkg.name}
+                  </h3>
+                  <p className="text-muted mb-6">
+                    {pkg.description}
+                  </p>
+                  
+                  <div className="mb-8">
+                    <span className="text-4xl font-bold text-foreground">
+                      {pkg.price}
+                    </span>
+                    <span className="text-muted ml-2">
+                      {pkg.subtitle}
+                    </span>
+                  </div>
+
+                  <ul className="space-y-3 mb-8">
+                    {pkg.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start gap-3">
+                        <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                        <span className={`text-sm ${
+                          feature.includes("Everything in") 
+                            ? "font-medium text-foreground" 
+                            : "text-muted"
+                        }`}>
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link href="/contact">
+                    <Button 
+                      variant={pkg.popular ? "primary" : "outline"}
+                      className="w-full"
+                      size="lg"
+                    >
+                      Get Started
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-card">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 border border-border"
           >
-            <h3 className="text-xl font-bold text-foreground mb-2">Essential Care</h3>
-            <p className="text-secondary font-medium mb-4">One-off purchase</p>
-            <p className="text-muted mb-6">
-              Ideal for patients who want straightforward support and flexibility.
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+              Not Sure Which Package Is Right?
+            </h2>
+            <p className="text-lg text-muted mb-8 max-w-2xl mx-auto">
+              Let's discuss your hearing needs and lifestyle to find the perfect package for you. 
+              No pressure, just honest guidance.
             </p>
-            <div>
-              <p className="text-sm font-medium text-foreground mb-3">Optional add-ons available:</p>
-              <ul className="space-y-2 text-sm text-muted">
-                <li>• Annual hearing review</li>
-                <li>• Device comprehensive service</li>
-                <li>• Ear wax removal</li>
-                <li>• Redux moisture management</li>
-              </ul>
-            </div>
-          </motion.div>
-
-          {/* Premium Care */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 border-2 border-primary"
-          >
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-xl font-bold text-foreground">Premium Care</h3>
-              <span className="bg-secondary text-white text-xs px-3 py-1 rounded-full font-medium">Recommended</span>
-            </div>
-            <p className="text-secondary font-medium mb-4">Annual subscription</p>
-            <p className="text-muted mb-6">
-              Complete support with everything included — no extra add-ons required.
-            </p>
-            <div>
-              <p className="text-sm font-medium text-foreground mb-3">Included:</p>
-              <ul className="space-y-2 text-sm text-muted">
-                <li className="flex items-start gap-2">
-                  <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                  <span>Routine fine-tuning</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                  <span>Annual Hearing Review (device comprehensive service, ear wax removal, and Redux moisture management)</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                  <span>LACE AI auditory training — improves speech comprehension in challenging listening environments</span>
-                </li>
-              </ul>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/contact">
+                <Button size="lg" className="w-full sm:w-auto">
+                  Schedule Appointment
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="tel:+64290451839">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  Call 029 0451 0839
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>
-      </Section>
-
-      <Section variant="white" containerClassName="max-w-5xl">
-        <SectionHeader
-          title="Compare packages"
-        />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="overflow-x-auto"
-        >
-          <table className="w-full min-w-[600px] border-collapse">
-            <thead>
-              <tr className="border-b-2 border-border">
-                <th className="text-left py-4 px-4 font-semibold text-foreground">
-                  Feature
-                </th>
-                <th className="text-center py-4 px-4 font-semibold text-foreground">
-                  Essential Care
-                  <span className="block text-sm font-normal text-muted">(one-off)</span>
-                </th>
-                <th className="text-center py-4 px-4 font-semibold text-primary">
-                  Premium Care
-                  <span className="block text-sm font-normal text-muted">(annual subscription)</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparisonData.map((row, index) => (
-                <tr key={index} className="border-b border-border">
-                  <td className="py-4 px-4 text-sm text-foreground">
-                    {row.feature}
-                  </td>
-                  <td className="py-4 px-4 text-center text-sm">
-                    {typeof row.essential === "boolean" ? (
-                      row.essential ? (
-                        <Check className="h-5 w-5 text-primary mx-auto" />
-                      ) : (
-                        <X className="h-5 w-5 text-muted mx-auto" />
-                      )
-                    ) : (
-                      <span className={row.essential === "—" ? "text-muted" : "text-foreground"}>
-                        {row.essential}
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-4 px-4 text-center text-sm">
-                    {typeof row.premium === "boolean" ? (
-                      row.premium ? (
-                        <Check className="h-5 w-5 text-primary mx-auto" />
-                      ) : (
-                        <X className="h-5 w-5 text-muted mx-auto" />
-                      )
-                    ) : (
-                      <span className="text-foreground">{row.premium}</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </motion.div>
-      </Section>
-
-      <CTASection
-        title="Not sure which package is right for you?"
-        description="We can help you find the right option based on your lifestyle and hearing needs."
-        primaryButton={{
-          text: "Book Assessment",
-          href: "/contact",
-        }}
-        variant="primary"
-      />
-    </>
+      </section>
+    </div>
   );
 }

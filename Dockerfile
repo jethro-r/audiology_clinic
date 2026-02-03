@@ -7,19 +7,15 @@ WORKDIR /app
 
 # Copy package files first (better caching)
 COPY package.json package-lock.json* ./
-COPY prisma ./prisma/
 
 # Install dependencies
 RUN npm ci
 
-# Generate Prisma client
-RUN npx prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/node_modules/.prisma ./node_modules/.prisma
 
 # Copy source files
 COPY src ./src
@@ -32,8 +28,6 @@ COPY package.json ./
 # Build the application
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
-# Dummy DATABASE_URL for build (Prisma client init only, no actual connection)
-ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
 RUN npm run build
 
 # Production image, copy all the files and run next
@@ -48,7 +42,6 @@ RUN adduser --system --uid 1001 nextjs
 
 # Copy necessary files
 COPY --from=builder /app/public ./public
-COPY --from=deps /app/prisma ./prisma
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
