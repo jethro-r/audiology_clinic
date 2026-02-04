@@ -35,19 +35,6 @@ export default function Header() {
           : "bg-white"
       }`}
     >
-      {/* Top bar */}
-      <div className="bg-primary text-white py-2 px-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
-          <div className="flex items-center gap-2">
-            <Phone className="h-4 w-4" />
-            <span>029 0451 0839</span>
-          </div>
-          <div className="hidden sm:block">
-            Mon-Fri: 8:00 AM - 5:00 PM | Sat: 9:00 AM - 1:00 PM
-          </div>
-        </div>
-      </div>
-
       {/* Main navigation */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">

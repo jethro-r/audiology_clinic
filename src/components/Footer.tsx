@@ -141,7 +141,7 @@ export default function Footer() {
                 <span className="text-sm">
                   Mon-Fri: 8:00 AM - 5:00 PM
                   <br />
-                  Sat-Sun: Closed
+                  Sat: 9:00 AM - 1:00 PM
                 </span>
               </li>
             </ul>
