@@ -131,7 +131,7 @@ export default function ServicesPage() {
                   )}
 
                   {/* Button */}
-                  <Link href="/contact">
+                  <Link href="/booking">
                     <Button>
                       {service.buttonText || "Book Assessment"}
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -169,7 +169,7 @@ export default function ServicesPage() {
         description="We can help you find the right option."
         primaryButton={{
           text: "Book Assessment",
-          href: "/contact",
+          href: "/booking",
         }}
         variant="primary"
       />

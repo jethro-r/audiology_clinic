@@ -55,7 +55,7 @@ export default function HomePage() {
       <Hero />
 
       {/* Services Overview */}
-      <Section variant="white">
+      <Section variant="cream">
         <SectionHeader
           label="Our Services"
           title="Comprehensive Hearing Care"
@@ -196,7 +196,7 @@ export default function HomePage() {
         description="Independent guidance and professional support help you make decisions that truly suit your needs."
         primaryButton={{
           text: "Book Assessment",
-          href: "/contact",
+          href: "/booking",
         }}
         variant="primary"
       />

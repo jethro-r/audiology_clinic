@@ -69,7 +69,7 @@ export default function TeamPage() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <Link href="/contact">
+          <Link href="/booking">
             <Button>
               Book Assessment
               <ArrowRight className="ml-2 h-4 w-4" />
