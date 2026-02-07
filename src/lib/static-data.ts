@@ -7,8 +7,8 @@ export interface Service {
   title: string;
   shortDescription: string;
   fullDescription: string;
-  duration: string;
   iconName: string;
+  image?: string;
   features: string[];
   sortOrder: number;
   showOnHomepage: boolean;
@@ -28,7 +28,7 @@ export const services: Service[] = [
       "A thorough, unhurried assessment to understand your hearing and how it affects daily life — with clear answers and no pressure.",
     fullDescription:
       "A thorough, unhurried assessment to understand your hearing and how it affects daily life — with clear answers and no pressure.",
-    duration: "45–60 minutes",
+    image: "/images/Comprehensive Hearing Assessment.jpg",
     iconName: "Ear",
     features: [
       "Diagnostic hearing testing",
@@ -51,7 +51,6 @@ export const services: Service[] = [
       "At Veritas Hearing, we separate care from technology. Choose the level of support that suits your needs, from Essential to Premium Care.",
     fullDescription:
       "At Veritas Hearing, we separate care from technology. You choose the level of support that suits your needs, from Essential to Premium Care. Hearing aid technology is selected independently based on your hearing, lifestyle, and preferences, so every recommendation is personalised and evidence-based.",
-    duration: "60-90 minutes",
     iconName: "Headphones",
     features: [
       "Personalisation & selection",
@@ -72,7 +71,7 @@ export const services: Service[] = [
       "Comprehensive checks to ensure your hearing and hearing aids are performing at their best.",
     fullDescription:
       "Comprehensive checks to ensure your hearing and hearing aids are performing at their best.",
-    duration: "30–45 minutes",
+    image: "/images/Ongoing hearing care.jpg",
     iconName: "Volume2",
     features: [
       "Ear wax removal",
@@ -99,7 +98,6 @@ export const services: Service[] = [
       "Safe, professional ear wax removal to restore comfort and optimise hearing aid performance.",
     fullDescription:
       "Safe, professional ear wax removal to restore comfort and optimise hearing aid performance.",
-    duration: "20–30 minutes",
     iconName: "Wrench",
     features: [
       "Microsuction removal of ear wax",

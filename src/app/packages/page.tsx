@@ -74,52 +74,6 @@ export default function PackagesPage() {
         description="At Veritas Hearing, we don't sell hearing aids as standalone products. Our hearing care packages are designed around long-term listening outcomes — so you know exactly what's included from the start."
       />
 
-      {/* Key Differentiation */}
-      <section className="py-12 bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-8"
-          >
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-sm">
-                <Shield className="h-8 w-8 text-primary" />
-                <div className="text-left">
-                  <p className="font-semibold text-foreground">Essential</p>
-                  <p className="text-sm text-muted">2–3 follow-ups after trial</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-sm">
-                <Clock className="h-8 w-8 text-primary" />
-                <div className="text-left">
-                  <p className="font-semibold text-foreground">Standard</p>
-                  <p className="text-sm text-muted">12 months scheduled care</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-lg shadow-sm">
-                <Star className="h-8 w-8 text-primary" />
-                <div className="text-left">
-                  <p className="font-semibold text-foreground">Premium</p>
-                  <p className="text-sm text-muted">Lifetime proactive care</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-center text-muted max-w-4xl mx-auto"
-          >
-            All tiers include speech-in-noise testing at the initial assessment. Essential clients get 2–3 follow-ups after the trial, Standard clients get 12 months of scheduled follow-ups, and Premium clients receive proactive, performance-verified SIN testing and maintenance for the life of the devices.
-          </motion.p>
-        </div>
-      </section>
-
       {/* Packages */}
       <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -189,39 +143,6 @@ export default function PackagesPage() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-card">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-              Not Sure Which Package Is Right?
-            </h2>
-            <p className="text-lg text-muted mb-8 max-w-2xl mx-auto">
-              Let's discuss your hearing needs and lifestyle to find the perfect package for you. 
-              No pressure, just honest guidance.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Schedule Appointment
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="tel:+64290451839">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  Call 029 0451 0839
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
         </div>
       </section>
     </div>

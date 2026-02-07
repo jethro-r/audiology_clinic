@@ -10,7 +10,6 @@ import {
   Shield,
   Wrench,
   ArrowRight,
-  Clock,
   CheckCircle,
   LucideIcon,
 } from "lucide-react";
@@ -101,12 +100,6 @@ export default function ServicesPage() {
                     </div>
                   )}
 
-                  {/* Appointment */}
-                  <div className="mb-6 flex items-center gap-2 text-sm text-muted">
-                    <Clock className="h-4 w-4" />
-                    <span>Appointment: {service.duration}</span>
-                  </div>
-
                   {/* Note */}
                   {service.note && (
                     <div className="mb-6 text-sm text-muted">
@@ -123,15 +116,23 @@ export default function ServicesPage() {
                   </Link>
                 </div>
 
-                {/* Image placeholder */}
+                {/* Image */}
                 <div
-                  className={`relative aspect-[4/3] bg-primary/10 rounded-2xl ${
+                  className={`relative aspect-[4/3] rounded-2xl overflow-hidden ${
                     index % 2 === 1 ? "lg:order-1" : ""
                   }`}
                 >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <IconComponent className="w-24 h-24 text-primary/30" />
-                  </div>
+                  {service.image ? (
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-primary/10 flex items-center justify-center">
+                      <IconComponent className="w-24 h-24 text-primary/30" />
+                    </div>
+                  )}
                 </div>
               </motion.div>
             );

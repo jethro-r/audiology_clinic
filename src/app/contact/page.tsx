@@ -21,12 +21,12 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Address",
-    content: "42a Hillcrest Road\nHillcrest, Hamilton 3216\nNew Zealand",
+    content: "37 Lake Road\nFrankton, Hamilton 3204\nNew Zealand",
   },
   {
     icon: Clock,
     title: "Hours",
-    content: "Mon-Fri: 8:00 AM - 5:00 PM\nSat: 9:00 AM - 1:00 PM\nSun: Closed",
+    content: "Mon-Fri: 8:00 AM - 5:00 PM\nSat-Sun: Closed",
   },
 ];
 
@@ -110,7 +110,7 @@ export default function ContactPage() {
                       Google Maps would be embedded here
                     </p>
                     <p className="text-muted text-xs mt-1">
-                      42a Hillcrest Road, Hillcrest, Hamilton
+                      37 Lake Road, Frankton, Hamilton
                     </p>
                   </div>
                 </div>
@@ -133,7 +133,7 @@ export default function ContactPage() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  We&apos;re located at 42a Hillcrest Road
+                  We&apos;re located at 37 Lake Road, Frankton
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />

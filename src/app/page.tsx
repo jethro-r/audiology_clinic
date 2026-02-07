@@ -19,12 +19,6 @@ import { Section, SectionHeader, CTASection } from "@/components/sections";
 import { useState } from "react";
 import { getServices, type Service } from "@/lib/static-data";
 
-const stats = [
-  { value: "100%", label: "Independent", icon: Shield },
-  { value: "Evidence-Based", label: "Diagnostics", icon: Clock },
-  { value: "Ongoing", label: "Premium Care", icon: Users },
-];
-
 const faqs = [
   {
     question: "What should I expect at my first appointment?",
@@ -208,7 +202,6 @@ export default function HomePage() {
               description={service.shortDescription}
               iconName={service.iconName}
               href={`/services#${service.slug}`}
-              duration={service.duration}
               index={index}
             />
           ))}
@@ -230,44 +223,27 @@ export default function HomePage() {
         </motion.div>
       </Section>
 
-      {/* Stats Section */}
-      <Section variant="primary" className="py-16">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="text-center text-white"
-            >
-              <stat.icon className="h-10 w-10 mx-auto mb-3 opacity-80" />
-              <div className="text-4xl font-bold mb-1">{stat.value}</div>
-              <div className="text-white/80">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
-
       {/* My Promise Section */}
-      <Section variant="cream">
+      <Section variant="primary" className="border-y border-white/10">
         <SectionHeader
           title="Our Promise"
+          variant="dark"
         />
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 md:gap-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-border"
+            className="text-center"
           >
-
-            <p className="text-foreground mb-4 font-medium">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white/10 flex items-center justify-center">
+              <Shield className="w-7 h-7 text-secondary" />
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-3">
               Independent Guidance
-            </p>
-            <p className="text-muted text-sm">
+            </h3>
+            <p className="text-white/70 text-sm leading-relaxed">
               Advice you can trust — we work for your hearing, not brands.
             </p>
           </motion.div>
@@ -276,13 +252,15 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-border"
+            className="text-center"
           >
-
-            <p className="text-foreground mb-4 font-medium">
-             Clear, Evidence-Based Advice
-            </p>
-            <p className="text-muted text-sm">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white/10 flex items-center justify-center">
+              <Award className="w-7 h-7 text-secondary" />
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-3">
+              Evidence-Based Advice
+            </h3>
+            <p className="text-white/70 text-sm leading-relaxed">
               Understand your hearing clearly with objective testing and honest recommendations.
             </p>
           </motion.div>
@@ -291,13 +269,15 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="bg-white rounded-xl p-6 shadow-sm border border-border"
+            className="text-center"
           >
-           
-            <p className="text-foreground mb-4 font-medium">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white/10 flex items-center justify-center">
+              <Clock className="w-7 h-7 text-secondary" />
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-3">
               Ongoing Premium Care
-            </p>
-            <p className="text-muted text-sm">
+            </h3>
+            <p className="text-white/70 text-sm leading-relaxed">
               Long-term follow-up and fine-tuning to keep your hearing at its best.
             </p>
           </motion.div>

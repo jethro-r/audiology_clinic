@@ -55,6 +55,7 @@ export interface SectionHeaderProps {
   description?: string;
   centered?: boolean;
   className?: string;
+  variant?: "dark" | "light";
 }
 
 export function SectionHeader({
@@ -63,9 +64,16 @@ export function SectionHeader({
   description,
   centered = true,
   className = "",
+  variant = "light",
 }: SectionHeaderProps) {
   const alignClass = centered ? "text-center" : "";
   const maxWidthClass = centered ? "max-w-3xl mx-auto" : "";
+
+  // Light text for dark backgrounds (primary variant)
+  const lightText = variant === "dark";
+  const labelColor = lightText ? "text-secondary" : "text-primary";
+  const titleColor = lightText ? "text-white" : "text-foreground";
+  const descriptionColor = lightText ? "text-white/80" : "text-muted";
 
   return (
     <motion.div
@@ -76,14 +84,14 @@ export function SectionHeader({
       className={`mb-12 ${alignClass} ${maxWidthClass} ${className}`}
     >
       {label && (
-        <span className="text-primary font-medium inline-block mb-2">
+        <span className={`${labelColor} font-medium inline-block mb-2`}>
           {label}
         </span>
       )}
-      <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+      <h2 className={`text-3xl sm:text-4xl font-bold ${titleColor} mb-4`}>
         {title}
       </h2>
-      {description && <p className="text-muted text-lg">{description}</p>}
+      {description && <p className={`${descriptionColor} text-lg`}>{description}</p>}
     </motion.div>
   );
 }

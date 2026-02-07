@@ -12,6 +12,7 @@ const teamMembers = [
     name: "Paul Hsu",
     title: "Founder & Audiologist",
     credentials: "MNZAS | ACC Approved | Veteran Affairs Approved",
+    imageUrl: "/images/Paul Hsu.jpg",
     bio: "At Veritas Hearing, I provide evidence-based, patient-focused hearing care tailored to your needs. From comprehensive hearing assessments to hearing aid fittings and long-term support, my goal is to help you achieve measurable improvements in everyday listening and communication. I combine advanced diagnostic tools, real-life outcome measures, premium hearing technologies, and personalised care plans to ensure every patient receives clear guidance and ongoing support.",
     specialisations: [
       "Comprehensive Hearing Assessments",

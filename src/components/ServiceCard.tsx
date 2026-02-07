@@ -27,7 +27,6 @@ interface ServiceCardProps {
   icon?: LucideIcon;
   iconName?: string;
   href: string;
-  duration?: string;
   index?: number;
 }
 
@@ -37,7 +36,6 @@ export default function ServiceCard({
   icon,
   iconName,
   href,
-  duration,
   index = 0,
 }: ServiceCardProps) {
   // Use provided icon or look up from iconName
@@ -58,11 +56,6 @@ export default function ServiceCard({
         {title}
       </h3>
       <p className="text-muted mb-4">{description}</p>
-      {duration && (
-        <p className="text-sm text-[var(--muted-light)] mb-4">
-          Duration: {duration}
-        </p>
-      )}
       <Link
         href={href}
         className="inline-flex items-center text-primary font-medium hover:gap-2 transition-all duration-200"

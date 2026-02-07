@@ -3,7 +3,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Contact Veritas Hearing to schedule an appointment or ask questions. Located at 42a Hillcrest Road, Hillcrest, Hamilton. Call 029 0451 0839.",
+    "Contact Veritas Hearing to schedule an appointment or ask questions. Located at 37 Lake Road, Frankton, Hamilton 3204. Call 029 0451 0839.",
   openGraph: {
     title: "Contact Us | Veritas Hearing",
     description:
