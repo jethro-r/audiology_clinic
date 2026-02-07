@@ -4,12 +4,10 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   Shield,
-  Users,
   Clock,
   Award,
   ChevronDown,
   ArrowRight,
-  Quote,
   CheckCircle,
 } from "lucide-react";
 import Hero from "@/components/Hero";
@@ -79,128 +77,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-
-      {/* Value Proposition / Care Pathways Section */}
-      <Section variant="cream">
-        <SectionHeader
-          label="Our Care Philosophy"
-          title="Full Care at Every Visit"
-          description="At Veritas Hearing, every client receives full, professional-standard care, whether you purchased your hearing aids here or elsewhere."
-        />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-10"
-        >
-          <p className="text-muted max-w-3xl mx-auto">
-            Choose the pathway that suits your needs:
-          </p>
-        </motion.div>
-
-        {/* Care Pathways Cards */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {/* Essential Care */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 shadow-sm border border-border relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--secondary)]/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-            <div className="relative">
-              <div className="w-14 h-14 bg-[var(--secondary)]/10 rounded-xl flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-[var(--secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">
-                Essential Care
-              </h3>
-              <p className="text-muted mb-6">
-                Premium, professional care with one annual review and optional discounted maintenance services.
-              </p>
-              <ul className="space-y-3 mb-6">
-                {[
-                  "Precise diagnostics and assessment",
-                  "Expert hearing aid fitting",
-                  "Thorough verification and tuning",
-                  "One annual review included",
-                  "Optional discounted maintenance"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                    <span className="text-primary">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-
-          {/* Ongoing Care */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 shadow-sm border-2 border-[var(--secondary)] relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--secondary)]/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute top-4 right-4">
-              <span className="bg-[var(--secondary)] text-white text-xs font-semibold px-3 py-1 rounded-full">
-                RECOMMENDED
-              </span>
-            </div>
-            <div className="relative">
-              <div className="w-14 h-14 bg-[var(--secondary)]/10 rounded-xl flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-[var(--secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-3">
-                Ongoing Care
-              </h3>
-              <p className="text-muted mb-6">
-                Unlimited annual reviews, scheduled maintenance, priority support, and LACE AI hearing training for continuous optimisation.
-              </p>
-              <ul className="space-y-3 mb-6">
-                {[
-                  "Everything in Essential Care",
-                  "Unlimited annual reviews",
-                  "Scheduled maintenance included",
-                  "Priority booking and support",
-                  "LACE AI hearing training"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                    <span className="text-primary">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <p className="text-muted max-w-3xl mx-auto mb-8">
-            Every visit ensures personalised attention, expert fitting, and thorough verification — because your hearing health deserves nothing less.
-          </p>
-          <Link href="/book">
-            <Button variant="outline" size="lg" className="border-[var(--secondary)] text-[var(--secondary)] hover:bg-[var(--secondary)] hover:text-white">
-              Explore Care Packages
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
-        </motion.div>
-      </Section>
 
       {/* Services Overview */}
       <Section variant="white">

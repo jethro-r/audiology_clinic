@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, Info } from "lucide-react";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { PageHero, Section } from "@/components/sections";
 
 export default function BookingPage() {
@@ -26,13 +26,6 @@ export default function BookingPage() {
     window.addEventListener("message", handleIFrameMessage);
     return () => window.removeEventListener("message", handleIFrameMessage);
   }, []);
-
-  const whatToExpect = [
-    { title: "Book Online", description: "Select your preferred date and time using our easy online booking system." },
-    { title: "Confirmation", description: "Receive instant confirmation of your appointment via email." },
-    { title: "Visit Us", description: "Come to our clinic at 37 Lake Road, Frankton, Hamilton." },
-    { title: "Assessment", description: "Your comprehensive hearing assessment takes 60-90 minutes." },
-  ];
 
   const contactInfo = [
     {
@@ -94,33 +87,6 @@ export default function BookingPage() {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            {/* What to Expect */}
-            <div className="bg-card rounded-xl p-6 border border-border">
-              <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                <Info className="h-5 w-5 text-primary" />
-                What to Expect
-              </h3>
-              <div className="space-y-4">
-                {whatToExpect.map((item, index) => (
-                  <div key={index} className="flex gap-3">
-                    <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="text-xs font-semibold text-primary">
-                        {index + 1}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">
-                        {item.title}
-                      </p>
-                      <p className="text-xs text-muted mt-0.5">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Contact Info */}
             <div className="bg-card rounded-xl p-6 border border-border">
               <h3 className="font-semibold text-foreground mb-4">

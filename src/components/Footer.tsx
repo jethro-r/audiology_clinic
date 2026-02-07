@@ -8,6 +8,7 @@ import { type Service } from "@/lib/data";
 const quickLinks = [
   { name: "About Us", href: "/about" },
   { name: "Services", href: "/services" },
+  { name: "Hearing Aids", href: "/hearing-aids" },
   { name: "Our Team", href: "/team" },
   { name: "Resources", href: "/resources" },
   { name: "Contact", href: "/contact" },
