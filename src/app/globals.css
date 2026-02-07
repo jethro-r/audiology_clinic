@@ -72,9 +72,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Offset for anchor links targeting sections */
+/* Offset for anchor links targeting sections (navbar h-16 + buffer) */
 [id] {
-  scroll-margin-top: 120px;
+  scroll-margin-top: 100px;
 }
 
 /* Focus styles for accessibility */

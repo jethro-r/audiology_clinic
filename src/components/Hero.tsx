@@ -44,7 +44,7 @@ export default function Hero() {
           >
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
               <img
-                src="/images/image.png"
+                src="/images/hero-clinic.png"
                 alt="Veritas Hearing professional care"
                 className="absolute inset-0 w-full h-full object-cover"
               />
