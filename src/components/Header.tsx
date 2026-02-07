@@ -9,7 +9,7 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
-  { name: "Packages", href: "/packages" },
+  { name: "Book", href: "/booking" },
   { name: "Team", href: "/team" },
   { name: "Resources", href: "/resources" },
   { name: "Contact", href: "/contact" },
@@ -70,8 +70,8 @@ export default function Header() {
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link href="/contact">
-              <Button>Book Assessment</Button>
+            <Link href="/booking">
+              <Button>Book Now</Button>
             </Link>
           </div>
 
@@ -105,8 +105,8 @@ export default function Header() {
                 </Link>
               ))}
               <div className="border-t border-border pt-4">
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full">Book Assessment</Button>
+                <Link href="/booking" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full">Book Now</Button>
                 </Link>
               </div>
             </div>

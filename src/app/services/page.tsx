@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -14,7 +14,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import Button from "@/components/Button";
-import { getServices, type Service } from "@/lib/static-data";
+import { type Service } from "@/lib/data";
 import { PageHero, Section, CTASection } from "@/components/sections";
 
 // Icon mapping for dynamic icon rendering
@@ -27,7 +27,25 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export default function ServicesPage() {
-  const services = getServices();
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const res = await fetch('/api/services');
+        if (res.ok) {
+          const data = await res.json();
+          setServices(data);
+        }
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchServices();
+  }, []);
 
   return (
     <>
@@ -38,6 +56,11 @@ export default function ServicesPage() {
       />
 
       <Section variant="white">
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        ) : (
         <div className="space-y-16">
           {services.map((service, index) => {
             const IconComponent = iconMap[service.iconName] || Ear;
@@ -138,6 +161,7 @@ export default function ServicesPage() {
             );
           })}
         </div>
+        )}
       </Section>
 
       <CTASection

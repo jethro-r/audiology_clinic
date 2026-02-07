@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   FileText,
@@ -9,6 +10,7 @@ import {
 } from "lucide-react";
 import Badge from "@/components/Badge";
 import { PageHero, Section, SectionHeader } from "@/components/sections";
+import { type Article } from "@/lib/data";
 
 const firstVisitInfo = [
   {
@@ -50,34 +52,26 @@ const downloadableForms = [
   { name: "Financial Policy", type: "PDF" },
 ];
 
-const articles = [
-  {
-    title: "Understanding the Different Types of Hearing Loss",
-    excerpt:
-      "Learn about conductive, sensorineural, and mixed hearing loss, their causes, and treatment options.",
-    category: "Education",
-  },
-  {
-    title: "How to Choose the Right Hearing Aid for Your Lifestyle",
-    excerpt:
-      "A guide to selecting hearing aids based on your daily activities, preferences, and hearing needs.",
-    category: "Hearing Aids",
-  },
-  {
-    title: "Living with Tinnitus: Coping Strategies That Work",
-    excerpt:
-      "Practical tips and treatments for managing tinnitus and improving your quality of life.",
-    category: "Tinnitus",
-  },
-  {
-    title: "Protecting Your Hearing: A Complete Guide",
-    excerpt:
-      "Everything you need to know about preventing noise-induced hearing loss at home and work.",
-    category: "Prevention",
-  },
-];
-
 export default function ResourcesPage() {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const res = await fetch('/api/articles');
+        if (res.ok) {
+          const data = await res.json();
+          setArticles(data);
+        }
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchArticles();
+  }, []);
   return (
     <>
       <PageHero
@@ -86,7 +80,12 @@ export default function ResourcesPage() {
         description="Everything you need to know about your visit, insurance, and hearing health. We're here to make your experience as smooth as possible."
       />
       <Section variant="white">
-          {articles.map((article, index) => (
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        ) : (
+          articles.map((article, index) => (
             <motion.article
               key={article.title}
               initial={{ opacity: 0, y: 20 }}
@@ -103,7 +102,8 @@ export default function ResourcesPage() {
               </h3>
               <p className="text-muted">{article.excerpt}</p>
             </motion.article>
-          ))}
+          ))
+        )}
       </Section>
     </>
   );

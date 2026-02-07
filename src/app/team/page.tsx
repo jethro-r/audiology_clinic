@@ -1,29 +1,34 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import TeamMember from "@/components/TeamMember";
 import Button from "@/components/Button";
 import { PageHero, Section, SectionHeader, CTASection } from "@/components/sections";
-
-const teamMembers = [
-  {
-    name: "Paul Hsu",
-    title: "Founder & Audiologist",
-    credentials: "MNZAS | ACC Approved | Veteran Affairs Approved",
-    imageUrl: "/images/Paul Hsu.jpg",
-    bio: "At Veritas Hearing, I provide evidence-based, patient-focused hearing care tailored to your needs. From comprehensive hearing assessments to hearing aid fittings and long-term support, my goal is to help you achieve measurable improvements in everyday listening and communication. I combine advanced diagnostic tools, real-life outcome measures, premium hearing technologies, and personalised care plans to ensure every patient receives clear guidance and ongoing support.",
-    specialisations: [
-      "Comprehensive Hearing Assessments",
-      "Hearing Aid Fitting & Optimisation",
-      "Auditory Training (LACE AI)",
-      "Long-term Hearing Care",
-    ],
-  },
-];
+import { type TeamMember as TeamMemberType } from "@/lib/data";
 
 export default function TeamPage() {
+  const [teamMembers, setTeamMembers] = useState<TeamMemberType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchTeamMembers() {
+      try {
+        const res = await fetch('/api/team');
+        if (res.ok) {
+          const data = await res.json();
+          setTeamMembers(data);
+        }
+      } catch (error) {
+        console.error('Error fetching team members:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTeamMembers();
+  }, []);
   return (
     <>
       <PageHero
@@ -33,6 +38,11 @@ export default function TeamPage() {
       />
 
       <Section variant="white">
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        ) : (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -44,6 +54,7 @@ export default function TeamPage() {
             <TeamMember key={member.name} {...member} index={index} />
           ))}
         </motion.div>
+        )}
       </Section>
 
       <Section variant="cream" containerClassName="max-w-4xl">

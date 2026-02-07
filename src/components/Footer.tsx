@@ -1,13 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin } from "lucide-react";
-import { getServices } from "@/lib/static-data";
+import { type Service } from "@/lib/data";
 
 const quickLinks = [
   { name: "About Us", href: "/about" },
   { name: "Services", href: "/services" },
-  { name: "Packages", href: "/packages" },
+  { name: "Book Now", href: "/booking" },
   { name: "Our Team", href: "/team" },
   { name: "Resources", href: "/resources" },
   { name: "Contact", href: "/contact" },
@@ -15,7 +16,22 @@ const quickLinks = [
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const services = getServices({ footer: true });
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const res = await fetch('/api/services?footer=true');
+        if (res.ok) {
+          const data = await res.json();
+          setServices(data);
+        }
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      }
+    }
+    fetchServices();
+  }, []);
 
   return (
     <footer className="bg-primary-dark text-white/80">

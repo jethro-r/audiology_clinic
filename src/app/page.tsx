@@ -16,8 +16,8 @@ import Hero from "@/components/Hero";
 import ServiceCard from "@/components/ServiceCard";
 import Button from "@/components/Button";
 import { Section, SectionHeader, CTASection } from "@/components/sections";
-import { useState } from "react";
-import { getServices, type Service } from "@/lib/static-data";
+import { useState, useEffect } from "react";
+import { type Service } from "@/lib/data";
 
 const faqs = [
   {
@@ -59,7 +59,22 @@ const faqs = [
 
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const services = getServices({ homepage: true });
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const res = await fetch('/api/services?homepage=true');
+        if (res.ok) {
+          const data = await res.json();
+          setServices(data);
+        }
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      }
+    }
+    fetchServices();
+  }, []);
 
   return (
     <>
@@ -178,7 +193,7 @@ export default function HomePage() {
           <p className="text-muted max-w-3xl mx-auto mb-8">
             Every visit ensures personalised attention, expert fitting, and thorough verification — because your hearing health deserves nothing less.
           </p>
-          <Link href="/packages">
+          <Link href="/book">
             <Button variant="outline" size="lg" className="border-[var(--secondary)] text-[var(--secondary)] hover:bg-[var(--secondary)] hover:text-white">
               Explore Care Packages
               <ArrowRight className="ml-2 h-5 w-5" />

@@ -1,0 +1,78 @@
+// Prisma schema for Veritas Hearing Marketing Website
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Service model - Marketing services displayed on the website
+model Service {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  shortDescription String   @db.Text
+  fullDescription  String   @db.Text
+  iconName         String   // Lucide icon name (e.g., "Ear", "Headphones")
+  image            String?  // Optional image path
+  features         String[] // Array of feature strings
+  sortOrder        Int      @default(0)
+  showOnHomepage   Boolean  @default(true)
+  showInFooter     Boolean  @default(true)
+  buttonText       String?
+  idealFor         String?  @db.Text
+  note             String?  @db.Text
+  featureTooltips  Json?    // JSON object for feature tooltips
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([slug])
+  @@index([sortOrder])
+}
+
+// Team Member model
+model TeamMember {
+  id              String   @id @default(cuid())
+  slug            String   @unique // URL-friendly version of name
+  name            String
+  title           String
+  credentials     String?
+  imageUrl        String?
+  bio             String   @db.Text
+  specialisations String[] // Array of specialisation strings
+  email           String?
+  phone           String?
+  sortOrder       Int      @default(0)
+  active          Boolean  @default(true) // To show/hide team members
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+  @@index([sortOrder])
+  @@index([active])
+}
+
+// Article/Resource model
+model Article {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String   @db.Text
+  content     String?  @db.Text // Full article content (optional for now)
+  category    String
+  author      String?
+  imageUrl    String?
+  published   Boolean  @default(false)
+  publishedAt DateTime?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([category])
+  @@index([published])
+  @@index([publishedAt])
+}

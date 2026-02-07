@@ -7,10 +7,10 @@ import Badge from "./Badge";
 interface TeamMemberProps {
   name: string;
   title: string;
-  credentials: string;
+  credentials?: string | null;
   bio: string;
   specialisations: string[];
-  imageUrl?: string;
+  imageUrl?: string | null;
   index?: number;
 }
 
@@ -55,7 +55,7 @@ export default function TeamMember({
           {name}
         </h3>
         <p className="text-primary font-medium">{title}</p>
-        <p className="text-sm text-muted mb-3">{credentials}</p>
+        {credentials && <p className="text-sm text-muted mb-3">{credentials}</p>}
         <p className="text-muted text-sm mb-4">{bio}</p>
 
         {/* Specialisations */}
