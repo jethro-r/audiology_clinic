@@ -40,7 +40,7 @@ export default function ContactPage() {
       />
 
       <Section variant="white">
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -102,7 +102,7 @@ export default function ContactPage() {
               <h3 className="font-semibold text-foreground mb-4">
                 Find Us
               </h3>
-              <div className="aspect-[16/9] rounded-xl overflow-hidden">
+              <div className="aspect-[4/3] sm:aspect-[16/9] rounded-xl overflow-hidden">
                 <iframe
                   src="https://www.google.com/maps?q=37+Lake+Road+Frankton+Hamilton+3204+New+Zealand&output=embed"
                   width="100%"

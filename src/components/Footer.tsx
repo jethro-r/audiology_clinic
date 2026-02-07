@@ -35,8 +35,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-primary-dark text-white/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Clinic Info */}
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -138,7 +138,7 @@ export default function Footer() {
                 <Mail className="h-5 w-5 text-secondary flex-shrink-0" />
                 <a
                   href="mailto:info@veritashearing.co.nz"
-                  className="text-sm hover:text-secondary transition-colors"
+                  className="text-sm hover:text-secondary transition-colors break-all"
                 >
                   info@veritashearing.co.nz
                 </a>
@@ -156,8 +156,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-white/60">
+        <div className="border-t border-white/10 mt-8 pt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+          <p className="text-sm text-white/60 text-center sm:text-left">
             © {currentYear} Veritas Hearing. All rights reserved.
           </p>
           

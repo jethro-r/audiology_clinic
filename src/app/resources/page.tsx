@@ -85,14 +85,15 @@ export default function ResourcesPage() {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
         ) : (
-          articles.map((article, index) => (
+          <div className="grid gap-4 sm:gap-6">
+          {articles.map((article, index) => (
             <motion.article
               key={article.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-card rounded-xl p-6 hover:shadow-md transition-shadow cursor-pointer"
+              className="bg-card rounded-xl p-5 sm:p-6 hover:shadow-md transition-shadow cursor-pointer"
             >
               <Badge variant="primary" className="mb-3">
                 {article.category}
@@ -102,7 +103,8 @@ export default function ResourcesPage() {
               </h3>
               <p className="text-muted">{article.excerpt}</p>
             </motion.article>
-          ))
+          ))}
+          </div>
         )}
       </Section>
     </>

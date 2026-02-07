@@ -204,7 +204,7 @@ export default function TeamManager() {
 
       {/* Form */}
       {showForm && (
-        <div className="bg-card rounded-xl border border-border p-8 mb-8 shadow-sm">
+        <div className="bg-card rounded-xl border border-border p-4 sm:p-6 lg:p-8 mb-8 shadow-sm">
           <h3 className="text-lg font-semibold text-foreground mb-6">
             {editing ? "Edit Team Member" : "New Team Member"}
           </h3>
@@ -352,7 +352,8 @@ export default function TeamManager() {
 
       {/* Table */}
       <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
-        <table className="w-full">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[500px]">
           <thead className="bg-background border-b border-border">
             <tr>
               <th className="text-left text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5">Member</th>
@@ -411,6 +412,7 @@ export default function TeamManager() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

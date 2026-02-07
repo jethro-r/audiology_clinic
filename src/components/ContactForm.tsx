@@ -127,7 +127,7 @@ export default function ContactForm() {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className={`w-full px-4 py-2.5 rounded-lg border ${
+          className={`w-full px-4 py-3 rounded-lg border text-base ${
             errors.name ? "border-[var(--error)]" : "border-border"
           } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors`}
           placeholder="John Doe"
@@ -151,7 +151,7 @@ export default function ContactForm() {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className={`w-full px-4 py-2.5 rounded-lg border ${
+          className={`w-full px-4 py-3 rounded-lg border text-base ${
             errors.email ? "border-[var(--error)]" : "border-border"
           } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors`}
           placeholder="john@example.com"
@@ -175,7 +175,7 @@ export default function ContactForm() {
           name="phone"
           value={formData.phone}
           onChange={handleChange}
-          className={`w-full px-4 py-2.5 rounded-lg border ${
+          className={`w-full px-4 py-3 rounded-lg border text-base ${
             errors.phone ? "border-[var(--error)]" : "border-border"
           } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors`}
           placeholder="021 123 4567"
@@ -198,7 +198,7 @@ export default function ContactForm() {
           name="service"
           value={formData.service}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white"
+          className="w-full px-4 py-3 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors bg-white text-base"
         >
           <option value="">Select a service (optional)</option>
           {serviceNames.map((service) => (
@@ -223,7 +223,7 @@ export default function ContactForm() {
           value={formData.message}
           onChange={handleChange}
           rows={5}
-          className={`w-full px-4 py-2.5 rounded-lg border ${
+          className={`w-full px-4 py-3 rounded-lg border text-base ${
             errors.message ? "border-[var(--error)]" : "border-border"
           } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none`}
           placeholder="How can we help you?"

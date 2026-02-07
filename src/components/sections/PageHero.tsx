@@ -31,9 +31,9 @@ export default function PageHero({
   if (image) {
     // Layout with image on the right
     return (
-      <section className={`pt-12 pb-20 bg-primary ${className}`}>
+      <section className={`pt-8 sm:pt-12 pb-14 sm:pb-20 bg-primary ${className}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -42,7 +42,7 @@ export default function PageHero({
               <Badge variant="outline-primary" className="mb-4">
                 {badge}
               </Badge>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
                 {title}
               </h1>
               {description && (
@@ -72,7 +72,7 @@ export default function PageHero({
 
   // Default centered layout without image
   return (
-    <section className={`pt-12 pb-20 bg-primary ${className}`}>
+    <section className={`pt-8 sm:pt-12 pb-14 sm:pb-20 bg-primary ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -83,7 +83,7 @@ export default function PageHero({
           <Badge variant="outline-primary" className="mb-4">
             {badge}
           </Badge>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
             {title}
           </h1>
           {description && (

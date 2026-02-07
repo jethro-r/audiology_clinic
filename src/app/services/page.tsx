@@ -73,13 +73,13 @@ export default function ServicesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className={`grid lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
+                className={`grid lg:grid-cols-2 gap-6 lg:gap-12 items-center ${
                   index % 2 === 1 ? "lg:flex-row-reverse" : ""
                 }`}
               >
                 {/* Content */}
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-4">
                     {service.title}
                   </h2>
                   <p className="text-muted mb-6">

@@ -128,7 +128,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         </header>
 
         {/* Page content */}
-        <main className="p-6 lg:p-10">
+        <main className="p-4 sm:p-6 lg:p-10">
           <div className="max-w-5xl">
             {activeTab === "services" && <ServicesManager />}
             {activeTab === "team" && <TeamManager />}

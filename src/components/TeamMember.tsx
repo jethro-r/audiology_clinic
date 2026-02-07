@@ -50,8 +50,8 @@ export default function TeamMember({
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-foreground">
+      <div className="p-4 sm:p-6">
+        <h3 className="text-lg sm:text-xl font-semibold text-foreground">
           {name}
         </h3>
         <p className="text-primary font-medium">{title}</p>

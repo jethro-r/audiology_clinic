@@ -99,8 +99,8 @@ export default function AboutPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary rounded-2xl mb-6">
             <Heart className="h-8 w-8 text-white" />
           </div>
-          <h2 className="text-3xl font-bold text-primary mb-4">Our Mission</h2>
-          <p className="text-xl text-muted max-w-2xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-4">Our Mission</h2>
+          <p className="text-lg sm:text-xl text-muted max-w-2xl mx-auto">
             To provide honest, evidence-based hearing care that prioritises long-term outcomes, clear communication, and measurable results.
           </p>
         </motion.div>
@@ -134,7 +134,7 @@ export default function AboutPage() {
           title="Certifications & Accreditation"
           description="Professional credentials ensuring the highest standard of care."
         />
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
           {certifications.map((cert, index) => (
             <motion.div
               key={cert.title}
@@ -159,7 +159,7 @@ export default function AboutPage() {
       </Section>
 
       <Section variant="white">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Image placeholder */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -184,10 +184,10 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold text-primary mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-8">
               Why Choose Veritas Hearing?
             </h2>
-            <ul className="space-y-5">
+            <ul className="space-y-4 sm:space-y-5">
               {whyChooseUs.map((item, index) => (
                 <motion.li
                   key={item.title}
@@ -198,13 +198,13 @@ export default function AboutPage() {
                   className="flex items-start gap-3"
                 >
                   <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                  <div className="relative group cursor-help">
-                    <span className="font-semibold text-primary border-b-2 border-primary/20 hover:border-primary transition-colors">
+                  <div>
+                    <span className="font-semibold text-primary">
                       {item.title}
                     </span>
-                    <div className="absolute left-0 top-full mt-2 w-64 bg-primary text-white text-sm p-3 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                    <p className="text-sm text-muted mt-1">
                       {item.description}
-                    </div>
+                    </p>
                   </div>
                 </motion.li>
               ))}

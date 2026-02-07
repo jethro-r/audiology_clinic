@@ -39,14 +39,14 @@ export default function HearingAidsPage() {
 
       {/* Are hearing aids right for you? */}
       <Section variant="white">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold text-foreground mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
               Are hearing aids right for you?
             </h2>
             <div className="prose prose-slate max-w-none">
@@ -63,7 +63,7 @@ export default function HearingAidsPage() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="relative h-80 lg:h-full rounded-2xl overflow-hidden"
+            className="relative h-56 sm:h-80 lg:h-full rounded-2xl overflow-hidden"
           >
             <Image
               src="/images/iStock-2225701270.jpg"
@@ -84,18 +84,18 @@ export default function HearingAidsPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Shield className="w-16 h-16 text-secondary mx-auto mb-6" />
-            <h2 className="text-3xl font-bold text-white mb-6">
+            <Shield className="w-12 h-12 sm:w-16 sm:h-16 text-secondary mx-auto mb-4 sm:mb-6" />
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">
               Our approach to hearing aids
             </h2>
-            <p className="text-xl text-white/90 leading-relaxed mb-8">
+            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-6 sm:mb-8">
               Veritas Hearing is an independent clinic. This means recommendations are based on your hearing, your ears, and your lifestyle — not sales targets or brand preferences.
             </p>
             <p className="text-lg text-white/80 leading-relaxed mb-8">
               We work with leading hearing aid manufacturers and focus on fitting hearing aids properly, verifying their performance, and supporting you over time.
             </p>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 inline-block">
-              <p className="text-white text-lg font-semibold">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-8 inline-block">
+              <p className="text-white text-base sm:text-lg font-semibold">
                 Every client who proceeds with hearing aids receives the same professional standard of care, regardless of the technology chosen.
               </p>
             </div>
@@ -116,7 +116,7 @@ export default function HearingAidsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-border"
+            className="bg-white rounded-2xl p-6 sm:p-8 md:p-12 shadow-sm border border-border"
           >
             <p className="text-primary text-lg leading-relaxed mb-8">
               When you decide to proceed with hearing aids, your care does not stop at the fitting appointment. Ongoing support is a core part of how Veritas Hearing operates.
@@ -203,7 +203,7 @@ export default function HearingAidsPage() {
 
       {/* Auditory training */}
       <Section variant="cream">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -252,7 +252,7 @@ export default function HearingAidsPage() {
             viewport={{ once: true }}
             className="order-1 lg:order-2 flex items-center justify-center"
           >
-            <div className="relative w-64 h-64">
+            <div className="relative w-40 h-40 sm:w-64 sm:h-64">
               <Image
                 src="/images/lace-ai-pro-logo.fbc9918a6dfb81eec9410b07597aef44.png"
                 alt="LACE AI Auditory Training"
@@ -266,14 +266,14 @@ export default function HearingAidsPage() {
 
       {/* Moisture protection */}
       <Section variant="white">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="relative h-80 lg:h-96 rounded-2xl overflow-hidden mb-6">
+            <div className="relative h-56 sm:h-80 lg:h-96 rounded-2xl overflow-hidden mb-6">
               <Image
                 src="/images/ReduxPro_FeatureImages1.jpg"
                 alt="Redux Professional moisture removal system"
@@ -329,11 +329,11 @@ export default function HearingAidsPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Award className="w-16 h-16 text-secondary mx-auto mb-6" />
-            <h2 className="text-3xl font-bold text-white mb-6">
+            <Award className="w-12 h-12 sm:w-16 sm:h-16 text-secondary mx-auto mb-4 sm:mb-6" />
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6">
               A calm, transparent process
             </h2>
-            <p className="text-xl text-white/90 leading-relaxed mb-8">
+            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-6 sm:mb-8">
               We understand that choosing hearing aids can feel overwhelming. Appointments at Veritas Hearing are unhurried, pressure‑free, and focused on clarity.
             </p>
             <p className="text-lg text-white/80 leading-relaxed mb-8">
@@ -357,10 +357,10 @@ export default function HearingAidsPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold text-foreground mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
               Take the next step
             </h2>
-            <p className="text-xl text-primary leading-relaxed mb-8">
+            <p className="text-lg sm:text-xl text-primary leading-relaxed mb-6 sm:mb-8">
               If you are considering hearing aids, the best place to start is a comprehensive hearing assessment.
             </p>
             <p className="text-lg text-primary mb-8">

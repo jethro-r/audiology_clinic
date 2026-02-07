@@ -61,7 +61,7 @@ export default function HomePage() {
           title="Comprehensive Hearing Care"
           description="From diagnostic evaluations to advanced hearing solutions, we provide complete audiological care to help you hear your best."
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {services.map((service, index) => (
             <ServiceCard
               key={service.id}
@@ -96,7 +96,7 @@ export default function HomePage() {
           title="Our Promise"
           variant="dark"
         />
-        <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -170,9 +170,9 @@ export default function HomePage() {
             >
               <button
                 onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                className="w-full flex items-center justify-between p-4 text-left bg-white hover:bg-card transition-colors"
+                className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-white hover:bg-card transition-colors gap-4"
               >
-                <span className="font-medium text-foreground">
+                <span className="font-medium text-foreground text-sm sm:text-base">
                   {faq.question}
                 </span>
                 <ChevronDown
@@ -182,7 +182,7 @@ export default function HomePage() {
                 />
               </button>
               {openFaq === index && (
-                <div className="px-4 pb-4 text-muted">
+                <div className="px-4 sm:px-5 pb-4 text-muted text-sm sm:text-base">
                   {faq.answer}
                 </div>
               )}

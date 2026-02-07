@@ -57,14 +57,14 @@ export default function BookingPage() {
 
       {/* Booking Widget + Sidebar */}
       <Section variant="white">
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-start">
           {/* Booking Iframe */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="lg:col-span-2 bg-card rounded-2xl p-4 border border-border shadow-sm flex flex-col min-h-[800px]"
+            className="lg:col-span-2 bg-card rounded-2xl p-3 sm:p-4 border border-border shadow-sm flex flex-col min-h-[500px] sm:min-h-[800px]"
           >
             <iframe
               ref={iframeRef}
@@ -74,8 +74,8 @@ export default function BookingPage() {
               scrolling="auto"
               width="100%"
               height="100%"
-              style={{ pointerEvents: "auto", flex: 1, minHeight: "800px" }}
-              className="w-full rounded-xl"
+              style={{ pointerEvents: "auto", flex: 1, minHeight: "500px" }}
+              className="w-full rounded-xl sm:min-h-[800px]"
             />
           </motion.div>
 

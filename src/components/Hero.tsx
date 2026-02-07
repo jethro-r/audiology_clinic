@@ -7,20 +7,20 @@ import Button from "./Button";
 
 export default function Hero() {
   return (
-    <section className="relative bg-primary pt-8 pb-16 lg:pt-12 lg:pb-24">
+    <section className="relative bg-primary pt-6 pb-12 sm:pt-8 sm:pb-16 lg:pt-12 lg:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-3xl lg:text-4xl font-bold text-white leading-tight mb-6">
-              Independent hearing care, <br />
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4 sm:mb-6">
+              Independent hearing care, <br className="hidden sm:block" />
               <span className="text-secondary">delivered with integrity</span>
             </h1>
-            <p className="text-lg text-white/80 mb-8 max-w-xl">
+            <p className="text-base sm:text-lg text-white/80 mb-6 sm:mb-8 max-w-xl">
               Veritas Hearing is a locally owned clinic providing high-standard, independent audiology care. We offer precise diagnostics, access to leading hearing technologies, and ongoing support — with transparent, ethical pricing and recommendations made solely in your best interest.
             </p>
 
