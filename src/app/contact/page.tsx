@@ -97,24 +97,33 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Map Placeholder */}
+            {/* Google Maps Embed */}
             <div>
               <h3 className="font-semibold text-foreground mb-4">
                 Find Us
               </h3>
-              <div className="aspect-[16/9] bg-card rounded-xl overflow-hidden">
-                <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                  <div className="text-center">
-                    <MapPin className="h-12 w-12 text-primary/50 mx-auto mb-2" />
-                    <p className="text-muted text-sm">
-                      Google Maps would be embedded here
-                    </p>
-                    <p className="text-muted text-xs mt-1">
-                      37 Lake Road, Frankton, Hamilton
-                    </p>
-                  </div>
-                </div>
+              <div className="aspect-[16/9] rounded-xl overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps?q=37+Lake+Road+Frankton+Hamilton+3204+New+Zealand&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Veritas Hearing Location - 37 Lake Road, Frankton, Hamilton"
+                  className="w-full h-full"
+                />
               </div>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=37+Lake+Road+Frankton+Hamilton+3204+New+Zealand"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-primary hover:underline mt-3 text-sm"
+              >
+                <MapPin className="h-4 w-4" />
+                Open in Google Maps
+              </a>
             </div>
 
             {/* Parking Instructions */}

@@ -11,10 +11,15 @@ export default function ConditionalLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  if (isAdmin) {
+    return <>{children}</>;
+  }
 
   return (
     <>
