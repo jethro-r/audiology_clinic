@@ -76,3 +76,17 @@ model Article {
   @@index([published])
   @@index([publishedAt])
 }
+
+// FAQ model
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+  @@index([active])
+}

@@ -10,6 +10,7 @@ async function main() {
   await prisma.article.deleteMany();
   await prisma.teamMember.deleteMany();
   await prisma.service.deleteMany();
+  await prisma.faq.deleteMany();
 
   // Seed Services
   console.log('Seeding services...');
@@ -179,6 +180,63 @@ async function main() {
     ],
   });
   console.log(`✅ Created ${articles.count} articles`);
+
+  // Seed FAQs
+  console.log('Seeding FAQs...');
+  const faqs = await prisma.faq.createMany({
+    data: [
+      {
+        question: 'What should I expect at my first appointment?',
+        answer:
+          'Your first visit includes a comprehensive hearing assessment, discussion of your concerns, and clear guidance on suitable solutions tailored to your needs.',
+        sortOrder: 1,
+        active: true,
+      },
+      {
+        question: 'How do I know if I need a hearing test?',
+        answer:
+          'If you notice difficulty following conversations, frequently ask people to repeat themselves, or struggle in noisy environments, a hearing test can provide clarity and peace of mind.',
+        sortOrder: 2,
+        active: true,
+      },
+      {
+        question: 'Why choose an independent audiologist?',
+        answer:
+          'As an independent clinic, we provide unbiased advice and recommendations, focusing solely on your hearing needs rather than promoting specific brands or products.',
+        sortOrder: 3,
+        active: true,
+      },
+      {
+        question: 'What type of hearing aids do you offer?',
+        answer:
+          'We offer a range of hearing aids across multiple tiers chosen to suit your lifestyle, preferences, and hearing requirements.',
+        sortOrder: 4,
+        active: true,
+      },
+      {
+        question: 'How much do hearing aids cost?',
+        answer:
+          'Hearing aid costs vary by technology and package. We provide clear, tiered options with transparent pricing to help you make informed decisions.',
+        sortOrder: 5,
+        active: true,
+      },
+      {
+        question: 'Is there a trial period for hearing aids?',
+        answer:
+          'Yes. We offer a trial period so you can experience your hearing aids in real-life situations before making a final decision.',
+        sortOrder: 6,
+        active: true,
+      },
+      {
+        question: 'How often should I have a hearing check?',
+        answer:
+          'Regular hearing checks are recommended at least once a year, or sooner if you notice changes, to ensure your hearing remains optimised.',
+        sortOrder: 7,
+        active: true,
+      },
+    ],
+  });
+  console.log(`✅ Created ${faqs.count} FAQs`);
 
   console.log('✅ Database seeding completed successfully!');
 }

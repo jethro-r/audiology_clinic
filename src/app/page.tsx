@@ -17,61 +17,37 @@ import { Section, SectionHeader, CTASection } from "@/components/sections";
 import { useState, useEffect } from "react";
 import { type Service } from "@/lib/data";
 
-const faqs = [
-  {
-    question: "What should I expect at my first appointment?",
-    answer:
-      "Your first visit includes a comprehensive hearing assessment, discussion of your concerns, and clear guidance on suitable solutions tailored to your needs.",
-  },
-  {
-    question: "How do I know if I need a hearing test?",
-    answer:
-      "If you notice difficulty following conversations, frequently ask people to repeat themselves, or struggle in noisy environments, a hearing test can provide clarity and peace of mind.",
-  },
-  {
-    question: "Why choose an independent audiologist?",
-    answer:
-      "As an independent clinic, we provide unbiased advice and recommendations, focusing solely on your hearing needs rather than promoting specific brands or products.",
-  },
-  {
-    question: "What type of hearing aids do you offer?",
-    answer:
-      "We offer a range of hearing aids across essential, standard, and premium tiers, chosen to suit your lifestyle, preferences, and hearing requirements.",
-  },
-  {
-    question: "How much do hearing aids cost?",
-    answer:
-      "Hearing aid costs vary by technology and package. We provide clear, tiered options with transparent pricing to help you make informed decisions.",
-  },
-  {
-    question: "Is there a trial period for hearing aids?",
-    answer:
-      "Yes. We offer a trial period so you can experience your hearing aids in real-life situations before making a final decision.",
-  },
-  {
-    question: "How often should I have a hearing check?",
-    answer:
-      "Regular hearing checks are recommended at least once a year, or sooner if you notice changes, to ensure your hearing remains optimised.",
-  },
-];
+interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+}
 
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [services, setServices] = useState<Service[]>([]);
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
 
   useEffect(() => {
-    async function fetchServices() {
+    async function fetchData() {
       try {
-        const res = await fetch('/api/services?homepage=true');
-        if (res.ok) {
-          const data = await res.json();
+        const [servicesRes, faqsRes] = await Promise.all([
+          fetch('/api/services?homepage=true'),
+          fetch('/api/faqs'),
+        ]);
+        if (servicesRes.ok) {
+          const data = await servicesRes.json();
           setServices(data);
         }
+        if (faqsRes.ok) {
+          const data = await faqsRes.json();
+          setFaqs(data);
+        }
       } catch (error) {
-        console.error('Error fetching services:', error);
+        console.error('Error fetching data:', error);
       }
     }
-    fetchServices();
+    fetchData();
   }, []);
 
   return (
