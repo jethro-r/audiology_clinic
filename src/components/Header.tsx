@@ -9,7 +9,6 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
-  { name: "Book", href: "/booking" },
   { name: "Team", href: "/team" },
   { name: "Resources", href: "/resources" },
   { name: "Contact", href: "/contact" },
@@ -71,7 +70,7 @@ export default function Header() {
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
             <Link href="/booking">
-              <Button>Book Now</Button>
+              <Button>Book Assessment</Button>
             </Link>
           </div>
 
