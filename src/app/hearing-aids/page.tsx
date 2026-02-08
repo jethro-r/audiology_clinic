@@ -19,21 +19,50 @@ export default function HearingAidsPage() {
 
       {/* Introduction */}
       <Section variant="cream">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="prose prose-lg max-w-none"
+            className="text-center mb-12"
           >
-            <p className="text-xl text-primary leading-relaxed mb-6">
-              Hearing aids are not just devices. They are part of an ongoing process of understanding your hearing, supporting your ears, and helping you stay connected to the people and sounds that matter to you.
-            </p>
-            <p className="text-primary leading-relaxed mb-6">
-              At Veritas Hearing, hearing aids are fitted with care, precision, and honesty. There are no tiers, no packages, and no shortcuts — everyone who chooses hearing aids through Veritas receives the same high standard of professional care.
-            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">
+              Hearing aids at Veritas Hearing
+            </h2>
           </motion.div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="prose prose-lg max-w-none"
+            >
+              <p className="text-xl text-primary leading-relaxed mb-6">
+                Hearing aids are not just devices. They are part of how your brain reconnects with sound and meaning.
+              </p>
+              <p className="text-primary leading-relaxed">
+                At Veritas Hearing, every recommendation is made with care, precision, and independence — ensuring your solution is appropriate for your hearing today and considered for the years ahead.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="flex justify-center"
+            >
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 bg-white rounded-2xl p-8 shadow-sm border border-border">
+                <Image
+                  src="/images/ph-packshot-audeo-i-r-p7-pair-without-receiver.png"
+                  alt="Phonak Audéo hearing aids"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </motion.div>
+          </div>
         </div>
       </Section>
 
@@ -146,12 +175,12 @@ export default function HearingAidsPage() {
         </div>
       </Section>
 
-      {/* Looking after your hearing aids */}
+      {/* Ongoing care and service */}
       <Section variant="white">
         <div className="max-w-4xl mx-auto">
           <SectionHeader
             label="Ongoing Care"
-            title="Looking after your hearing aids"
+            title="Ongoing care and service"
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -160,19 +189,20 @@ export default function HearingAidsPage() {
             viewport={{ once: true }}
             className="prose prose-slate max-w-none mb-8"
           >
-            <p className="text-xl text-primary leading-relaxed">
-              Hearing aids work best when they are well maintained and your ears are healthy.
+            <p className="text-xl text-primary leading-relaxed mb-6">
+              Hearing and hearing aid performance change over time. Exposure to moisture, dust, and daily use can affect how devices function. Ongoing care at Veritas Hearing ensures consistent review, precise adjustment, and long-term support.
             </p>
-            <p className="text-primary leading-relaxed">
+            <p className="text-primary leading-relaxed mb-6">
               Veritas Hearing provides ongoing care to help keep your hearing aids performing as they should, including:
             </p>
           </motion.div>
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             {[
-              { title: "Routine checks", desc: "Regular checks and adjustments" },
-              { title: "Cleaning & care", desc: "Cleaning and maintenance advice" },
-              { title: "Ear health", desc: "Ear health reviews and wax management when required" },
-              { title: "Long-term support", desc: "Support if your hearing changes over time" },
+              { title: "Routine hearing tests and adjustments", desc: "Regular reviews to ensure optimal performance" },
+              { title: "Electronic device checks", desc: "Regular device electronic check against manufacturer specifications" },
+              { title: "Ear wax management", desc: "Professional ear wax management when required" },
+              { title: "Redux moisture removal", desc: "Advanced moisture removal technology to protect your devices" },
+              { title: "LACE AI auditory training", desc: "When indicated, to help improve speech understanding" },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -361,7 +391,7 @@ export default function HearingAidsPage() {
               Take the next step
             </h2>
             <p className="text-lg sm:text-xl text-primary leading-relaxed mb-6 sm:mb-8">
-              If you are considering hearing aids, the best place to start is a comprehensive hearing assessment.
+              If you are considering hearing aids, the best place to start is a comprehensive hearing assessment or a hearing aid discussion.
             </p>
             <p className="text-lg text-primary mb-8">
               To book an appointment or speak with us, please contact Veritas Hearing.
