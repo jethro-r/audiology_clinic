@@ -32,7 +32,7 @@ export default function TeamPage() {
   return (
     <>
       <PageHero
-        badge="About Me"
+        badge="Your Audiologist"
         title="Meet Your Audiologist"
         description="At Veritas Hearing, you'll always see the same person—me. I believe continuity of care leads to better outcomes and a more comfortable experience for you."
       />
@@ -43,17 +43,36 @@ export default function TeamPage() {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
         ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {teamMembers.map((member, index) => (
-            <TeamMember key={member.name} {...member} index={index} />
-          ))}
-        </motion.div>
+          <>
+            {/* Primary audiologist - centered */}
+            {teamMembers.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="flex justify-center mb-12"
+              >
+                <div className="w-full max-w-md">
+                  <TeamMember {...teamMembers[0]} index={0} />
+                </div>
+              </motion.div>
+            )}
+            {/* Additional team members */}
+            {teamMembers.length > 1 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {teamMembers.slice(1).map((member, index) => (
+                  <TeamMember key={member.name} {...member} index={index + 1} />
+                ))}
+              </motion.div>
+            )}
+          </>
         )}
       </Section>
 
