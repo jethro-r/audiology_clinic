@@ -1,37 +1,47 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import AdminLogin from "./components/AdminLogin";
-import AdminDashboard from "./components/AdminDashboard";
 
 export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const router = useRouter();
+  const isMounted = useRef(true);
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  async function checkAuth() {
+  const checkAuth = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/auth");
+      const res = await fetch("/api/admin/auth", {
+        cache: "no-store",
+      });
+      
+      if (!isMounted.current) return;
+
       if (res.ok) {
         setAuthenticated(true);
+        // Redirect to services page when authenticated
+        router.push("/admin/services");
       } else {
         setAuthenticated(false);
       }
     } catch {
-      setAuthenticated(false);
+      if (isMounted.current) {
+        setAuthenticated(false);
+      }
     }
-  }
+  }, [router]);
 
-  async function handleLogout() {
-    await fetch("/api/admin/auth", { method: "DELETE" });
-    setAuthenticated(false);
-  }
+  useEffect(() => {
+    checkAuth();
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, [checkAuth]);
 
   if (authenticated === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
       </div>
     );
@@ -41,5 +51,6 @@ export default function AdminPage() {
     return <AdminLogin onSuccess={() => setAuthenticated(true)} />;
   }
 
-  return <AdminDashboard onLogout={handleLogout} />;
+  // This should not be reached due to redirect
+  return null;
 }

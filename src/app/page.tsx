@@ -15,13 +15,7 @@ import ServiceCard from "@/components/ServiceCard";
 import Button from "@/components/Button";
 import { Section, SectionHeader, CTASection } from "@/components/sections";
 import { useState, useEffect } from "react";
-import { type Service } from "@/lib/data";
-
-interface FAQ {
-  id: string;
-  question: string;
-  answer: string;
-}
+import { type Service, type FAQ } from "@/lib/data";
 
 export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);

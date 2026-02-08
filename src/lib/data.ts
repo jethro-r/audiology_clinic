@@ -50,6 +50,16 @@ export interface Article {
   sortOrder: number;
 }
 
+export interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  sortOrder: number;
+  active: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // Fetch services with caching
 export const getServices = unstable_cache(
   async (options: { homepage?: boolean; footer?: boolean } = {}): Promise<Service[]> => {

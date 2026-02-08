@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
+    const type = (formData.get('type') as string) || 'articles'; // articles, services, team
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
@@ -32,6 +33,10 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate type
+    const validTypes = ['articles', 'services', 'team'];
+    const folderType = validTypes.includes(type) ? type : 'articles';
+
     // Generate unique filename
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
     const timestamp = Date.now();
@@ -42,8 +47,8 @@ export async function POST(request: Request) {
       .substring(0, 50);
     const filename = `${safeName}-${timestamp}.${ext}`;
 
-    // Ensure articles directory exists
-    const uploadDir = path.join(process.cwd(), 'public', 'images', 'articles');
+    // Ensure directory exists
+    const uploadDir = path.join(process.cwd(), 'public', 'images', folderType);
     await mkdir(uploadDir, { recursive: true });
 
     // Write file
@@ -51,7 +56,7 @@ export async function POST(request: Request) {
     const filePath = path.join(uploadDir, filename);
     await writeFile(filePath, buffer);
 
-    const url = `/images/articles/${filename}`;
+    const url = `/images/${folderType}/${filename}`;
     return NextResponse.json({ url, filename });
   } catch (error) {
     console.error('Error uploading file:', error);

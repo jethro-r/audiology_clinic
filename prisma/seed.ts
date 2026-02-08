@@ -11,6 +11,7 @@ async function main() {
   await prisma.teamMember.deleteMany();
   await prisma.service.deleteMany();
   await prisma.faq.deleteMany();
+  await prisma.setting.deleteMany();
 
   // Seed Services
   console.log('Seeding services...');
@@ -237,6 +238,18 @@ async function main() {
     ],
   });
   console.log(`✅ Created ${faqs.count} FAQs`);
+
+  // Seed Settings
+  console.log('Seeding settings...');
+  await prisma.setting.upsert({
+    where: { key: 'contactEmail' },
+    update: { value: 'info@veritashearing.co.nz' },
+    create: {
+      key: 'contactEmail',
+      value: 'info@veritashearing.co.nz',
+    },
+  });
+  console.log('✅ Created settings');
 
   console.log('✅ Database seeding completed successfully!');
 }

@@ -15,10 +15,12 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.1.0",
+    "@types/nodemailer": "^7.0.9",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
     "next": "16.0.10",
+    "nodemailer": "^8.0.1",
     "react": "19.2.1",
     "react-dom": "19.2.1"
   },

@@ -90,3 +90,13 @@ model Faq {
   @@index([sortOrder])
   @@index([active])
 }
+
+// Settings model - Site-wide configuration
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+}

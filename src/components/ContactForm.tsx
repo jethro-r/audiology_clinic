@@ -21,9 +21,6 @@ interface FormErrors {
   message?: string;
 }
 
-// TODO: Replace with your Formspree form ID or other form service
-const FORMSPREE_FORM_ID = "your-form-id-here";
-
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -71,13 +68,11 @@ export default function ContactForm() {
     setStatus("loading");
 
     try {
-      // Using Formspree for form submission
-      // Replace with your actual form service or configure accordingly
-      const response = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
+      // Using internal API route for form submission
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify(formData),
       });
