@@ -8,8 +8,8 @@ WORKDIR /app
 # Copy package files first (better caching)
 COPY package.json package-lock.json* ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (skip postinstall - Prisma will be generated later)
+RUN npm ci --ignore-scripts
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -23,6 +23,10 @@ COPY next.config.ts ./
 COPY tsconfig.json ./
 COPY postcss.config.mjs ./
 COPY package.json ./
+COPY prisma ./prisma
+
+# Generate Prisma client
+RUN npx prisma generate
 
 # Build the application
 ENV NEXT_TELEMETRY_DISABLED=1
