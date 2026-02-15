@@ -10,6 +10,7 @@ interface PageHeroProps {
   description?: string;
   image?: string;
   className?: string;
+  children?: React.ReactNode;
 }
 
 /**
@@ -27,6 +28,7 @@ export default function PageHero({
   description,
   image,
   className = "",
+  children,
 }: PageHeroProps) {
   if (image) {
     // Layout with image on the right
@@ -48,6 +50,7 @@ export default function PageHero({
               {description && (
                 <p className="text-lg text-white/70">{description}</p>
               )}
+              {children}
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -89,6 +92,7 @@ export default function PageHero({
           {description && (
             <p className="text-lg text-white/70">{description}</p>
           )}
+          {children}
         </motion.div>
       </div>
     </section>
