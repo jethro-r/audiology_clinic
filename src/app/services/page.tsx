@@ -10,12 +10,12 @@ import {
   Shield,
   Wrench,
   ArrowRight,
-  Clock,
   CheckCircle,
   LucideIcon,
 } from "lucide-react";
 import Button from "@/components/Button";
-import { Service } from "@/lib/services";
+import { type Service } from "@/lib/data";
+import { PageHero, Section, CTASection } from "@/components/sections";
 
 // Icon mapping for dynamic icon rendering
 const iconMap: Record<string, LucideIcon> = {
@@ -28,143 +28,151 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/services")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
+    async function fetchServices() {
+      try {
+        const res = await fetch('/api/services');
+        if (res.ok) {
+          const data = await res.json();
           setServices(data);
         }
-      })
-      .catch(() => {});
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchServices();
   }, []);
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-card to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-              Our Services
-            </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
-              Comprehensive Hearing Care Services
-            </h1>
-            <p className="text-lg text-muted">
-              From diagnostic evaluations to advanced hearing solutions, we
-              provide complete audiological care using the latest technology and
-              evidence-based practices.
-            </p>
+      <PageHero
+        badge="Our Services"
+        title="Comprehensive Hearing Care Services"
+        description="From diagnostic evaluations to advanced hearing solutions, we provide complete audiological care using the latest technology and evidence-based practices."
+      />
+
+      <Section variant="white">
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
-        </div>
-      </section>
+        ) : (
+        <div className="space-y-16">
+          {services.map((service, index) => {
+            const IconComponent = iconMap[service.iconName] || Ear;
 
-      {/* Services List */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-16">
-            {services.map((service, index) => {
-              const IconComponent = iconMap[service.iconName] || Ear;
+            return (
+              <motion.div
+                key={service.id}
+                id={service.slug}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className={`grid lg:grid-cols-2 gap-6 lg:gap-12 items-center ${
+                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                }`}
+              >
+                {/* Content */}
+                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-4">
+                    {service.title}
+                  </h2>
+                  <p className="text-muted mb-6">
+                    {service.fullDescription}
+                  </p>
 
-              return (
-                <motion.div
-                  key={service.id}
-                  id={service.slug}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  viewport={{ once: true }}
-                  className={`grid lg:grid-cols-2 gap-8 lg:gap-12 items-center ${
-                    index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                  }`}
-                >
-                  {/* Content */}
-                  <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <IconComponent className="h-6 w-6 text-primary" />
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted">
-                        <Clock className="h-4 w-4" />
-                        {service.duration}
-                      </div>
+                  {/* Ideal if */}
+                  {service.idealFor && (
+                    <div className="mb-6">
+                      <h3 className="font-semibold text-foreground mb-1">
+                        Ideal if:
+                      </h3>
+                      <p className="text-muted text-sm">
+                        {service.idealFor}
+                      </p>
                     </div>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
-                      {service.title}
-                    </h2>
-                    <p className="text-muted mb-6">
-                      {service.fullDescription}
-                    </p>
+                  )}
 
-                    {/* What's included */}
+                  {/* What's included */}
+                  {service.features && service.features.length > 0 && (
                     <div className="mb-6">
                       <h3 className="font-semibold text-foreground mb-3">
-                        What&apos;s Included:
+                        Includes:
                       </h3>
-                      <ul className="grid sm:grid-cols-2 gap-2">
-                        {service.features.map((item) => (
-                          <li key={item} className="flex items-start gap-2">
-                            <CheckCircle className="h-5 w-5 text-[var(--success)] flex-shrink-0 mt-0.5" />
-                            <span className="text-sm text-foreground">
-                              {item}
-                            </span>
-                          </li>
-                        ))}
+                      <ul className="space-y-2">
+                        {service.features.map((item) => {
+                          const tooltip = service.featureTooltips?.[item];
+                          return (
+                            <li key={item} className="flex items-start gap-2">
+                              <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                              <span
+                                className={tooltip ? "text-primary border-b border-dotted border-muted cursor-help" : "text-primary"}
+                                title={tooltip || ""}
+                              >
+                                {item}
+                              </span>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
+                  )}
 
-                    <Link href="/contact">
-                      <Button>
-                        Schedule Appointment
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
-                  </div>
+                  {/* Note */}
+                  {service.note && (
+                    <div className="mb-6 text-sm text-muted">
+                      {service.note}
+                    </div>
+                  )}
 
-                  {/* Image placeholder */}
-                  <div
-                    className={`relative aspect-[4/3] bg-gradient-to-br from-primary/10 to-[var(--primary-light)]/10 rounded-2xl ${
-                      index % 2 === 1 ? "lg:order-1" : ""
-                    }`}
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center">
+                  {/* Button */}
+                  <Link href="/booking">
+                    <Button>
+                      {service.buttonText || "Book Assessment"}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+
+                {/* Image */}
+                <div
+                  className={`relative aspect-[4/3] rounded-2xl overflow-hidden ${
+                    index % 2 === 1 ? "lg:order-1" : ""
+                  }`}
+                >
+                  {service.image ? (
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-primary/10 flex items-center justify-center">
                       <IconComponent className="w-24 h-24 text-primary/30" />
                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
-      </section>
+        )}
+      </Section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-card">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Not Sure Which Service You Need?
-            </h2>
-            <p className="text-muted mb-8 max-w-2xl mx-auto">
-              Our team is here to help. Contact us for a consultation and
-              we&apos;ll recommend the best services for your specific hearing
-              needs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
-                <Button size="lg">Contact Us Today</Button>
-              </Link>
-              <Link href="tel:+6480055551">
-                <Button variant="outline" size="lg">
-                  Call 029 0451 0839
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CTASection
+        title="Not sure which service you need?"
+        description="We can help you find the right option."
+        primaryButton={{
+          text: "Book Assessment",
+          href: "/booking",
+        }}
+        variant="primary"
+      />
     </>
   );
 }

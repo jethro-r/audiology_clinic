@@ -1,13 +1,16 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import {
   FileText,
   Download,
   BookOpen,
   Calendar,
 } from "lucide-react";
+import Badge from "@/components/Badge";
+import { PageHero, Section, SectionHeader } from "@/components/sections";
+import { type Article } from "@/lib/data";
 
 const firstVisitInfo = [
   {
@@ -49,204 +52,61 @@ const downloadableForms = [
   { name: "Financial Policy", type: "PDF" },
 ];
 
-const articles = [
-  {
-    title: "Understanding the Different Types of Hearing Loss",
-    excerpt:
-      "Learn about conductive, sensorineural, and mixed hearing loss, their causes, and treatment options.",
-    category: "Education",
-  },
-  {
-    title: "How to Choose the Right Hearing Aid for Your Lifestyle",
-    excerpt:
-      "A guide to selecting hearing aids based on your daily activities, preferences, and hearing needs.",
-    category: "Hearing Aids",
-  },
-  {
-    title: "Living with Tinnitus: Coping Strategies That Work",
-    excerpt:
-      "Practical tips and treatments for managing tinnitus and improving your quality of life.",
-    category: "Tinnitus",
-  },
-  {
-    title: "Protecting Your Hearing: A Complete Guide",
-    excerpt:
-      "Everything you need to know about preventing noise-induced hearing loss at home and work.",
-    category: "Prevention",
-  },
-];
-
 export default function ResourcesPage() {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const res = await fetch('/api/articles');
+        if (res.ok) {
+          const data = await res.json();
+          setArticles(data);
+        }
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchArticles();
+  }, []);
   return (
     <>
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-card to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-              Patient Resources
-            </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
-              Resources & Information
-            </h1>
-            <p className="text-lg text-muted">
-              Everything you need to know about your visit, insurance, and
-              hearing health. We&apos;re here to make your experience as smooth as
-              possible.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* What to Expect */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Calendar className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-bold text-foreground">
-                What to Expect at Your First Visit
-              </h2>
-            </div>
-            <p className="text-muted max-w-2xl mx-auto">
-              We want you to feel prepared and comfortable. Here&apos;s what to
-              expect before, during, and after your appointment.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {firstVisitInfo.map((section, index) => (
-              <motion.div
-                key={section.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-card rounded-xl p-6"
-              >
-                <h3 className="text-xl font-semibold text-foreground mb-4">
-                  {section.title}
-                </h3>
-                <ul className="space-y-3">
-                  {section.items.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2 text-muted"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
+      <PageHero
+        badge="Patient Resources"
+        title="Resources & Information"
+        description="Everything you need to know about your visit, insurance, and hearing health. We're here to make your experience as smooth as possible."
+      />
+      <Section variant="white">
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
-        </div>
-      </section>
-
-      {/* Downloadable Forms */}
-      <section className="py-16 bg-card">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-8"
-          >
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <FileText className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-bold text-foreground">
-                Downloadable Forms
-              </h2>
-            </div>
-            <p className="text-muted">
-              Save time by completing forms before your visit. Print, fill out,
-              and bring to your appointment.
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            {downloadableForms.map((form, index) => (
-              <motion.div
-                key={form.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-lg border border-border p-4 flex items-center justify-between hover:border-primary/30 transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <FileText className="h-5 w-5 text-primary" />
-                  <span className="font-medium text-foreground">
-                    {form.name}
-                  </span>
-                </div>
-                <button className="flex items-center gap-1 text-primary hover:text-primary-dark transition-colors">
-                  <Download className="h-4 w-4" />
-                  <span className="text-sm">{form.type}</span>
-                </button>
-              </motion.div>
-            ))}
+        ) : (
+          <div className="grid gap-4 sm:gap-6">
+          {articles.map((article, index) => (
+            <motion.article
+              key={article.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="bg-card rounded-xl p-5 sm:p-6 hover:shadow-md transition-shadow cursor-pointer"
+            >
+              <Badge variant="primary" className="mb-3">
+                {article.category}
+              </Badge>
+              <h3 className="text-xl font-semibold text-foreground mb-2">
+                {article.title}
+              </h3>
+              <p className="text-muted">{article.excerpt}</p>
+            </motion.article>
+          ))}
           </div>
-        </div>
-      </section>
-
-      {/* Blog Articles */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <BookOpen className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-bold text-foreground">
-                Hearing Health Articles
-              </h2>
-            </div>
-            <p className="text-muted max-w-2xl mx-auto">
-              Learn more about hearing health, hearing aids, and how to protect
-              your hearing.
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            {articles.map((article, index) => (
-              <motion.article
-                key={article.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-card rounded-xl p-6 hover:shadow-md transition-shadow cursor-pointer"
-              >
-                <span className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium mb-3">
-                  {article.category}
-                </span>
-                <h3 className="text-xl font-semibold text-foreground mb-2">
-                  {article.title}
-                </h3>
-                <p className="text-muted">{article.excerpt}</p>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
+        )}
+      </Section>
     </>
   );
 }

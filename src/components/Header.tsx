@@ -2,24 +2,21 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
-import { Menu, X, Phone, Ear, User, LogOut, ChevronDown } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import Button from "./Button";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
-  { name: "Packages", href: "/packages" },
+  { name: "Hearing Aids", href: "/hearing-aids" },
   { name: "Team", href: "/team" },
   { name: "Resources", href: "/resources" },
   { name: "Contact", href: "/contact" },
 ];
 
 export default function Header() {
-  const { data: session, status } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -30,57 +27,29 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close user menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (userMenuOpen && !(e.target as Element).closest(".user-menu-container")) {
-        setUserMenuOpen(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [userMenuOpen]);
-
-  const getDashboardLink = () => {
-    return "/portal/dashboard";
-  };
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white shadow-md"
-          : "bg-white/95 backdrop-blur-sm"
+          : "bg-white"
       }`}
     >
-      {/* Top bar */}
-      <div className="bg-primary text-white py-2 px-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
-          <div className="flex items-center gap-2">
-            <Phone className="h-4 w-4" />
-            <span>029 0451 0839</span>
-          </div>
-          <div className="hidden sm:block">
-            Mon-Fri: 8:00 AM - 5:00 PM | Sat: 9:00 AM - 1:00 PM
-          </div>
-        </div>
-      </div>
-
       {/* Main navigation */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <img 
-              src="/images/logo.png" 
-              alt="Veritas Hearing" 
-              className="h-10 w-auto"
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <img
+              src="/images/icon.png"
+              alt="Veritas Hearing"
+              className="h-8 sm:h-10 w-auto flex-shrink-0"
             />
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-foreground">
+            <div className="flex flex-col min-w-0">
+              <span className="text-base sm:text-xl font-bold text-foreground truncate">
                 Veritas Hearing
               </span>
-              <span className="text-xs text-[var(--secondary)] -mt-1">
+              <span className="text-[10px] sm:text-xs text-[var(--secondary)] -mt-1 hidden xs:block">
                 Hear better. Live fully
               </span>
             </div>
@@ -99,57 +68,10 @@ export default function Header() {
             ))}
           </div>
 
-          {/* CTA Buttons */}
+          {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
-            {status === "loading" ? (
-              <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
-            ) : session ? (
-              <div className="relative user-menu-container">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-card transition-colors"
-                >
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User className="h-4 w-4 text-primary" />
-                  </div>
-                  <span className="text-sm font-medium text-foreground">
-                    {session.user?.name?.split(" ")[0]}
-                  </span>
-                  <ChevronDown className={`h-4 w-4 text-muted transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
-                </button>
-                
-                {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-border py-1 z-50">
-                    <Link
-                      href={getDashboardLink()}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:bg-card"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      <User className="h-4 w-4" />
-                      Dashboard
-                    </Link>
-                    <button
-                      onClick={() => {
-                        setUserMenuOpen(false);
-                        signOut({ callbackUrl: "/" });
-                      }}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:bg-card w-full text-left"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Sign Out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link href="/login">
-                <Button variant="outline" size="sm">
-                  Sign In
-                </Button>
-              </Link>
-            )}
-            <Link href="/contact">
-              <Button>Book Appointment</Button>
+            <Link href="/booking">
+              <Button>Book Assessment</Button>
             </Link>
           </div>
 
@@ -169,50 +91,38 @@ export default function Header() {
         </div>
 
         {/* Mobile navigation */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border">
-            <div className="flex flex-col gap-4">
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="py-3 border-t border-border">
+            <div className="flex flex-col">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-foreground hover:text-primary transition-colors font-medium py-2"
+                  className="text-foreground hover:text-primary hover:bg-primary/5 transition-colors font-medium py-3 px-2 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="border-t border-border pt-4 space-y-3">
-                {session ? (
-                  <>
-                    <Link href={getDashboardLink()} onClick={() => setMobileMenuOpen(false)}>
-                      <Button variant="outline" className="w-full">
-                        <User className="h-4 w-4 mr-2" />
-                        Dashboard
-                      </Button>
-                    </Link>
-                    <button
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        signOut({ callbackUrl: "/" });
-                      }}
-                      className="w-full text-center text-sm text-muted hover:text-foreground py-2"
-                    >
-                      Sign Out
-                    </button>
-                  </>
-                ) : (
-                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full">Sign In</Button>
-                  </Link>
-                )}
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full">Book Appointment</Button>
+              <div className="border-t border-border pt-4 mt-2 flex flex-col gap-3">
+                <a
+                  href="tel:+642904510839"
+                  className="flex items-center justify-center gap-2 py-3 text-primary font-medium"
+                >
+                  <Phone className="h-4 w-4" />
+                  029 0451 0839
+                </a>
+                <Link href="/booking" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full">Book Now</Button>
                 </Link>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </nav>
     </header>
   );

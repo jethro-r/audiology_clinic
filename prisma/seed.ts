@@ -1,295 +1,264 @@
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import bcrypt from "bcryptjs";
-import "dotenv/config";
+import { PrismaClient } from '@prisma/client';
 
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error("DATABASE_URL environment variable is not set");
-}
-
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Seeding database...");
+  console.log('🌱 Starting database seed...');
 
-  // Create appointment types
-  const appointmentTypes = await Promise.all([
-    prisma.appointmentType.upsert({
-      where: { name: "Comprehensive Hearing Evaluation" },
-      update: {},
-      create: {
-        name: "Comprehensive Hearing Evaluation",
-        description:
-          "Complete assessment of hearing ability including pure tone audiometry, speech testing, and middle ear analysis.",
-        durationMinutes: 60,
-        price: 250,
-        active: true,
-      },
-    }),
-    prisma.appointmentType.upsert({
-      where: { name: "Hearing Aid Fitting" },
-      update: {},
-      create: {
-        name: "Hearing Aid Fitting",
-        description:
-          "Professional fitting and programming of hearing aids customized to your hearing needs.",
-        durationMinutes: 90,
-        price: 350,
-        active: true,
-      },
-    }),
-    prisma.appointmentType.upsert({
-      where: { name: "Hearing Aid Follow-up" },
-      update: {},
-      create: {
-        name: "Hearing Aid Follow-up",
-        description:
-          "Adjustment and fine-tuning of hearing aids, cleaning, and counseling.",
-        durationMinutes: 30,
-        price: 75,
-        active: true,
-      },
-    }),
-    prisma.appointmentType.upsert({
-      where: { name: "Tinnitus Consultation" },
-      update: {},
-      create: {
-        name: "Tinnitus Consultation",
-        description:
-          "Evaluation and management options for ringing in the ears, including sound therapy options.",
-        durationMinutes: 45,
-        price: 200,
-        active: true,
-      },
-    }),
-    prisma.appointmentType.upsert({
-      where: { name: "Earwax Removal" },
-      update: {},
-      create: {
-        name: "Earwax Removal",
-        description:
-          "Safe and gentle removal of earwax buildup using professional techniques.",
-        durationMinutes: 30,
-        price: 100,
-        active: true,
-      },
-    }),
-    prisma.appointmentType.upsert({
-      where: { name: "Pediatric Hearing Screening" },
-      update: {},
-      create: {
-        name: "Pediatric Hearing Screening",
-        description:
-          "Age-appropriate hearing assessment for children using specialized testing methods.",
-        durationMinutes: 45,
-        price: 175,
-        active: true,
-      },
-    }),
-  ]);
+  // Clear existing data
+  console.log('Clearing existing data...');
+  await prisma.article.deleteMany();
+  await prisma.teamMember.deleteMany();
+  await prisma.service.deleteMany();
+  await prisma.faq.deleteMany();
+  await prisma.setting.deleteMany();
 
-  console.log(`✅ Created ${appointmentTypes.length} appointment types`);
-
-  // Create services (marketing/display)
-  const services = await Promise.all([
-    prisma.service.upsert({
-      where: { slug: "hearing-assessments" },
-      update: {},
-      create: {
-        slug: "hearing-assessments",
-        title: "Comprehensive Hearing Assessments",
+  // Seed Services
+  console.log('Seeding services...');
+  const services = await prisma.service.createMany({
+    data: [
+      {
+        slug: 'hearing-assessments',
+        title: 'Comprehensive Hearing Assessment',
         shortDescription:
-          "Advanced hearing assessments delivering clear answers and confidence through precise, evidence-based diagnostic testing.",
+          'A thorough, unhurried assessment to understand your hearing and how it affects daily life — with clear answers and no pressure.',
         fullDescription:
-          "Advanced hearing assessments delivering clear answers and confidence through precise, evidence-based diagnostic testing.",
-        duration: "60-90 minutes",
-        iconName: "Ear",
+          'A thorough, unhurried assessment to understand your hearing and how it affects daily life — with clear answers and no pressure.',
+        image: '/images/Comprehensive Hearing Assessment.jpg',
+        iconName: 'Ear',
         features: [
-          "Complete medical history review",
-          "Otoscopic examination",
-          "Pure-tone audiometry",
-          "Speech recognition testing",
-          "Detailed results explanation",
-          "Personalized recommendations",
+          'Diagnostic hearing testing',
+          'Speech-in-noise assessment',
+          'Advanced middle ear assessment',
+          'Clear explanation of results',
         ],
         sortOrder: 1,
         showOnHomepage: true,
         showInFooter: true,
+        buttonText: 'Book Assessment',
+        idealFor:
+          "You've noticed changes, struggle in noise, or want a professional baseline check.",
+        note: 'No obligation to proceed with treatment',
       },
-    }),
-    prisma.service.upsert({
-      where: { slug: "hearing-aid-solutions" },
-      update: {},
-      create: {
-        slug: "hearing-aid-solutions",
-        title: "Hearing Aid Solutions & Packages",
+      {
+        slug: 'hearing-aid-solutions',
+        title: 'Hearing Aid Solutions & Packages',
         shortDescription:
-          "Independent hearing aid solutions with tiered packages tailored to your hearing, lifestyle, and needs.",
+          'At Veritas Hearing, we separate care from technology. Choose the level of support that suits your needs, from Essential to Premium Care.',
         fullDescription:
-          "Independent hearing aid solutions with tiered packages tailored to your hearing, lifestyle, and needs.",
-        duration: "60-90 minutes",
-        iconName: "Headphones",
+          'At Veritas Hearing, we separate care from technology. You choose the level of support that suits your needs, from Essential to Premium Care. Hearing aid technology is selected independently based on your hearing, lifestyle, and preferences, so every recommendation is personalised and evidence-based.',
+        iconName: 'Headphones',
         features: [
-          "Multiple package tiers available",
-          "Personalized hearing aid selection",
-          "Custom fitting and programming",
-          "Real-ear measurements",
-          "Trial period available",
-          "Follow-up adjustments included",
+          'Personalisation & selection',
+          'Fitting & verification',
+          'Ongoing support & follow-up',
+          'Long-term hearing health',
         ],
+        buttonText: 'Explore More',
         sortOrder: 2,
         showOnHomepage: true,
         showInFooter: true,
       },
-    }),
-    prisma.service.upsert({
-      where: { slug: "ongoing-care" },
-      update: {},
-      create: {
-        slug: "ongoing-care",
-        title: "Ongoing Hearing Care",
+      {
+        slug: 'ongoing-care',
+        title: 'Hearing Review',
         shortDescription:
-          "Ongoing hearing care and follow-up services ensuring comfort, performance, and long-term hearing outcomes.",
+          'Comprehensive checks to ensure your hearing and hearing aids are performing at their best.',
         fullDescription:
-          "Ongoing hearing care and follow-up services ensuring comfort, performance, and long-term hearing outcomes.",
-        duration: "30-60 minutes",
-        iconName: "Volume2",
+          'Comprehensive checks to ensure your hearing and hearing aids are performing at their best.',
+        image: '/images/Ongoing hearing care.jpg',
+        iconName: 'Volume2',
         features: [
-          "Regular hearing assessments",
-          "Device adjustment and optimization",
-          "Troubleshooting and support",
-          "Device cleaning and maintenance",
-          "Reprogramming services",
-          "Long-term outcome monitoring",
+          'Ear wax removal',
+          'Hearing assessment to check for changes',
+          'Device comprehensive service',
+          'Device performance check and verification',
+          'Hearing aid fine-tuning',
+          'Aided speech-in-noise testing',
+          'New clients welcome',
         ],
         sortOrder: 3,
         showOnHomepage: true,
         showInFooter: true,
+        buttonText: 'Book a Hearing Review',
+        featureTooltips: {
+          'Device comprehensive service':
+            'parts renewal, cleaning, and moisture removal',
+        },
       },
-    }),
-    prisma.service.upsert({
-      where: { slug: "earwax-removal" },
-      update: {},
-      create: {
-        slug: "earwax-removal",
-        title: "Ear Wax Removal",
+      {
+        slug: 'earwax-removal',
+        title: 'Wax Removal',
         shortDescription:
-          "Professional ear wax removal using safe clinical techniques for comfort, clarity, and immediate improvement.",
+          'Safe, professional ear wax removal to restore comfort and optimise hearing aid performance.',
         fullDescription:
-          "Professional ear wax removal using safe clinical techniques for comfort, clarity, and immediate improvement.",
-        duration: "15-30 minutes",
-        iconName: "Wrench",
+          'Safe, professional ear wax removal to restore comfort and optimise hearing aid performance.',
+        iconName: 'Wrench',
         features: [
-          "Safe clinical removal techniques",
-          "Immediate relief and clarity",
-          "Comfortable and professional care",
-          "Prevention advice",
-          "Same-day service available",
-          "No waiting or complications",
+          'Microsuction removal of ear wax',
+          'Live view of procedure',
+          'Post-removal hearing screening',
+          'Video of procedure available to take home',
         ],
         sortOrder: 4,
         showOnHomepage: true,
         showInFooter: true,
+        buttonText: 'Book Wax Removal',
       },
-    }),
-  ]);
+    ],
+  });
+  console.log(`✅ Created ${services.count} services`);
 
-  console.log(`✅ Created ${services.length} services`);
+  // Seed Team Members
+  console.log('Seeding team members...');
+  const teamMembers = await prisma.teamMember.createMany({
+    data: [
+      {
+        slug: 'paul-hsu',
+        name: 'Paul Hsu',
+        title: 'Founder & Audiologist',
+        credentials: 'MNZAS | ACC Approved | Veteran Affairs Approved',
+        imageUrl: '/images/Paul Hsu.jpg',
+        bio: 'At Veritas Hearing, I provide evidence-based, patient-focused hearing care tailored to your needs. From comprehensive hearing assessments to hearing aid fittings and long-term support, my goal is to help you achieve measurable improvements in everyday listening and communication. I combine advanced diagnostic tools, real-life outcome measures, premium hearing technologies, and personalised care plans to ensure every patient receives clear guidance and ongoing support.',
+        specialisations: [
+          'Comprehensive Hearing Assessments',
+          'Hearing Aid Fitting & Optimisation',
+          'Auditory Training (LACE AI)',
+          'Long-term Hearing Care',
+        ],
+        email: 'paul.hsu@veritashearing.co.nz',
+        sortOrder: 1,
+        active: true,
+      },
+    ],
+  });
+  console.log(`✅ Created ${teamMembers.count} team members`);
 
-  // Create admin user
-  const adminPassword = await bcrypt.hash("admin!23", 12);
-  const admin = await prisma.user.upsert({
-    where: { email: "admin@veritashearing.co.nz" },
-    update: {},
+  // Seed Articles
+  console.log('Seeding articles...');
+  const articles = await prisma.article.createMany({
+    data: [
+      {
+        slug: 'understanding-types-of-hearing-loss',
+        title: 'Understanding the Different Types of Hearing Loss',
+        excerpt:
+          'Learn about conductive, sensorineural, and mixed hearing loss, their causes, and treatment options.',
+        category: 'Education',
+        published: true,
+        publishedAt: new Date('2024-01-15'),
+        sortOrder: 1,
+      },
+      {
+        slug: 'choosing-right-hearing-aid',
+        title: 'How to Choose the Right Hearing Aid for Your Lifestyle',
+        excerpt:
+          'A guide to selecting hearing aids based on your daily activities, preferences, and hearing needs.',
+        category: 'Hearing Aids',
+        published: true,
+        publishedAt: new Date('2024-02-20'),
+        sortOrder: 2,
+      },
+      {
+        slug: 'living-with-tinnitus',
+        title: 'Living with Tinnitus: Coping Strategies That Work',
+        excerpt:
+          'Practical tips and treatments for managing tinnitus and improving your quality of life.',
+        category: 'Tinnitus',
+        published: true,
+        publishedAt: new Date('2024-03-10'),
+        sortOrder: 3,
+      },
+      {
+        slug: 'protecting-your-hearing',
+        title: 'Protecting Your Hearing: A Complete Guide',
+        excerpt:
+          'Everything you need to know about preventing noise-induced hearing loss at home and work.',
+        category: 'Prevention',
+        published: true,
+        publishedAt: new Date('2024-04-05'),
+        sortOrder: 4,
+      },
+    ],
+  });
+  console.log(`✅ Created ${articles.count} articles`);
+
+  // Seed FAQs
+  console.log('Seeding FAQs...');
+  const faqs = await prisma.faq.createMany({
+    data: [
+      {
+        question: 'What should I expect at my first appointment?',
+        answer:
+          'Your first visit includes a comprehensive hearing assessment, discussion of your concerns, and clear guidance on suitable solutions tailored to your needs.',
+        sortOrder: 1,
+        active: true,
+      },
+      {
+        question: 'How do I know if I need a hearing test?',
+        answer:
+          'If you notice difficulty following conversations, frequently ask people to repeat themselves, or struggle in noisy environments, a hearing test can provide clarity and peace of mind.',
+        sortOrder: 2,
+        active: true,
+      },
+      {
+        question: 'Why choose an independent audiologist?',
+        answer:
+          'As an independent clinic, we provide unbiased advice and recommendations, focusing solely on your hearing needs rather than promoting specific brands or products.',
+        sortOrder: 3,
+        active: true,
+      },
+      {
+        question: 'What type of hearing aids do you offer?',
+        answer:
+          'We offer a range of hearing aids across multiple tiers chosen to suit your lifestyle, preferences, and hearing requirements.',
+        sortOrder: 4,
+        active: true,
+      },
+      {
+        question: 'How much do hearing aids cost?',
+        answer:
+          'Hearing aid costs vary by technology and package. We provide clear, tiered options with transparent pricing to help you make informed decisions.',
+        sortOrder: 5,
+        active: true,
+      },
+      {
+        question: 'Is there a trial period for hearing aids?',
+        answer:
+          'Yes. We offer a trial period so you can experience your hearing aids in real-life situations before making a final decision.',
+        sortOrder: 6,
+        active: true,
+      },
+      {
+        question: 'How often should I have a hearing check?',
+        answer:
+          'Regular hearing checks are recommended at least once a year, or sooner if you notice changes, to ensure your hearing remains optimised.',
+        sortOrder: 7,
+        active: true,
+      },
+    ],
+  });
+  console.log(`✅ Created ${faqs.count} FAQs`);
+
+  // Seed Settings
+  console.log('Seeding settings...');
+  await prisma.setting.upsert({
+    where: { key: 'contactEmail' },
+    update: { value: 'info@veritashearing.co.nz' },
     create: {
-      email: "admin@veritashearing.co.nz",
-      passwordHash: adminPassword,
-      firstName: "Admin",
-      lastName: "User",
-      role: "ADMIN",
-      phone: "",
+      key: 'contactEmail',
+      value: 'info@veritashearing.co.nz',
     },
   });
-  console.log(`✅ Created admin user: ${admin.email}`);
+  console.log('✅ Created settings');
 
-  // Create audiologists
-  const audiologistPassword = await bcrypt.hash("audio!23", 12);
-  const audiologists = await Promise.all([
-    prisma.user.upsert({
-      where: { email: "paul.hsu@veritashearing.co.nz" },
-      update: {},
-      create: {
-        email: "paul.hsu@veritashearing.co.nz",
-        passwordHash: audiologistPassword,
-        firstName: "Paul",
-        lastName: "Hsu",
-        role: "AUDIOLOGIST",
-        phone: "",
-      },
-    }),
-    
-  ]);
-
-  console.log(`✅ Created ${audiologists.length} audiologists`);
-
-  // Create availability for audiologists (Monday-Friday, 9 AM - 5 PM)
-  for (const audiologist of audiologists) {
-    for (let day = 1; day <= 5; day++) {
-      // Monday = 1, Friday = 5
-      await prisma.availability.upsert({
-        where: {
-          audiologistId_dayOfWeek: {
-            audiologistId: audiologist.id,
-            dayOfWeek: day,
-          },
-        },
-        update: {},
-        create: {
-          audiologistId: audiologist.id,
-          dayOfWeek: day,
-          startTime: "09:00",
-          endTime: "17:00",
-          isAvailable: true,
-        },
-      });
-    }
-  }
-
-  console.log(`✅ Created availability for ${audiologists.length} audiologists`);
-
-  // Create a sample patient
-  const patientPassword = await bcrypt.hash("patient123", 12);
-  const patient = await prisma.user.upsert({
-    where: { email: "john.smith@example.com" },
-    update: {},
-    create: {
-      email: "john.smith@example.com",
-      passwordHash: patientPassword,
-      firstName: "John",
-      lastName: "Smith",
-      role: "PATIENT",
-      phone: "(555) 200-0001",
-      dateOfBirth: new Date("1980-05-15"),
-    },
-  });
-  console.log(`✅ Created sample patient: ${patient.email}`);
-
-  console.log("\n🎉 Database seeding completed!");
-  console.log("\n📋 Test Credentials:");
-  console.log("-------------------");
-  console.log("Admin: admin@veritashearing.co.nz / admin!23");
-  console.log("Audiologist: paul.hsu@veritashearing.co.nz / audio!23");
-  console.log("Patient: john.smith@example.com / patient123");
+  console.log('✅ Database seeding completed successfully!');
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
+  .catch((e) => {
+    console.error('❌ Error seeding database:', e);
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });

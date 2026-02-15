@@ -2,149 +2,54 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Button from "./Button";
-
-const benefits = [
-  "Independent, clinician-owned practice",
-  "No sales pressure or commissions",
-  "Unhurried, thorough consultations",
-  "Direct access to your audiologist",
-];
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-card to-white pt-32 pb-16 lg:pt-40 lg:pb-24">
+    <section className="relative bg-primary pt-6 pb-12 sm:pt-8 sm:pb-16 lg:pt-12 lg:pb-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block bg-primary/10 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-4">
-              Independent Audiology in Hamilton
-            </span>
-            <h1 className="text-4xl font-bold text-foreground leading-tight mb-6">
-              Clear Hearing,{" "}
-              <span className="text-4xl"> supported for the long term.</span>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4 sm:mb-6">
+              Independent hearing care, <br className="hidden sm:block" />
+              <span className="text-secondary">delivered with integrity</span>
             </h1>
-            <p className="text-lg text-muted mb-8 max-w-xl">
-              At Veritas Hearing, we offer structured hearing aid packages across multiple tiers, each backed by ongoing professional care. From precise diagnostics to long-term follow-up and fine-tuning, we support your hearing journey well beyond the initial fitting — with clarity, honesty, and independence.
+            <p className="text-base sm:text-lg text-white/80 mb-6 sm:mb-8 max-w-xl">
+              Veritas Hearing is a locally owned clinic providing high-standard, independent audiology care. We offer precise diagnostics, access to leading hearing technologies, and ongoing support — with transparent, ethical pricing and recommendations made solely in your best interest.
             </p>
-
-            {/* Benefits list */}
-            <ul className="space-y-3 mb-8">
-              {benefits.map((benefit, index) => (
-                <motion.li
-                  key={benefit}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center gap-3"
-                >
-                  <CheckCircle className="h-5 w-5 text-[var(--success)] flex-shrink-0" />
-                  <span className="text-foreground">{benefit}</span>
-                </motion.li>
-              ))}
-            </ul>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Book a Comprehensive Hearing Assessment
+              <Link href="/booking">
+                <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                  Book Your Assessment
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/services">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  Explore Hearing Aid Packages
                 </Button>
               </Link>
             </div>
           </motion.div>
 
-          {/* Image placeholder */}
+          {/* Image */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative aspect-[4/3] bg-gradient-to-br from-primary/20 to-[var(--primary-light)]/20 rounded-2xl overflow-hidden">
-              {/* Placeholder for hero image */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-primary/30 flex items-center justify-center">
-                    <svg
-                      className="w-16 h-16 text-primary"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                      />
-                    </svg>
-                  </div>
-                  <p className="text-muted text-sm">
-                    Professional hearing care image
-                  </p>
-                </div>
-              </div>
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <img
+                src="/images/hero-clinic.png"
+                alt="Veritas Hearing professional care"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
             </div>
 
-            {/* Floating stats card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 border border-border"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <span className="text-2xl font-bold text-primary">
-                    20+
-                  </span>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">
-                    Years Experience
-                  </p>
-                  <p className="text-sm text-muted">Trusted care</p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Floating rating card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-4 border border-border"
-            >
-              <div className="flex items-center gap-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="w-5 h-5 text-[var(--secondary)]"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <span className="font-semibold">4.9</span>
-              </div>
-              <p className="text-sm text-muted mt-1">500+ Reviews</p>
-            </motion.div>
           </motion.div>
         </div>
       </div>

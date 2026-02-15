@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ConditionalLayout from "@/components/ConditionalLayout";
-import AuthProvider from "@/components/AuthProvider";
 
 export const metadata: Metadata = {
   title: {
     default: "Veritas Hearing | Hear better. Live fully",
     template: "%s | Veritas Hearing",
+  },
+  icons: {
+    icon: "/images/icon.png",
+    apple: "/images/icon.png",
   },
   description:
     "Veritas Hearing is an independent, clinician-led audiology practice dedicated to providing clear, honest, and evidence-based hearing care. Accurate diagnosis, personalised treatment, no sales pressure.",
@@ -54,9 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <AuthProvider>
-          <ConditionalLayout>{children}</ConditionalLayout>
-        </AuthProvider>
+        <ConditionalLayout>{children}</ConditionalLayout>
       </body>
     </html>
   );

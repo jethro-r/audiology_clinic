@@ -1,15 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User } from "lucide-react";
+import { CheckCircle, User } from "lucide-react";
+import Badge from "./Badge";
 
 interface TeamMemberProps {
   name: string;
   title: string;
-  credentials: string;
+  credentials?: string | null;
   bio: string;
   specialisations: string[];
-  imageUrl?: string;
+  imageUrl?: string | null;
   index?: number;
 }
 
@@ -31,7 +32,7 @@ export default function TeamMember({
       className="bg-white rounded-xl border border-border overflow-hidden hover:shadow-lg transition-shadow duration-300"
     >
       {/* Photo */}
-      <div className="aspect-[4/3] bg-gradient-to-br from-primary/10 to-[var(--primary-light)]/10 relative">
+      <div className="aspect-[4/3] bg-primary/10 relative">
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -49,23 +50,24 @@ export default function TeamMember({
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-foreground">
+      <div className="p-4 sm:p-6">
+        <h3 className="text-lg sm:text-xl font-semibold text-foreground">
           {name}
         </h3>
         <p className="text-primary font-medium">{title}</p>
-        <p className="text-sm text-muted mb-3">{credentials}</p>
+        {credentials && <p className="text-sm text-muted mb-3">{credentials}</p>}
         <p className="text-muted text-sm mb-4">{bio}</p>
 
         {/* Specialisations */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-1">
           {specialisations.map((spec) => (
-            <span
-              key={spec}
-              className="text-xs bg-card text-muted px-2 py-1 rounded-full"
+            <div
+            key={spec}
+            className="flex items-center gap-2 text-sm text-primary"
             >
-              {spec}
-            </span>
+              <CheckCircle className="h-4 w-4 flex-shrink-0" />
+              <span>{spec}</span>
+            </div>
           ))}
         </div>
       </div>
