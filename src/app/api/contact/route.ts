@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { prisma } from "@/lib/db";
+import { generateContactEmailHtml, generateContactEmailText } from "@/lib/email/templates";
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,14 +25,39 @@ export async function POST(request: NextRequest) {
     // Fallback to environment variable if setting not found
     const toEmail = contactEmailSetting?.value || process.env.TO_EMAIL;
 
+    console.log("[EMAIL] Recipient lookup:", {
+      fromDatabase: contactEmailSetting?.value || "not set",
+      fromEnv: process.env.TO_EMAIL || "not set",
+      finalRecipient: toEmail || "NO RECIPIENT CONFIGURED",
+    });
+
     if (!toEmail) {
+      console.error("[EMAIL] ❌ No recipient email configured!");
       return NextResponse.json(
-        { error: "No contact email configured" },
+        { error: "No contact email configured. Please set contactEmail in admin settings or TO_EMAIL in environment." },
         { status: 500 }
       );
     }
 
     // Create email transporter
+    const smtpConfig = {
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: Number(process.env.SMTP_PORT) === 465,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS ? "[REDACTED]" : undefined,
+      },
+    };
+    
+    console.log("[EMAIL] Creating transporter with config:", {
+      host: smtpConfig.host,
+      port: smtpConfig.port,
+      secure: smtpConfig.secure,
+      user: smtpConfig.auth.user,
+      toEmail,
+    });
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT) || 587,
@@ -43,90 +69,68 @@ export async function POST(request: NextRequest) {
     });
 
     // Verify connection
+    console.log("[EMAIL] Verifying SMTP connection...");
     await transporter.verify();
+    console.log("[EMAIL] SMTP connection verified successfully");
 
-    // Prepare email content
-    const emailHtml = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>New Contact Form Submission</title>
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: #1e40af; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-          .content { background: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px; }
-          .field { margin-bottom: 15px; }
-          .label { font-weight: 600; color: #374151; margin-bottom: 5px; }
-          .value { color: #6b7280; }
-          .message-box { background: white; padding: 15px; border-radius: 4px; border-left: 4px solid #1e40af; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>New Contact Form Submission</h1>
-          </div>
-          <div class="content">
-            <div class="field">
-              <div class="label">Name:</div>
-              <div class="value">${name}</div>
-            </div>
-            <div class="field">
-              <div class="label">Email:</div>
-              <div class="value"><a href="mailto:${email}">${email}</a></div>
-            </div>
-            ${phone ? `
-            <div class="field">
-              <div class="label">Phone:</div>
-              <div class="value">${phone}</div>
-            </div>
-            ` : ''}
-            ${service ? `
-            <div class="field">
-              <div class="label">Service of Interest:</div>
-              <div class="value">${service}</div>
-            </div>
-            ` : ''}
-            <div class="field">
-              <div class="label">Message:</div>
-              <div class="message-box">${message.replace(/\n/g, '<br>')}</div>
-            </div>
-          </div>
-        </div>
-      </body>
-      </html>
-    `;
-
-    const textContent = `
-New Contact Form Submission
-
-Name: ${name}
-Email: ${email}
-${phone ? `Phone: ${phone}\n` : ''}${service ? `Service: ${service}\n` : ''}
-Message:
-${message}
-    `;
+    // Prepare email content using templates
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://veritashearing.co.nz';
+    const emailHtml = generateContactEmailHtml({ name, email, phone, service, message }, baseUrl);
+    const textContent = generateContactEmailText({ name, email, phone, service, message });
 
     // Send email
-    await transporter.sendMail({
+    console.log("[EMAIL] Sending email:", {
       from: process.env.FROM_EMAIL,
       to: toEmail,
+      subject: `New Contact Form: ${name}`,
+    });
+
+    const info = await transporter.sendMail({
+      from: process.env.FROM_EMAIL,
+      to: toEmail,
+      replyTo: email, // Reply goes to the user who submitted the form
       subject: `New Contact Form: ${name}`,
       text: textContent,
       html: emailHtml,
     });
 
+    console.log("[EMAIL] Send result:", {
+      messageId: info.messageId,
+      response: info.response,
+      accepted: info.accepted,
+      rejected: info.rejected,
+      pending: info.pending,
+    });
+
+    // Check if email was actually accepted
+    if (info.rejected && info.rejected.length > 0) {
+      console.error("[EMAIL] Email was rejected by server:", info.rejected);
+      return NextResponse.json(
+        { error: "Email was rejected", rejected: info.rejected },
+        { status: 500 }
+      );
+    }
+
+    console.log("[EMAIL] ✅ Email sent successfully! Message ID:", info.messageId);
+    
     return NextResponse.json(
-      { message: "Email sent successfully" },
+      { 
+        message: "Email sent successfully",
+        messageId: info.messageId,
+        accepted: info.accepted,
+      },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Email sending error:", error);
+    console.error("[EMAIL] ❌ Email sending failed:", {
+      error: error instanceof Error ? {
+        name: error.name,
+        message: error.message,
+        code: (error as NodeJS.ErrnoException).code,
+      } : error,
+    });
     return NextResponse.json(
-      { error: "Failed to send email" },
+      { error: "Failed to send email", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Send, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Send, Loader2, CheckCircle, AlertCircle, Info } from "lucide-react";
 import Button from "./Button";
 import { validateEmail, validatePhone } from "@/lib/utils";
 import { serviceNames } from "@/lib/static-data";
@@ -21,6 +21,12 @@ interface FormErrors {
   message?: string;
 }
 
+interface EmailConfig {
+  fromEmail: string;
+  toEmail: string;
+  source: string;
+}
+
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -32,6 +38,17 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
+  const [emailConfig, setEmailConfig] = useState<EmailConfig | null>(null);
+
+  // Fetch email config in development mode
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      fetch("/api/contact/config")
+        .then((res) => res.json())
+        .then((data) => setEmailConfig(data))
+        .catch(() => {});
+    }
+  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -77,9 +94,17 @@ export default function ContactForm() {
         body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+      console.log("[ContactForm] Response:", { status: response.status, data });
+
       if (response.ok) {
         setStatus("success");
-        setStatusMessage("Thank you! We'll be in touch soon.");
+        // Show more detailed success info
+        if (data.accepted && data.accepted.length > 0) {
+          setStatusMessage(`Thank you! Your message was sent successfully. We'll be in touch soon.`);
+        } else {
+          setStatusMessage("Thank you! We'll be in touch soon.");
+        }
         setFormData({
           name: "",
           email: "",
@@ -88,11 +113,12 @@ export default function ContactForm() {
           message: "",
         });
       } else {
-        throw new Error("Failed to submit form");
+        throw new Error(data.details || data.error || "Failed to submit form");
       }
-    } catch {
+    } catch (error) {
+      console.error("[ContactForm] Error:", error);
       setStatus("error");
-      setStatusMessage("Something went wrong. Please try again or call us directly.");
+      setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again or call us directly.");
     }
   };
 
@@ -108,6 +134,25 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Development-only email config display */}
+      {process.env.NODE_ENV === "development" && emailConfig && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+          <div className="flex items-start gap-3">
+            <Info className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-medium text-yellow-800 mb-1">Dev Mode - Email Config</p>
+              <p className="text-yellow-700">
+                <span className="font-medium">From:</span> {emailConfig.fromEmail}
+              </p>
+              <p className="text-yellow-700">
+                <span className="font-medium">To:</span> {emailConfig.toEmail}
+                <span className="text-yellow-500 ml-2">({emailConfig.source})</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Name */}
       <div>
         <label
