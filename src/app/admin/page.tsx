@@ -1,45 +1,23 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAdminAuth } from "@/contexts/AdminAuthContext";
 import AdminLogin from "./components/AdminLogin";
 
 export default function AdminPage() {
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const { isAuthenticated, isLoading, login } = useAdminAuth();
   const router = useRouter();
-  const isMounted = useRef(true);
 
-  const checkAuth = useCallback(async () => {
-    try {
-      const res = await fetch("/api/admin/auth", {
-        cache: "no-store",
-      });
-      
-      if (!isMounted.current) return;
-
-      if (res.ok) {
-        setAuthenticated(true);
-        // Redirect to services page when authenticated
-        router.push("/admin/services");
-      } else {
-        setAuthenticated(false);
-      }
-    } catch {
-      if (isMounted.current) {
-        setAuthenticated(false);
-      }
-    }
-  }, [router]);
-
+  // Redirect to services when authenticated
   useEffect(() => {
-    checkAuth();
+    if (isAuthenticated === true) {
+      router.push("/admin/services");
+    }
+  }, [isAuthenticated, router]);
 
-    return () => {
-      isMounted.current = false;
-    };
-  }, [checkAuth]);
-
-  if (authenticated === null) {
+  // Show loading spinner while checking auth
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" />
@@ -47,8 +25,9 @@ export default function AdminPage() {
     );
   }
 
-  if (!authenticated) {
-    return <AdminLogin onSuccess={() => setAuthenticated(true)} />;
+  // Show login if not authenticated
+  if (!isAuthenticated) {
+    return <AdminLogin onSuccess={() => {}} loginFn={login} />;
   }
 
   // This should not be reached due to redirect

@@ -2,12 +2,12 @@
 
 import { useState, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useAdminAuth } from "@/contexts/AdminAuthContext";
 
 type Tab = "services" | "team" | "articles" | "faqs" | "settings";
 
 interface AdminLayoutProps {
   children: ReactNode;
-  onLogout: () => void;
 }
 
 const tabs: { id: Tab; label: string; icon: ReactNode; path: string }[] = [
@@ -63,9 +63,10 @@ const tabs: { id: Tab; label: string; icon: ReactNode; path: string }[] = [
   },
 ];
 
-export default function AdminLayout({ children, onLogout }: AdminLayoutProps) {
+export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { logout } = useAdminAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const activeTab = tabs.find((tab) => pathname === tab.path || pathname?.startsWith(`${tab.path}/`)) || tabs[0];
@@ -123,7 +124,7 @@ export default function AdminLayout({ children, onLogout }: AdminLayoutProps) {
         {/* Logout */}
         <div className="px-3 py-4 border-t border-white/10 shrink-0">
           <button
-            onClick={onLogout}
+            onClick={logout}
             className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-white/50 hover:bg-white/8 hover:text-white transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
