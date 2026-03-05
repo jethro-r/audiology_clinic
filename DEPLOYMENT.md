@@ -113,13 +113,25 @@ dev branch      → Development database
 
 ## 📝 Environment Variables
 
-Only one variable needed: `DATABASE_URL`
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | Yes | Neon PostgreSQL connection string |
+| `BLOB_READ_WRITE_TOKEN` | Production | Vercel Blob storage token (auto-created) |
 
 | Environment | Config File | Example |
 |-------------|-------------|---------|
 | Local | `.env.local` | `.env.local` file |
 | Staging | `.env` | `.env` file on server |
 | Production | Vercel Dashboard | Settings → Environment Variables |
+
+### Setting up Vercel Blob (Production)
+
+1. Go to Vercel Dashboard → Your Project → Storage
+2. Click "Create Database" → Select "Blob"
+3. Name it (e.g., `veritas-images`)
+4. The `BLOB_READ_WRITE_TOKEN` is automatically added to your environment variables
+
+**Note:** Local development can use Vercel Blob if you add the token to `.env.local`, or you can skip image uploads locally.
 
 ## 🔄 Workflow Summary
 

@@ -39,6 +39,7 @@ export default function TeamManager() {
   const [form, setForm] = useState<Omit<TeamMember, "id">>(emptyMember);
   const [specialisationsText, setSpecialisationsText] = useState("");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const fetchMembers = useCallback(async () => {
@@ -92,6 +93,36 @@ export default function TeamManager() {
   function cancelEdit() {
     setEditing(null);
     setCreating(false);
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("type", "team");
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setForm({ ...form, imageUrl: data.url });
+        showMessage("success", "Image uploaded");
+      } else {
+        const error = await res.json();
+        showMessage("error", error.error || "Failed to upload image");
+      }
+    } catch {
+      showMessage("error", "Upload failed");
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function handleSave(e: React.FormEvent) {
@@ -269,12 +300,27 @@ export default function TeamManager() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1.5">Image URL</label>
-                <input
-                  type="text"
-                  value={form.imageUrl || ""}
-                  onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={form.imageUrl || ""}
+                    onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+                    className="flex-1 px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
+                  />
+                  <label className="px-3 py-2.5 bg-secondary/10 text-secondary rounded-lg cursor-pointer hover:bg-secondary/20 transition-colors text-sm font-medium whitespace-nowrap flex items-center gap-1.5">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {uploading ? "Uploading..." : "Upload"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      disabled={uploading}
+                    />
+                  </label>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1.5">Email</label>

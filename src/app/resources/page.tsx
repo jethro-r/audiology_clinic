@@ -1,15 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  FileText,
-  Download,
-  BookOpen,
-  Calendar,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Badge from "@/components/Badge";
-import { PageHero, Section, SectionHeader } from "@/components/sections";
+import { PageHero, Section } from "@/components/sections";
 import { type Article } from "@/lib/data";
 
 const firstVisitInfo = [
@@ -87,22 +83,30 @@ export default function ResourcesPage() {
         ) : (
           <div className="grid gap-4 sm:gap-6">
           {articles.map((article, index) => (
-            <motion.article
-              key={article.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-card rounded-xl p-5 sm:p-6 hover:shadow-md transition-shadow cursor-pointer"
+            <Link 
+              key={article.slug} 
+              href={`/resources/articles/${article.slug}`}
+              className="block group"
             >
-              <Badge variant="primary" className="mb-3">
-                {article.category}
-              </Badge>
-              <h3 className="text-xl font-semibold text-foreground mb-2">
-                {article.title}
-              </h3>
-              <p className="text-muted">{article.excerpt}</p>
-            </motion.article>
+              <motion.article
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-card rounded-xl p-5 sm:p-6 hover:shadow-md transition-all group-hover:shadow-lg"
+              >
+                <Badge variant="primary" className="mb-3">
+                  {article.category}
+                </Badge>
+                <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-secondary transition-colors">
+                  {article.title}
+                </h3>
+                <p className="text-muted mb-3">{article.excerpt}</p>
+                <span className="inline-flex items-center gap-1 text-sm text-secondary font-medium">
+                  Read more <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </motion.article>
+            </Link>
           ))}
           </div>
         )}

@@ -1,10 +1,18 @@
 import { NextResponse } from 'next/server';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+import { put } from '@vercel/blob';
 
 export async function POST(request: Request) {
   if (!(await verifyAdmin())) return unauthorizedResponse();
+
+  // Check if blob token is configured
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    console.error('BLOB_READ_WRITE_TOKEN is not configured');
+    return NextResponse.json({ 
+      error: 'Blob storage not configured', 
+      details: 'BLOB_READ_WRITE_TOKEN environment variable is not set' 
+    }, { status: 500 });
+  }
 
   try {
     const formData = await request.formData();
@@ -45,21 +53,20 @@ export async function POST(request: Request) {
       .replace(/[^a-zA-Z0-9-_]/g, '-')
       .replace(/-+/g, '-')
       .substring(0, 50);
-    const filename = `${safeName}-${timestamp}.${ext}`;
+    const filename = `${folderType}/${safeName}-${timestamp}.${ext}`;
 
-    // Ensure directory exists
-    const uploadDir = path.join(process.cwd(), 'public', 'images', folderType);
-    await mkdir(uploadDir, { recursive: true });
+    // Upload to Vercel Blob
+    const blob = await put(filename, file, {
+      access: 'public',
+    });
 
-    // Write file
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const filePath = path.join(uploadDir, filename);
-    await writeFile(filePath, buffer);
-
-    const url = `/images/${folderType}/${filename}`;
-    return NextResponse.json({ url, filename });
+    return NextResponse.json({ url: blob.url, filename: blob.pathname });
   } catch (error) {
     console.error('Error uploading file:', error);
-    return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ 
+      error: 'Failed to upload file', 
+      details: errorMessage 
+    }, { status: 500 });
   }
 }
