@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { verifyAdmin, unauthorizedResponse } from "@/lib/admin-auth";
 
 // GET /api/admin/settings - Fetch all settings
 export async function GET(request: NextRequest) {
+  if (!(await verifyAdmin())) return unauthorizedResponse();
+
   try {
     const settings = await prisma.setting.findMany({
       orderBy: { key: "asc" },
@@ -29,6 +32,8 @@ export async function GET(request: NextRequest) {
 
 // PUT /api/admin/settings - Update settings
 export async function PUT(request: NextRequest) {
+  if (!(await verifyAdmin())) return unauthorizedResponse();
+
   try {
     const body = await request.json();
     const { settings } = body;

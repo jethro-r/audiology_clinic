@@ -17,6 +17,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate field lengths (prevent abuse / oversized payloads)
+    if (name.length > 100 || email.length > 254 || (phone && phone.length > 30) || message.length > 5000) {
+      return NextResponse.json({ error: "One or more fields exceed maximum length" }, { status: 400 });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+    }
+
     // Get contact email from settings
     const contactEmailSetting = await prisma.setting.findUnique({
       where: { key: "contactEmail" },
