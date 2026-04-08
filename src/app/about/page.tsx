@@ -166,16 +166,13 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="aspect-[4/3] bg-primary rounded-2xl flex items-center justify-center"
+            className="aspect-[4/3] rounded-2xl overflow-hidden"
           >
-            <div className="text-center p-8">
-              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
-                <Award className="w-10 h-10 text-secondary" />
-              </div>
-              <p className="text-white font-medium">
-                Trusted Care
-              </p>
-            </div>
+            <img
+              src="/images/Trusted-Care.jpg"
+              alt="Trusted hearing care at Veritas Hearing"
+              className="w-full h-full object-cover"
+            />
           </motion.div>
 
           <motion.div
