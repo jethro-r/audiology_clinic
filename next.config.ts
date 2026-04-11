@@ -15,6 +15,7 @@ const securityHeaders = [
       "img-src 'self' data: blob: https:",
       "font-src 'self'",
       "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://www.googletagmanager.com",
+      "frame-src 'self' https://www.google.com https://*.cliniko.com",
       "frame-ancestors 'none'",
     ].join("; "),
   },
