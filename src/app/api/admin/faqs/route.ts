@@ -2,19 +2,59 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { verifyAdmin } from "@/lib/admin-auth";
 
-// GET all FAQs
-export async function GET() {
+// GET FAQs with pagination and search
+export async function GET(req: NextRequest) {
   try {
     const isAdmin = await verifyAdmin();
     if (!isAdmin) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const faqs = await prisma.faq.findMany({
-      orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
-    });
+    const { searchParams } = new URL(req.url);
+    const rawPage = parseInt(searchParams.get("page") || "1", 10);
+    const rawLimit = parseInt(searchParams.get("limit") || "10", 10);
+    const page = Number.isFinite(rawPage) ? Math.max(1, rawPage) : 1;
+    const limit = Number.isFinite(rawLimit) ? Math.max(1, Math.min(100, rawLimit)) : 10;
+    const search = searchParams.get("search")?.trim() || "";
+    const activeOnly = searchParams.get("active") === "true";
 
-    return NextResponse.json(faqs);
+    const id = searchParams.get("id");
+    if (id) {
+      const faq = await prisma.faq.findUnique({ where: { id } });
+      if (!faq) return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json(faq);
+    }
+
+    const where: Record<string, unknown> = {};
+
+    if (search) {
+      where.OR = [
+        { question: { contains: search, mode: "insensitive" } },
+        { answer: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    if (activeOnly) {
+      where.active = true;
+    }
+
+    const [items, total] = await Promise.all([
+      prisma.faq.findMany({
+        where,
+        orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.faq.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      items,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
     console.error("Failed to fetch FAQs:", error);
     return NextResponse.json({ error: "Failed to fetch FAQs" }, { status: 500 });

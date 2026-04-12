@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import DOMPurify from "isomorphic-dompurify";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -82,9 +83,10 @@ export default function ServicesPage() {
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-4">
                     {service.title}
                   </h2>
-                  <p className="text-muted mb-6">
-                    {service.fullDescription}
-                  </p>
+                  <div
+                    className="rich-text text-muted mb-6"
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(service.fullDescription) }}
+                  />
 
                   {/* Ideal if */}
                   {service.idealFor && (

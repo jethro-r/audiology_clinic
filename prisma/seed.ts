@@ -143,7 +143,7 @@ async function main() {
         title: 'Understanding the Different Types of Hearing Loss',
         excerpt:
           'Learn about conductive, sensorineural, and mixed hearing loss, their causes, and treatment options.',
-        category: 'Education',
+        categories: ['Education'],
         published: true,
         publishedAt: new Date('2024-01-15'),
         sortOrder: 1,
@@ -153,7 +153,7 @@ async function main() {
         title: 'How to Choose the Right Hearing Aid for Your Lifestyle',
         excerpt:
           'A guide to selecting hearing aids based on your daily activities, preferences, and hearing needs.',
-        category: 'Hearing Aids',
+        categories: ['Hearing Aids'],
         published: true,
         publishedAt: new Date('2024-02-20'),
         sortOrder: 2,
@@ -163,7 +163,7 @@ async function main() {
         title: 'Living with Tinnitus: Coping Strategies That Work',
         excerpt:
           'Practical tips and treatments for managing tinnitus and improving your quality of life.',
-        category: 'Tinnitus',
+        categories: ['Tinnitus'],
         published: true,
         publishedAt: new Date('2024-03-10'),
         sortOrder: 3,
@@ -173,7 +173,7 @@ async function main() {
         title: 'Protecting Your Hearing: A Complete Guide',
         excerpt:
           'Everything you need to know about preventing noise-induced hearing loss at home and work.',
-        category: 'Prevention',
+        categories: ['Prevention'],
         published: true,
         publishedAt: new Date('2024-04-05'),
         sortOrder: 4,

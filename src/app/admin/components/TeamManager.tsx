@@ -1,6 +1,10 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import useAdminPagination from "@/hooks/useAdminPagination";
+import Pagination from "@/components/admin/Pagination";
+import SearchBar from "@/components/admin/SearchBar";
 
 interface TeamMember {
   id: string;
@@ -17,160 +21,25 @@ interface TeamMember {
   active: boolean;
 }
 
-const emptyMember: Omit<TeamMember, "id"> = {
-  slug: "",
-  name: "",
-  title: "",
-  credentials: "",
-  imageUrl: "",
-  bio: "",
-  specialisations: [],
-  email: "",
-  phone: "",
-  sortOrder: 0,
-  active: true,
-};
 
 export default function TeamManager() {
-  const [members, setMembers] = useState<TeamMember[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<TeamMember | null>(null);
-  const [creating, setCreating] = useState(false);
-  const [form, setForm] = useState<Omit<TeamMember, "id">>(emptyMember);
-  const [specialisationsText, setSpecialisationsText] = useState("");
-  const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const router = useRouter();
+  const {
+    items: members,
+    totalItems,
+    totalPages,
+    currentPage,
+    setPage,
+    search,
+    setSearch,
+    loading,
+    refetch,
+  } = useAdminPagination<TeamMember>("/api/admin/team");
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-
-  const fetchMembers = useCallback(async () => {
-    try {
-      const res = await fetch("/api/admin/team");
-      if (res.ok) {
-        setMembers(await res.json());
-      }
-    } catch (error) {
-      console.error("Failed to fetch team members:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchMembers();
-  }, [fetchMembers]);
 
   function showMessage(type: "success" | "error", text: string) {
     setMessage({ type, text });
     setTimeout(() => setMessage(null), 3000);
-  }
-
-  function startCreate() {
-    setEditing(null);
-    setForm(emptyMember);
-    setSpecialisationsText("");
-    setCreating(true);
-  }
-
-  function startEdit(member: TeamMember) {
-    setCreating(false);
-    setEditing(member);
-    setForm({
-      slug: member.slug,
-      name: member.name,
-      title: member.title,
-      credentials: member.credentials || "",
-      imageUrl: member.imageUrl || "",
-      bio: member.bio,
-      specialisations: member.specialisations,
-      email: member.email || "",
-      phone: member.phone || "",
-      sortOrder: member.sortOrder,
-      active: member.active,
-    });
-    setSpecialisationsText(member.specialisations.join("\n"));
-  }
-
-  function cancelEdit() {
-    setEditing(null);
-    setCreating(false);
-  }
-
-  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", "team");
-
-    try {
-      const res = await fetch("/api/admin/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        setForm({ ...form, imageUrl: data.url });
-        showMessage("success", "Image uploaded");
-      } else {
-        const error = await res.json();
-        showMessage("error", error.error || "Failed to upload image");
-      }
-    } catch {
-      showMessage("error", "Upload failed");
-    } finally {
-      setUploading(false);
-    }
-  }
-
-  async function handleSave(e: React.FormEvent) {
-    e.preventDefault();
-    setSaving(true);
-
-    const data = {
-      ...form,
-      specialisations: specialisationsText.split("\n").map((s) => s.trim()).filter(Boolean),
-      credentials: form.credentials || null,
-      imageUrl: form.imageUrl || null,
-      email: form.email || null,
-      phone: form.phone || null,
-    };
-
-    try {
-      if (editing) {
-        const res = await fetch("/api/admin/team", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: editing.id, ...data }),
-        });
-        if (res.ok) {
-          showMessage("success", "Team member updated");
-          setEditing(null);
-          fetchMembers();
-        } else {
-          showMessage("error", "Failed to update team member");
-        }
-      } else {
-        const res = await fetch("/api/admin/team", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-        if (res.ok) {
-          showMessage("success", "Team member created");
-          setCreating(false);
-          fetchMembers();
-        } else {
-          showMessage("error", "Failed to create team member");
-        }
-      }
-    } catch {
-      showMessage("error", "An error occurred");
-    } finally {
-      setSaving(false);
-    }
   }
 
   async function handleDelete(member: TeamMember) {
@@ -184,7 +53,7 @@ export default function TeamManager() {
       });
       if (res.ok) {
         showMessage("success", "Team member deleted");
-        fetchMembers();
+        refetch();
       } else {
         showMessage("error", "Failed to delete team member");
       }
@@ -201,27 +70,23 @@ export default function TeamManager() {
     );
   }
 
-  const showForm = creating || editing;
-
   return (
     <div>
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-2xl font-semibold text-foreground">Team Members</h2>
-          <p className="text-sm text-muted mt-1">{members.length} member{members.length !== 1 ? "s" : ""}</p>
+          <p className="text-sm text-muted mt-1">{totalItems} member{totalItems !== 1 ? "s" : ""}</p>
         </div>
-        {!showForm && (
-          <button
-            onClick={startCreate}
-            className="bg-secondary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-secondary-dark transition-colors flex items-center gap-2 shadow-sm"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            Add Member
-          </button>
-        )}
+        <button
+          onClick={() => router.push("/admin/team/new")}
+          className="bg-secondary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-secondary-dark transition-colors flex items-center gap-2 shadow-sm"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          Add Member
+        </button>
       </div>
 
       {/* Message */}
@@ -233,168 +98,10 @@ export default function TeamManager() {
         </div>
       )}
 
-      {/* Form */}
-      {showForm && (
-        <div className="bg-card rounded-xl border border-border p-4 sm:p-6 lg:p-8 mb-8 shadow-sm">
-          <h3 className="text-lg font-semibold text-foreground mb-6">
-            {editing ? "Edit Team Member" : "New Team Member"}
-          </h3>
-          <form onSubmit={handleSave} className="space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Name</label>
-                <input
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Slug</label>
-                <input
-                  type="text"
-                  value={form.slug}
-                  onChange={(e) => setForm({ ...form, slug: e.target.value })}
-                  placeholder="Auto-generated from name if empty"
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground placeholder:text-muted-light"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Title/Role</label>
-                <input
-                  type="text"
-                  value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Credentials</label>
-                <input
-                  type="text"
-                  value={form.credentials || ""}
-                  onChange={(e) => setForm({ ...form, credentials: e.target.value })}
-                  placeholder="e.g. MSc, MNZAS"
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground placeholder:text-muted-light"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Bio</label>
-              <textarea
-                value={form.bio}
-                onChange={(e) => setForm({ ...form, bio: e.target.value })}
-                rows={4}
-                className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                required
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Image URL</label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={form.imageUrl || ""}
-                    onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                    className="flex-1 px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                  />
-                  <label className="px-3 py-2.5 bg-secondary/10 text-secondary rounded-lg cursor-pointer hover:bg-secondary/20 transition-colors text-sm font-medium whitespace-nowrap flex items-center gap-1.5">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    {uploading ? "Uploading..." : "Upload"}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                      disabled={uploading}
-                    />
-                  </label>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Email</label>
-                <input
-                  type="email"
-                  value={form.email || ""}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Phone</label>
-                <input
-                  type="text"
-                  value={form.phone || ""}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Specialisations (one per line)</label>
-              <textarea
-                value={specialisationsText}
-                onChange={(e) => setSpecialisationsText(e.target.value)}
-                rows={3}
-                placeholder="Hearing Assessments&#10;Tinnitus Management&#10;Paediatric Audiology"
-                className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground placeholder:text-muted-light"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Sort Order</label>
-                <input
-                  type="number"
-                  value={form.sortOrder}
-                  onChange={(e) => setForm({ ...form, sortOrder: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                />
-              </div>
-              <div className="flex items-end">
-                <label className="flex items-center gap-2.5 pb-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={form.active}
-                    onChange={(e) => setForm({ ...form, active: e.target.checked })}
-                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary accent-primary"
-                  />
-                  <span className="text-sm text-foreground">Active (visible on site)</span>
-                </label>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 pt-4 border-t border-border">
-              <button
-                type="submit"
-                disabled={saving}
-                className="bg-secondary text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-secondary-dark transition-colors disabled:opacity-50 shadow-sm"
-              >
-                {saving ? "Saving..." : editing ? "Update Member" : "Create Member"}
-              </button>
-              <button
-                type="button"
-                onClick={cancelEdit}
-                className="px-6 py-2.5 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-background transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+      {/* Search */}
+      <div className="mb-6">
+        <SearchBar value={search} onChange={setSearch} placeholder="Search team members..." />
+      </div>
 
       {/* Table */}
       <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
@@ -428,7 +135,7 @@ export default function TeamManager() {
                 <td className="px-5 py-4 text-right">
                   <div className="flex items-center justify-end gap-1">
                     <button
-                      onClick={() => startEdit(member)}
+                      onClick={() => router.push(`/admin/team/${member.id}`)}
                       className="text-muted hover:text-secondary p-2 rounded-lg hover:bg-secondary/10 transition-colors"
                       title="Edit"
                     >
@@ -460,6 +167,13 @@ export default function TeamManager() {
         </table>
         </div>
       </div>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </div>
   );
 }

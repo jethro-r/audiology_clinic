@@ -1,16 +1,53 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
 
-// GET - List all team members (including inactive for admin)
-export async function GET() {
+// GET - List team members with pagination and search
+export async function GET(request: NextRequest) {
   if (!(await verifyAdmin())) return unauthorizedResponse();
 
   try {
-    const teamMembers = await prisma.teamMember.findMany({
-      orderBy: { sortOrder: 'asc' },
+    const { searchParams } = new URL(request.url);
+    const rawPage = parseInt(searchParams.get('page') || '1', 10);
+    const rawLimit = parseInt(searchParams.get('limit') || '10', 10);
+    const page = Number.isFinite(rawPage) ? Math.max(1, rawPage) : 1;
+    const limit = Number.isFinite(rawLimit) ? Math.max(1, Math.min(100, rawLimit)) : 10;
+    const search = searchParams.get('search')?.trim() || '';
+
+    const id = searchParams.get('id');
+    if (id) {
+      const member = await prisma.teamMember.findUnique({ where: { id } });
+      if (!member) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      return NextResponse.json(member);
+    }
+
+    const where = search
+      ? {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' as const } },
+            { title: { contains: search, mode: 'insensitive' as const } },
+            { credentials: { contains: search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {};
+
+    const [items, total] = await Promise.all([
+      prisma.teamMember.findMany({
+        where,
+        orderBy: { sortOrder: 'asc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.teamMember.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      items,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
     });
-    return NextResponse.json(teamMembers);
   } catch (error) {
     console.error('Error fetching team members:', error);
     return NextResponse.json({ error: 'Failed to fetch team members' }, { status: 500 });

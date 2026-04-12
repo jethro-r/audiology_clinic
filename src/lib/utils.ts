@@ -4,6 +4,18 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
 }
 
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")                     // decompose accented chars
+    .replace(/[\u0300-\u036f]/g, "")      // strip diacritic marks
+    .replace(/[^a-z0-9\s-]/g, "")        // remove remaining non-slug chars
+    .trim()
+    .replace(/[\s_]+/g, "-")             // spaces/underscores → hyphens
+    .replace(/-+/g, "-")                 // collapse multiple hyphens
+    .replace(/^-|-$/g, "");              // strip leading/trailing hyphens
+}
+
 export function formatPhoneNumber(phone: string): string {
   const cleaned = phone.replace(/\D/g, "");
   

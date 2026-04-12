@@ -42,7 +42,7 @@ export interface Article {
   title: string;
   excerpt: string;
   content?: string | null;
-  category: string;
+  categories: string[];
   author?: string | null;
   imageUrl?: string | null;
   published: boolean;

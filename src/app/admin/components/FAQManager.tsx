@@ -1,116 +1,38 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import {
-  HelpCircle,
-  Plus,
-  Pencil,
-  Trash2,
-  Eye,
-  EyeOff,
-  X,
-  Save,
-} from "lucide-react";
+import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { type FAQ } from "@/lib/data";
+import useAdminPagination from "@/hooks/useAdminPagination";
+import Pagination from "@/components/admin/Pagination";
+import SearchBar from "@/components/admin/SearchBar";
 
-const emptyFAQ: Omit<FAQ, "id" | "createdAt" | "updatedAt"> = {
-  question: "",
-  answer: "",
-  sortOrder: 0,
-  active: true,
-};
 
 export default function FAQManager() {
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<FAQ | null>(null);
-  const [creating, setCreating] = useState(false);
-  const [form, setForm] = useState<Omit<FAQ, "id" | "createdAt" | "updatedAt">>(emptyFAQ);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const router = useRouter();
   const [showOnlyActive, setShowOnlyActive] = useState(false);
 
-  const fetchFAQs = useCallback(async () => {
-    try {
-      const res = await fetch("/api/admin/faqs");
-      if (res.ok) {
-        setFaqs(await res.json());
-      }
-    } catch (error) {
-      console.error("Failed to fetch FAQs:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const extraParams = useMemo(
+    () => (showOnlyActive ? { active: "true" } : undefined),
+    [showOnlyActive]
+  );
 
-  useEffect(() => {
-    fetchFAQs();
-  }, [fetchFAQs]);
+  const {
+    items: faqs,
+    totalItems,
+    totalPages,
+    currentPage,
+    setPage,
+    search,
+    setSearch,
+    loading,
+    refetch,
+  } = useAdminPagination<FAQ>("/api/admin/faqs", { extraParams });
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   function showMessage(type: "success" | "error", text: string) {
     setMessage({ type, text });
     setTimeout(() => setMessage(null), 3000);
-  }
-
-  function startCreate() {
-    setEditing(null);
-    setForm(emptyFAQ);
-    setCreating(true);
-  }
-
-  function startEdit(faq: FAQ) {
-    setCreating(false);
-    setEditing(faq);
-    setForm({
-      question: faq.question,
-      answer: faq.answer,
-      sortOrder: faq.sortOrder,
-      active: faq.active,
-    });
-  }
-
-  function cancelEdit() {
-    setEditing(null);
-    setCreating(false);
-  }
-
-  async function handleSave(e: React.FormEvent) {
-    e.preventDefault();
-    setSaving(true);
-
-    try {
-      if (editing) {
-        const res = await fetch("/api/admin/faqs", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: editing.id, ...form }),
-        });
-        if (res.ok) {
-          showMessage("success", "FAQ updated");
-          setEditing(null);
-          fetchFAQs();
-        } else {
-          showMessage("error", "Failed to update FAQ");
-        }
-      } else {
-        const res = await fetch("/api/admin/faqs", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        });
-        if (res.ok) {
-          showMessage("success", "FAQ created");
-          setCreating(false);
-          fetchFAQs();
-        } else {
-          showMessage("error", "Failed to create FAQ");
-        }
-      }
-    } catch {
-      showMessage("error", "An error occurred");
-    } finally {
-      setSaving(false);
-    }
   }
 
   async function handleDelete(faq: FAQ) {
@@ -124,7 +46,7 @@ export default function FAQManager() {
       });
       if (res.ok) {
         showMessage("success", "FAQ deleted");
-        fetchFAQs();
+        refetch();
       } else {
         showMessage("error", "Failed to delete FAQ");
       }
@@ -141,7 +63,7 @@ export default function FAQManager() {
         body: JSON.stringify({ id: faq.id, active: !faq.active }),
       });
       if (res.ok) {
-        fetchFAQs();
+        refetch();
       } else {
         showMessage("error", "Failed to update FAQ");
       }
@@ -149,9 +71,6 @@ export default function FAQManager() {
       showMessage("error", "An error occurred");
     }
   }
-
-  const showForm = creating || editing;
-  const filteredFaqs = showOnlyActive ? faqs.filter((faq) => faq.active) : faqs;
 
   if (loading) {
     return (
@@ -168,211 +87,120 @@ export default function FAQManager() {
         <div>
           <h2 className="text-2xl font-semibold text-foreground">FAQs</h2>
           <p className="text-sm text-muted mt-1">
-            {filteredFaqs.length} FAQ{filteredFaqs.length !== 1 ? "s" : ""}
-            {showOnlyActive && ` (${faqs.length - filteredFaqs.length} hidden)`}
+            {totalItems} FAQ{totalItems !== 1 ? "s" : ""}
           </p>
         </div>
-        {!showForm && (
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowOnlyActive(!showOnlyActive)}
-              className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                showOnlyActive
-                  ? "bg-secondary text-white shadow-sm"
-                  : "bg-card border border-border text-foreground hover:bg-background"
-              }`}
-            >
-              <Eye className="w-4 h-4" />
-              {showOnlyActive ? "Show All" : "Active Only"}
-            </button>
-            <button
-              onClick={startCreate}
-              className="bg-secondary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-secondary-dark transition-colors flex items-center gap-2 shadow-sm"
-            >
-              <Plus className="w-4 h-4" />
-              Add FAQ
-            </button>
-          </div>
-        )}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowOnlyActive(!showOnlyActive)}
+            className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+              showOnlyActive
+                ? "bg-secondary text-white shadow-sm"
+                : "bg-card border border-border text-foreground hover:bg-background"
+            }`}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            {showOnlyActive ? "Show All" : "Active Only"}
+          </button>
+          <button
+            onClick={() => router.push("/admin/faqs/new")}
+            className="bg-secondary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-secondary-dark transition-colors flex items-center gap-2 shadow-sm"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Add FAQ
+          </button>
+        </div>
       </div>
 
       {/* Message */}
       {message && (
-        <div
-          className={`mb-6 px-4 py-3 rounded-lg text-sm font-medium ${
-            message.type === "success" ? "bg-success/10 text-success" : "bg-error/10 text-error"
-          }`}
-        >
+        <div className={`mb-6 px-4 py-3 rounded-lg text-sm font-medium ${
+          message.type === "success" ? "bg-success/10 text-success" : "bg-error/10 text-error"
+        }`}>
           {message.text}
         </div>
       )}
 
-      {/* Form */}
-      {showForm && (
-        <div className="bg-card rounded-xl border border-border p-4 sm:p-6 lg:p-8 mb-8 shadow-sm">
-          <h3 className="text-lg font-semibold text-foreground mb-6">
-            {editing ? "Edit FAQ" : "New FAQ"}
-          </h3>
-          <form onSubmit={handleSave} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Question</label>
-              <input
-                type="text"
-                value={form.question}
-                onChange={(e) => setForm({ ...form, question: e.target.value })}
-                className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                placeholder="Enter the question"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">Answer</label>
-              <textarea
-                value={form.answer}
-                onChange={(e) => setForm({ ...form, answer: e.target.value })}
-                rows={4}
-                className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground resize-none"
-                placeholder="Enter the answer"
-                required
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Sort Order</label>
-                <input
-                  type="number"
-                  value={form.sortOrder}
-                  onChange={(e) => setForm({ ...form, sortOrder: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-2.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary text-foreground"
-                />
-              </div>
-
-              <div className="flex items-end pb-2.5">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={form.active}
-                    onChange={(e) => setForm({ ...form, active: e.target.checked })}
-                    className="w-5 h-5 rounded border-border text-secondary focus:ring-secondary/40"
-                  />
-                  <span className="text-sm font-medium text-foreground">Active (visible on website)</span>
-                </label>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 pt-2">
-              <button
-                type="submit"
-                disabled={saving}
-                className="bg-secondary text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-secondary-dark transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-              >
-                {saving ? (
-                  <>
-                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    <Save className="w-4 h-4" />
-                    {editing ? "Update FAQ" : "Create FAQ"}
-                  </>
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={cancelEdit}
-                className="bg-card border border-border text-foreground px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-background transition-colors flex items-center gap-2"
-              >
-                <X className="w-4 h-4" />
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-
-      {/* FAQ List */}
-      <div className="space-y-4">
-        {filteredFaqs.length === 0 ? (
-          <div className="bg-card border border-border rounded-xl p-12 text-center">
-            <HelpCircle className="w-16 h-16 text-muted mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">No FAQs found</h3>
-            <p className="text-sm text-muted mb-6">
-              {showOnlyActive
-                ? "There are no active FAQs. Toggle 'Active Only' to see all FAQs."
-                : "Create your first FAQ to get started."}
-            </p>
-            {!showOnlyActive && (
-              <button
-                onClick={startCreate}
-                className="bg-secondary text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-secondary-dark transition-colors flex items-center gap-2 mx-auto shadow-sm"
-              >
-                <Plus className="w-4 h-4" />
-                Create First FAQ
-              </button>
-            )}
-          </div>
-        ) : (
-          filteredFaqs.map((faq) => (
-            <div
-              key={faq.id}
-              className={`bg-card rounded-xl border ${
-                !faq.active ? "border-border opacity-60" : "border-border"
-              } shadow-sm transition-all hover:shadow-md`}
-            >
-              <div className="p-5">
-                <div className="flex items-start gap-4">
-                  {/* Sort Order Badge */}
-                  <div className="flex flex-col items-center gap-1 pt-1">
-                    <div className="w-8 h-8 rounded-lg bg-background border border-border flex items-center justify-center text-sm font-semibold text-muted">
-                      {faq.sortOrder}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <h4 className="text-lg font-semibold text-foreground mb-2">{faq.question}</h4>
-                        <p className="text-sm text-muted whitespace-pre-wrap">{faq.answer}</p>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0">
-                        <button
-                          onClick={() => handleToggleActive(faq)}
-                          className={`p-2 rounded-lg transition-colors ${
-                            faq.active
-                              ? "text-success hover:bg-success/10"
-                              : "text-muted hover:bg-background"
-                          }`}
-                          title={faq.active ? "Hide from website" : "Show on website"}
-                        >
-                          {faq.active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                        </button>
-                        <button
-                          onClick={() => startEdit(faq)}
-                          className="p-2 text-foreground hover:bg-background rounded-lg transition-colors"
-                          title="Edit"
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(faq)}
-                          className="p-2 text-error hover:bg-error/10 rounded-lg transition-colors"
-                          title="Delete"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
+      {/* Search */}
+      <div className="mb-6">
+        <SearchBar value={search} onChange={setSearch} placeholder="Search FAQs..." />
       </div>
+
+      {/* Table */}
+      <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[500px]">
+            <thead className="bg-background border-b border-border">
+              <tr>
+                <th className="text-left text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5">Question</th>
+                <th className="text-center text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5 hidden sm:table-cell">Order</th>
+                <th className="text-center text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5 hidden sm:table-cell">Active</th>
+                <th className="text-right text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {faqs.map((faq) => (
+                <tr key={faq.id} className="hover:bg-background/60 transition-colors">
+                  <td className="px-5 py-4">
+                    <div className="text-sm font-medium text-foreground">{faq.question}</div>
+                  </td>
+                  <td className="px-5 py-4 text-center text-sm text-muted hidden sm:table-cell">{faq.sortOrder}</td>
+                  <td className="px-5 py-4 text-center hidden sm:table-cell">
+                    <button
+                      onClick={() => handleToggleActive(faq)}
+                      title={faq.active ? "Hide from website" : "Show on website"}
+                      className="inline-flex"
+                    >
+                      <span className={`inline-block w-2.5 h-2.5 rounded-full ${faq.active ? "bg-success" : "bg-border"}`} />
+                    </button>
+                  </td>
+                  <td className="px-5 py-4 text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        onClick={() => router.push(`/admin/faqs/${faq.id}`)}
+                        className="text-muted hover:text-secondary p-2 rounded-lg hover:bg-secondary/10 transition-colors"
+                        title="Edit"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleDelete(faq)}
+                        className="text-muted hover:text-error p-2 rounded-lg hover:bg-error/10 transition-colors"
+                        title="Delete"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {faqs.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="px-5 py-12 text-center text-sm text-muted">
+                    No FAQs yet. Click &quot;Add FAQ&quot; to create one.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </div>
   );
 }

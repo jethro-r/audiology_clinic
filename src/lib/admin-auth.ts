@@ -2,8 +2,18 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
 
-// Server-side token store (in-memory; resets on server restart, which is fine — sessions are transient)
-const activeTokens = new Set<string>();
+// Server-side token store
+// In dev, HMR re-evaluates modules and would wipe in-memory state on every
+// hot reload. Attaching to `global` preserves existing tokens across reloads.
+declare global {
+  // eslint-disable-next-line no-var
+  var _adminTokens: Set<string> | undefined;
+}
+
+const activeTokens: Set<string> = global._adminTokens ?? new Set<string>();
+if (!global._adminTokens) {
+  global._adminTokens = activeTokens;
+}
 
 export function generateToken(): string {
   return crypto.randomBytes(48).toString('hex');
