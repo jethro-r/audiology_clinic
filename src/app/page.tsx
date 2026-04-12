@@ -15,6 +15,7 @@ import ServiceCard from "@/components/ServiceCard";
 import Button from "@/components/Button";
 import { Section, SectionHeader, CTASection } from "@/components/sections";
 import { useState, useEffect } from "react";
+import DOMPurify from "isomorphic-dompurify";
 import { type Service, type FAQ } from "@/lib/data";
 
 export default function HomePage() {
@@ -176,9 +177,10 @@ export default function HomePage() {
                 />
               </button>
               {openFaq === index && (
-                <div className="px-4 sm:px-5 pb-4 text-muted text-sm sm:text-base">
-                  {faq.answer}
-                </div>
+                <div
+                  className="px-4 sm:px-5 pb-4 text-muted text-sm sm:text-base rich-text"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(faq.answer) }}
+                />
               )}
             </motion.div>
           ))}

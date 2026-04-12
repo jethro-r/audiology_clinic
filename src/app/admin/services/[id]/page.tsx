@@ -7,6 +7,7 @@ import * as LucideIcons from "lucide-react";
 import AdminAuthWrapper from "../../../../components/admin/AdminAuthWrapper";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import RichTextEditor from "../../../../components/admin/RichTextEditor";
+import { slugify } from "@/lib/utils";
 
 interface Service {
   id: string;
@@ -65,12 +66,19 @@ function ServiceEditForm() {
   const [showIconPicker, setShowIconPicker] = useState(false);
   const [iconSearch, setIconSearch] = useState("");
   const iconPickerRef = useRef<HTMLDivElement>(null);
+  const slugManuallyEdited = useRef(false);
 
   useEffect(() => {
     if (!isNew) {
       fetch(`/api/admin/services?id=${id}`)
-        .then((r) => r.json())
+        .then(async (r) => {
+          if (r.status === 401) throw new Error("Unauthorised — please log in again.");
+          if (r.status === 404) throw new Error("Service not found.");
+          if (!r.ok) throw new Error(`Unexpected error (${r.status})`);
+          return r.json();
+        })
         .then((data: Service) => {
+          slugManuallyEdited.current = true; // existing services have a slug already
           setForm({
             slug: data.slug, title: data.title,
             shortDescription: data.shortDescription, fullDescription: data.fullDescription,
@@ -82,8 +90,8 @@ function ServiceEditForm() {
           setFeaturesText(data.features.join("\n"));
           setLoading(false);
         })
-        .catch(() => {
-          setMessage({ type: "error", text: "Failed to load service" });
+        .catch((err: unknown) => {
+          setMessage({ type: "error", text: err instanceof Error ? err.message : "Failed to load service" });
           setLoading(false);
         });
     }
@@ -248,7 +256,14 @@ function ServiceEditForm() {
                 <input
                   type="text"
                   value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  onChange={(e) => {
+                    const title = e.target.value;
+                    setForm((f) => ({
+                      ...f,
+                      title,
+                      slug: slugManuallyEdited.current ? f.slug : slugify(title),
+                    }));
+                  }}
                   className={inputCls}
                   required
                 />
@@ -258,9 +273,15 @@ function ServiceEditForm() {
                 <input
                   type="text"
                   value={form.slug}
-                  onChange={(e) => setForm({ ...form, slug: e.target.value })}
-                  placeholder="Auto-generated if empty"
-                  className={`${inputCls} placeholder:text-muted-light`}
+                  onChange={(e) => {
+                    slugManuallyEdited.current = true;
+                    setForm((f) => ({ ...f, slug: slugify(e.target.value) }));
+                  }}
+                  onBlur={(e) => {
+                    setForm((f) => ({ ...f, slug: slugify(e.target.value) }));
+                  }}
+                  placeholder="Auto-generated from title"
+                  className={`${inputCls} placeholder:text-muted-light font-mono text-sm`}
                 />
               </div>
             </div>
@@ -290,6 +311,7 @@ function ServiceEditForm() {
                 value={form.fullDescription}
                 onChange={(html) => setForm({ ...form, fullDescription: html })}
                 placeholder="Write a detailed description of this service..."
+                uploadType="services"
               />
             </div>
           </div>

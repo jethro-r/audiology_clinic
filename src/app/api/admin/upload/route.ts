@@ -45,12 +45,11 @@ export async function POST(request: Request) {
     if (!process.env.BLOB_READ_WRITE_TOKEN) {
       const { writeFile, mkdir } = await import('fs/promises');
       const { join } = await import('path');
-      const dir = join(process.cwd(), 'public', 'uploads', folderType);
-      await mkdir(dir, { recursive: true });
+      const uploadsDir = join(process.cwd(), 'public', 'uploads');
+      await mkdir(join(uploadsDir, folderType), { recursive: true });
       const buffer = Buffer.from(await file.arrayBuffer());
-      const localFilename = `${safeName}-${timestamp}.${ext}`;
-      await writeFile(join(dir, localFilename), buffer);
-      const url = `/uploads/${folderType}/${localFilename}`;
+      await writeFile(join(uploadsDir, filename), buffer);
+      const url = `/uploads/${filename}`;
       return NextResponse.json({ url, filename });
     }
 

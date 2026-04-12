@@ -41,13 +41,18 @@ function FAQEditForm() {
   useEffect(() => {
     if (!isNew) {
       fetch(`/api/admin/faqs?id=${id}`)
-        .then((r) => r.json())
+        .then(async (r) => {
+          if (r.status === 401) throw new Error("Unauthorised — please log in again.");
+          if (r.status === 404) throw new Error("FAQ not found.");
+          if (!r.ok) throw new Error(`Unexpected error (${r.status})`);
+          return r.json();
+        })
         .then((data: FAQ) => {
           setForm({ question: data.question, answer: data.answer, sortOrder: data.sortOrder, active: data.active });
           setLoading(false);
         })
-        .catch(() => {
-          setMessage({ type: "error", text: "Failed to load FAQ" });
+        .catch((err: unknown) => {
+          setMessage({ type: "error", text: err instanceof Error ? err.message : "Failed to load FAQ" });
           setLoading(false);
         });
     }

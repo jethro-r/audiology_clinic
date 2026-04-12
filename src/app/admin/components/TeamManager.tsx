@@ -106,7 +106,7 @@ export default function TeamManager() {
       {/* Table */}
       <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-        <table className="w-full min-w-125">
+        <table className="w-full min-w-[500px]">
           <thead className="bg-background border-b border-border">
             <tr>
               <th className="text-left text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5">Member</th>

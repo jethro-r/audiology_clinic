@@ -44,6 +44,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
   return (
     <div className="flex items-center justify-center gap-1.5 pt-6">
       <button
+        type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
         className="p-2 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-background transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
@@ -60,7 +61,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         ) : (
           <button
             key={page}
+            type="button"
             onClick={() => onPageChange(page)}
+            aria-label={`Page ${page}`}
+            aria-current={page === currentPage ? "page" : undefined}
             className={`min-w-[36px] h-9 rounded-lg text-sm font-medium transition-colors ${
               page === currentPage
                 ? "bg-secondary text-white shadow-sm"
@@ -73,6 +77,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       )}
 
       <button
+        type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}
         className="p-2 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-background transition-colors disabled:opacity-30 disabled:cursor-not-allowed"

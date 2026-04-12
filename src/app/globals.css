@@ -141,8 +141,10 @@ body {
   animation: slideInRight 0.5s ease-out forwards;
 }
 
-/* TipTap rich text editor content styles */
-.tiptap {
+/* TipTap editor and public rich-text rendering */
+.tiptap,
+.ProseMirror,
+.rich-text {
   h2 {
     font-size: 1.125rem;
     font-weight: 600;
@@ -186,5 +188,11 @@ body {
   }
   strong {
     font-weight: 600;
+  }
+  img {
+    border-radius: 0.5rem;
+    max-width: 100%;
+    height: auto;
+    margin: 0.5rem 0;
   }
 }

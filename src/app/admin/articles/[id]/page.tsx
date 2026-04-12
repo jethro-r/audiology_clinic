@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Save, X } from "lucide-react";
 import AdminAuthWrapper from "../../../../components/admin/AdminAuthWrapper";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import RichTextEditor from "../../../../components/admin/RichTextEditor";
+import { slugify } from "@/lib/utils";
 
 interface Article {
   id: string;
@@ -54,12 +55,19 @@ function ArticleEditForm() {
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [newCategory, setNewCategory] = useState("");
+  const slugManuallyEdited = useRef(false);
 
   useEffect(() => {
     if (!isNew) {
       fetch(`/api/admin/articles?id=${id}`)
-        .then((r) => r.json())
+        .then(async (r) => {
+          if (r.status === 401) throw new Error("Unauthorised — please log in again.");
+          if (r.status === 404) throw new Error("Article not found.");
+          if (!r.ok) throw new Error(`Unexpected error (${r.status})`);
+          return r.json();
+        })
         .then((data: Article) => {
+          slugManuallyEdited.current = true; // existing articles have a slug already
           setForm({
             slug: data.slug,
             title: data.title,
@@ -74,8 +82,8 @@ function ArticleEditForm() {
           });
           setLoading(false);
         })
-        .catch(() => {
-          setMessage({ type: "error", text: "Failed to load article" });
+        .catch((err: unknown) => {
+          setMessage({ type: "error", text: err instanceof Error ? err.message : "Failed to load article" });
           setLoading(false);
         });
     }
@@ -192,7 +200,14 @@ function ArticleEditForm() {
                 <input
                   type="text"
                   value={form.title}
-                  onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  onChange={(e) => {
+                    const title = e.target.value;
+                    setForm((f) => ({
+                      ...f,
+                      title,
+                      slug: slugManuallyEdited.current ? f.slug : slugify(title),
+                    }));
+                  }}
                   className={inputCls}
                   required
                 />
@@ -202,9 +217,16 @@ function ArticleEditForm() {
                 <input
                   type="text"
                   value={form.slug}
-                  onChange={(e) => setForm({ ...form, slug: e.target.value })}
-                  placeholder="Auto-generated if empty"
-                  className={`${inputCls} placeholder:text-muted-light`}
+                  onChange={(e) => {
+                    slugManuallyEdited.current = true;
+                    setForm((f) => ({ ...f, slug: slugify(e.target.value) }));
+                  }}
+                  onBlur={(e) => {
+                    // Final clean on blur in case user left trailing hyphens
+                    setForm((f) => ({ ...f, slug: slugify(e.target.value) }));
+                  }}
+                  placeholder="Auto-generated from title"
+                  className={`${inputCls} placeholder:text-muted-light font-mono text-sm`}
                 />
               </div>
             </div>
@@ -233,6 +255,7 @@ function ArticleEditForm() {
               value={form.content || ""}
               onChange={(html) => setForm({ ...form, content: html })}
               placeholder="Write the full article content..."
+              uploadType="articles"
             />
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { CheckCircle, User } from "lucide-react";
+import DOMPurify from "isomorphic-dompurify";
 import Badge from "./Badge";
 
 interface TeamMemberProps {
@@ -56,7 +57,10 @@ export default function TeamMember({
         </h3>
         <p className="text-primary font-medium">{title}</p>
         {credentials && <p className="text-sm text-muted mb-3">{credentials}</p>}
-        <p className="text-muted text-sm mb-4">{bio}</p>
+        <div
+          className="rich-text text-muted text-sm mb-4"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bio) }}
+        />
 
         {/* Specialisations */}
         <div className="flex flex-col gap-1">

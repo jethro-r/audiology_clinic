@@ -5,7 +5,7 @@ import Badge from "@/components/Badge";
 import Image from "next/image";
 
 interface PageHeroProps {
-  badge: string;
+  badge?: string;
   title: string;
   description?: string;
   image?: string;
@@ -41,9 +41,11 @@ export default function PageHero({
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
+              {badge && (
               <Badge variant="outline-primary" className="mb-4">
                 {badge}
               </Badge>
+              )}
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
                 {title}
               </h1>
@@ -83,9 +85,11 @@ export default function PageHero({
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto"
         >
+          {badge && (
           <Badge variant="outline-primary" className="mb-4">
             {badge}
           </Badge>
+          )}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
             {title}
           </h1>

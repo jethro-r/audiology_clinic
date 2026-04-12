@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
+import { slugify } from '@/lib/utils';
 
 // GET - List services with pagination and search
 export async function GET(request: NextRequest) {
@@ -8,8 +9,10 @@ export async function GET(request: NextRequest) {
 
   try {
     const { searchParams } = new URL(request.url);
-    const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
-    const limit = Math.max(1, Math.min(100, parseInt(searchParams.get('limit') || '10')));
+    const rawPage = parseInt(searchParams.get('page') || '1', 10);
+    const rawLimit = parseInt(searchParams.get('limit') || '10', 10);
+    const page = Number.isFinite(rawPage) ? Math.max(1, rawPage) : 1;
+    const limit = Number.isFinite(rawLimit) ? Math.max(1, Math.min(100, rawLimit)) : 10;
     const search = searchParams.get('search')?.trim() || '';
 
     const id = searchParams.get('id');
@@ -60,10 +63,9 @@ export async function POST(request: Request) {
 
     // Generate slug from title if not provided
     if (!data.slug) {
-      data.slug = data.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
+      data.slug = slugify(data.title);
+    } else {
+      data.slug = slugify(data.slug);
     }
 
     const service = await prisma.service.create({ data });
@@ -84,6 +86,11 @@ export async function PUT(request: Request) {
 
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+
+    // Sanitize slug if provided
+    if (updateData.slug) {
+      updateData.slug = slugify(updateData.slug);
     }
 
     const service = await prisma.service.update({

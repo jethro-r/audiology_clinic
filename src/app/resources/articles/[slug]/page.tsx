@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, User } from "lucide-react";
+import DOMPurify from "isomorphic-dompurify";
 import Badge from "@/components/Badge";
 import { PageHero, Section } from "@/components/sections";
 import { type Article } from "@/lib/data";
@@ -133,9 +134,10 @@ export default function ArticlePage() {
             {/* Article content */}
             <div className="prose prose-lg max-w-none">
               {article.content ? (
-                <div className="whitespace-pre-line text-foreground/90 leading-relaxed">
-                  {article.content}
-                </div>
+                <div
+                  className="rich-text text-foreground/90 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
+                />
               ) : (
                 <p className="text-muted italic">
                   Full article content coming soon.

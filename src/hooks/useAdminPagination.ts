@@ -27,7 +27,7 @@ export default function useAdminPagination<T>(
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Debounce search input
   useEffect(() => {
@@ -35,7 +35,9 @@ export default function useAdminPagination<T>(
       setDebouncedSearch(search);
       setCurrentPage(1);
     }, 300);
-    return () => clearTimeout(debounceRef.current);
+    return () => {
+      if (debounceRef.current !== null) clearTimeout(debounceRef.current);
+    };
   }, [search]);
 
   const fetchData = useCallback(async () => {

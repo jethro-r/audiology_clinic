@@ -62,7 +62,12 @@ function TeamEditForm() {
   useEffect(() => {
     if (!isNew) {
       fetch(`/api/admin/team?id=${id}`)
-        .then((r) => r.json())
+        .then(async (r) => {
+          if (r.status === 401) throw new Error("Unauthorised — please log in again.");
+          if (r.status === 404) throw new Error("Team member not found.");
+          if (!r.ok) throw new Error(`Unexpected error (${r.status})`);
+          return r.json();
+        })
         .then((data: TeamMember) => {
           setForm({
             slug: data.slug,
@@ -80,8 +85,8 @@ function TeamEditForm() {
           setSpecialisationsText(data.specialisations.join("\n"));
           setLoading(false);
         })
-        .catch(() => {
-          setMessage({ type: "error", text: "Failed to load team member" });
+        .catch((err: unknown) => {
+          setMessage({ type: "error", text: err instanceof Error ? err.message : "Failed to load team member" });
           setLoading(false);
         });
     }
@@ -289,8 +294,7 @@ function TeamEditForm() {
             <RichTextEditor
               value={form.bio}
               onChange={(html) => setForm({ ...form, bio: html })}
-              placeholder="Write a bio for this team member..."
-            />
+              placeholder="Write a bio for this team member..."              uploadType="team"            />
           </div>
 
           <div className="bg-card rounded-xl border border-border p-4 shadow-sm space-y-2">
