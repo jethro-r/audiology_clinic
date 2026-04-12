@@ -15,6 +15,12 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.1.0",
+    "@tiptap/extension-link": "^3.22.3",
+    "@tiptap/extension-text-style": "^3.22.3",
+    "@tiptap/extension-underline": "^3.22.3",
+    "@tiptap/pm": "^3.22.3",
+    "@tiptap/react": "^3.22.3",
+    "@tiptap/starter-kit": "^3.22.3",
     "@types/nodemailer": "^7.0.9",
     "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^2.3.1",

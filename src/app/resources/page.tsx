@@ -95,9 +95,11 @@ export default function ResourcesPage() {
                 viewport={{ once: true }}
                 className="bg-card rounded-xl p-5 sm:p-6 hover:shadow-md transition-all group-hover:shadow-lg"
               >
-                <Badge variant="primary" className="mb-3">
-                  {article.category}
-                </Badge>
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {article.categories.map((cat) => (
+                    <Badge key={cat} variant="primary">{cat}</Badge>
+                  ))}
+                </div>
                 <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-secondary transition-colors">
                   {article.title}
                 </h3>

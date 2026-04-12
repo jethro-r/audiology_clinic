@@ -1,16 +1,52 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
 
-// GET - List all articles (including unpublished for admin)
-export async function GET() {
+// GET - List articles with pagination and search
+export async function GET(request: NextRequest) {
   if (!(await verifyAdmin())) return unauthorizedResponse();
 
   try {
-    const articles = await prisma.article.findMany({
-      orderBy: { createdAt: 'desc' },
+    const { searchParams } = new URL(request.url);
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+    const limit = Math.max(1, Math.min(100, parseInt(searchParams.get('limit') || '10')));
+    const search = searchParams.get('search')?.trim() || '';
+
+    const id = searchParams.get('id');
+    if (id) {
+      const article = await prisma.article.findUnique({ where: { id } });
+      if (!article) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      return NextResponse.json(article);
+    }
+
+    const where = search
+      ? {
+          OR: [
+            { title: { contains: search, mode: 'insensitive' as const } },
+            { excerpt: { contains: search, mode: 'insensitive' as const } },
+            { categories: { hasSome: [search] } },
+            { author: { contains: search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {};
+
+    const [items, total] = await Promise.all([
+      prisma.article.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.article.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      items,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
     });
-    return NextResponse.json(articles);
   } catch (error) {
     console.error('Error fetching articles:', error);
     return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 });

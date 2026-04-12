@@ -62,7 +62,7 @@ model Article {
   title       String
   excerpt     String   @db.Text
   content     String?  @db.Text // Full article content (optional for now)
-  category    String
+  categories  String[]
   author      String?
   imageUrl    String?
   published   Boolean  @default(false)
@@ -72,7 +72,6 @@ model Article {
   updatedAt   DateTime @updatedAt
 
   @@index([slug])
-  @@index([category])
   @@index([published])
   @@index([publishedAt])
 }

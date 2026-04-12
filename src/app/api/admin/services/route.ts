@@ -1,16 +1,50 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
 
-// GET - List all services (including hidden ones for admin)
-export async function GET() {
+// GET - List services with pagination and search
+export async function GET(request: NextRequest) {
   if (!(await verifyAdmin())) return unauthorizedResponse();
 
   try {
-    const services = await prisma.service.findMany({
-      orderBy: { sortOrder: 'asc' },
+    const { searchParams } = new URL(request.url);
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
+    const limit = Math.max(1, Math.min(100, parseInt(searchParams.get('limit') || '10')));
+    const search = searchParams.get('search')?.trim() || '';
+
+    const id = searchParams.get('id');
+    if (id) {
+      const service = await prisma.service.findUnique({ where: { id } });
+      if (!service) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      return NextResponse.json(service);
+    }
+
+    const where = search
+      ? {
+          OR: [
+            { title: { contains: search, mode: 'insensitive' as const } },
+            { shortDescription: { contains: search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {};
+
+    const [items, total] = await Promise.all([
+      prisma.service.findMany({
+        where,
+        orderBy: { sortOrder: 'asc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.service.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      items,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
     });
-    return NextResponse.json(services);
   } catch (error) {
     console.error('Error fetching services:', error);
     return NextResponse.json({ error: 'Failed to fetch services' }, { status: 500 });

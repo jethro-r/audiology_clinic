@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 
 type Tab = "services" | "team" | "articles" | "faqs" | "settings";
@@ -65,16 +66,10 @@ const tabs: { id: Tab; label: string; icon: ReactNode; path: string }[] = [
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const { logout } = useAdminAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const activeTab = tabs.find((tab) => pathname === tab.path || pathname?.startsWith(`${tab.path}/`)) || tabs[0];
-
-  const handleTabClick = (path: string) => {
-    router.push(path);
-    setSidebarOpen(false);
-  };
 
   return (
     <div className="bg-background flex flex-col lg:flex-row min-h-screen">
@@ -106,10 +101,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         {/* Navigation */}
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {tabs.map((tab) => (
-            <button
+            <Link
               key={tab.id}
-              onClick={() => handleTabClick(tab.path)}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              href={tab.path}
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 activeTab.id === tab.id
                   ? "bg-white/15 text-secondary"
                   : "text-white/60 hover:bg-white/8 hover:text-white"
@@ -117,7 +113,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             >
               {tab.icon}
               {tab.label}
-            </button>
+            </Link>
           ))}
         </nav>
 
@@ -155,7 +151,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
         {/* Page content */}
         <main className="p-4 sm:p-6 lg:p-10 pb-20">
-          <div className="max-w-5xl">
+          <div>
             {children}
           </div>
         </main>

@@ -78,7 +78,7 @@ export default function ArticlePage() {
   return (
     <>
       <PageHero
-        badge={article.category}
+        badge={article.categories[0]}
         title={article.title}
         description={article.excerpt}
       />
@@ -113,7 +113,9 @@ export default function ArticlePage() {
                   {article.author}
                 </span>
               )}
-              <Badge variant="primary">{article.category}</Badge>
+              {article.categories.map((cat) => (
+                <Badge key={cat} variant="primary">{cat}</Badge>
+              ))}
             </div>
 
             {/* Featured image */}
