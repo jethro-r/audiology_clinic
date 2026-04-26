@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Menu, X, Phone } from "lucide-react";
 import Button from "./Button";
@@ -15,9 +15,65 @@ const navigation = [
   { name: "Contact", href: "/contact" },
 ];
 
+// Approximate widths in pixels for calculations
+const ITEM_WIDTH = 85; // Average width per nav item
+const BUTTON_WIDTH = 140; // "Book Assessment" button
+const LOGO_WIDTH = 180; // Logo + text
+const GAP_SPACE = 32; // Gaps between items
+const MIN_CONTAINER_WIDTH = 320; // Minimum breakpoint (mobile)
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(navigation.length);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const buttonRef = useRef<HTMLAnchorElement>(null);
+
+  // Calculate how many nav items fit in available space
+  useEffect(() => {
+    const calculateVisibleItems = () => {
+      if (!containerRef.current) return;
+
+      const containerWidth = containerRef.current.offsetWidth;
+      setContainerWidth(containerWidth);
+
+      // Get actual widths of logo and button if available
+      const logoWidth = logoRef.current?.offsetWidth || LOGO_WIDTH;
+      const buttonWidth = buttonRef.current?.offsetWidth || BUTTON_WIDTH;
+
+      // Calculate available space for nav items
+      const reservedSpace = logoWidth + buttonWidth + GAP_SPACE * 3;
+      const availableSpace = containerWidth - reservedSpace;
+
+      // Calculate how many items fit
+      const itemsThatFit = Math.max(0, Math.floor(availableSpace / ITEM_WIDTH));
+      setVisibleCount(Math.min(itemsThatFit, navigation.length));
+    };
+
+    // Initial calculation
+    calculateVisibleItems();
+
+    // Set up ResizeObserver to watch container size changes
+    const resizeObserver = new ResizeObserver(calculateVisibleItems);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    // Also recalculate on window resize as a fallback
+    window.addEventListener("resize", calculateVisibleItems);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", calculateVisibleItems);
+    };
+  }, []);
+
+  const hasOverflow = visibleCount < navigation.length;
+  const visibleItems = navigation.slice(0, visibleCount);
+  const overflowItems = navigation.slice(visibleCount);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,9 +93,9 @@ export default function Header() {
     >
       {/* Main navigation */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div ref={containerRef} className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <Link ref={logoRef} href="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
             <img
               src="/images/icon.png"
               alt="Veritas Hearing"
@@ -55,50 +111,69 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop navigation */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navigation.map((item) => (
+          {/* Desktop navigation - adaptively shown items */}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+            {visibleItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-foreground hover:text-primary transition-colors font-medium"
+                className="text-foreground hover:text-primary transition-colors font-medium whitespace-nowrap"
               >
                 {item.name}
               </Link>
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link href="/booking">
+          {/* CTA Button - always visible on desktop/tablet */}
+          <div className="hidden md:flex items-center gap-3">
+            <Link ref={buttonRef} href="/booking">
               <Button>Book Assessment</Button>
             </Link>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            type="button"
-            className="lg:hidden p-2 text-foreground"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <span className="sr-only">Open menu</span>
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
+          {/* Hamburger button - shown only when there are overflow items */}
+          {(hasOverflow || containerWidth < MIN_CONTAINER_WIDTH) && (
+            <button
+              type="button"
+              className="md:hidden p-2 text-foreground"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <span className="sr-only">Open menu</span>
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          )}
+
+          {/* Hamburger button for overflow items on desktop/tablet */}
+          {hasOverflow && containerWidth >= MIN_CONTAINER_WIDTH && (
+            <button
+              type="button"
+              className="hidden md:flex p-2 text-foreground"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <span className="sr-only">Open menu</span>
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          )}
         </div>
 
-        {/* Mobile navigation */}
+        {/* Mobile/overflow navigation */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
             mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <div className="py-3 border-t border-border">
             <div className="flex flex-col">
-              {navigation.map((item) => (
+              {/* Show overflow items on desktop, all items on mobile */}
+              {(containerWidth < MIN_CONTAINER_WIDTH ? navigation : overflowItems).map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
