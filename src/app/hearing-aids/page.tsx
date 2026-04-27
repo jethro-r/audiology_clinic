@@ -77,8 +77,158 @@ export default function HearingAidsPage() {
         </div>
       </Section>
 
-      {/* Ongoing Care and Service */}
+      {/* Types of Hearing Aids */}
       <Section variant="white">
+        <SectionHeader
+          label="Hearing Aid Styles"
+          title="Explore Hearing Aids"
+          description="Hearing aids come in different styles and technology levels, here are the different types and whom they will be suitable for."
+        />
+        <div className="max-w-6xl mx-auto space-y-16">
+          {/* RIC */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start"
+          >
+            <div>
+              <h3 className="text-2xl font-semibold text-primary mb-4">Receiver in Canal (RICs)</h3>
+              <p className="text-foreground mb-6">
+                RIC hearing aids are the most popular hearing aids. They balance advanced technology with a very discreet look. Their feature is the most complete and they are equipped with the latest technology. The hearing aid body sits behind the ear and houses the processing chip, microphone, battery and amplifier. The speaker (receiver) sits inside the ear coupled with a silicone dome, it is connected to the hearing aid body by a thin wire.
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm font-medium text-primary mb-2">Key features:</p>
+                  <p className="text-foreground">Rechargeable, Bluetooth connectivity, App control</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-primary mb-2">Suitable for:</p>
+                  <p className="text-foreground">mild to severe hearing loss, high frequency hearing loss, tech savvy</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-primary mb-2">Not suitable for:</p>
+                  <p className="text-foreground">dexterity issues, simultaneous use with facial protective gear (ear muffs and safety glasses)</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-cream">
+                <Image
+                  src="/images/hearing-aid-ic-lifestyle.jpg"
+                  alt="RIC hearing aid"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-cream">
+                <Image
+                  src="/images/hearing-aid-ric.png"
+                  alt="RIC hearing aid close-up"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* BTE */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start"
+          >
+            <div className="order-2 lg:order-1 space-y-4">
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-cream">
+                <Image
+                  src="/images/hearing-aid-bte.png"
+                  alt="BTE hearing aid"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-cream">
+                <Image
+                  src="/images/hearing-aid-bte-closeup.jpg"
+                  alt="BTE hearing aid close-up"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <h3 className="text-2xl font-semibold text-primary mb-4">Behind The Ear (BTE)</h3>
+              <p className="text-foreground mb-6">
+                Behind-the-Ear (BTE) hearing aids are the "heavy-duty" counterparts to the RIC style. They are larger than RIC style hearing aids. In a BTE model, all the electronic components—including the speaker—are housed in a sturdy case that sits behind the ear, with sound being funnelled through a clear plastic tube into a silicone dome or custom-fitted earmould.
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm font-medium text-primary mb-2">Key features:</p>
+                  <p className="text-foreground">Robust, ease of insertion</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-primary mb-2">Suitable for:</p>
+                  <p className="text-foreground">moderate to profound hearing loss, dexterity issues, wax build up</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Custom */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start"
+          >
+            <div>
+              <h3 className="text-2xl font-semibold text-primary mb-4">Custom hearing aids</h3>
+              <p className="text-foreground mb-6">
+                These are hearing aids that are custom made to fit your ears. Their size varies based on the level of customisation. There are Full-Shell, Half-Shell, In the Canal (ITC), and Completely In Canal (CIC) styles. The smaller the hearing aid is, the less features it may accommodate and the shorter the battery life.
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm font-medium text-primary mb-2">Key Features:</p>
+                  <p className="text-foreground">Rechargeable (depending on size), bluetooth connection (depending on size), natural sound localisation.</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-primary mb-2">Suitable for:</p>
+                  <p className="text-foreground">Dexterity issues (Full Shell and Half Shell styles), frequent ear muff usage, maximum discretion (ITC and CIC styles)</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-primary mb-2">Not Suitable for:</p>
+                  <p className="text-foreground">Excessive ear wax</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-cream">
+                <Image
+                  src="/images/hearing-aid-custom-iic.jpeg"
+                  alt="Custom hearing aid"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-cream">
+                <Image
+                  src="/images/hearing-aid-custom-itc.jpg"
+                  alt="Custom hearing aid product shot"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </Section>
+
+      {/* Ongoing Care and Service */}
+      <Section variant="cream">
         <SectionHeader
           label="Ongoing Care"
           title="Ongoing care and service"
