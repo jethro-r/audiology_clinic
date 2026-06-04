@@ -28,7 +28,7 @@ export const services: Service[] = [
       "A thorough, unhurried assessment to understand your hearing and how it affects daily life — with clear answers and no pressure.",
     fullDescription:
       "A thorough, unhurried assessment to understand your hearing and how it affects daily life — with clear answers and no pressure.",
-    image: "/frontend/comprehensive-hearing-assessment.jpg",
+    image: "/frontend/comprehensive-hearing-assessment.webp",
     iconName: "Ear",
     features: [
       "Diagnostic hearing testing",
