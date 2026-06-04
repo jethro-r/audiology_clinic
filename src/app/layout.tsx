@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import NavigationProgress from "@/components/NavigationProgress";
 import "./globals.css";
-import ConditionalLayout from "@/components/ConditionalLayout";
 
 export const metadata: Metadata = {
   title: {
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
     template: "%s | Veritas Hearing",
   },
   icons: {
-    icon: "/images/icon.png",
-    apple: "/images/icon.png",
+    icon: "/frontend/icon.png",
+    apple: "/frontend/icon.png",
   },
   description:
     "Veritas Hearing is an independent, clinician-led audiology practice dedicated to providing clear, honest, and evidence-based hearing care. Accurate diagnosis, personalised treatment, no sales pressure.",
@@ -60,19 +60,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18036697001"
-          strategy="afterInteractive"
-        />
-        <Script id="google-ads" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-18036697001');
-          `}
-        </Script>
-        <ConditionalLayout>{children}</ConditionalLayout>
+        <NavigationProgress />
+        {process.env.NEXT_PUBLIC_GOOGLE_ADS_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-ads" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}');
+              `}
+            </Script>
+          </>
+        )}
+        {children}
         <Analytics />
         <SpeedInsights />
       </body>

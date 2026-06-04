@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Phone } from "lucide-react";
 import Button from "./Button";
 
@@ -76,10 +77,17 @@ export default function Header() {
   const overflowItems = navigation.slice(visibleCount);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -96,10 +104,13 @@ export default function Header() {
         <div ref={containerRef} className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link ref={logoRef} href="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
-            <img
-              src="/images/icon.png"
+            <Image
+              src="/frontend/icon.png"
               alt="Veritas Hearing"
+              width={40}
+              height={40}
               className="h-8 sm:h-10 w-auto flex-shrink-0"
+              priority
             />
             <div className="flex flex-col min-w-0">
               <span className="text-base sm:text-xl font-bold text-foreground truncate">

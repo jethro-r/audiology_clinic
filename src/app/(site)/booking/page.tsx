@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { PageHero, Section } from "@/components/sections";
+import AnimateInView from "@/components/AnimateInView";
 
 export default function BookingPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -20,6 +20,21 @@ export default function BookingPage() {
 
       if (e.data.search("cliniko-bookings-page") > -1) {
         iframeRef.current.scrollIntoView();
+
+        if (e.data.search("cliniko-bookings-page:confirmed") > -1) {
+          const dataLayer = (window as any).dataLayer || [];
+          (window as any).dataLayer = dataLayer;
+          dataLayer.push({ event: "clinikoBookingCompleted" });
+
+          // Google Ads conversion — fires when NEXT_PUBLIC_ADS_CONV_LABEL is set
+          const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
+          const convLabel = process.env.NEXT_PUBLIC_ADS_CONV_LABEL;
+          if (adsId && convLabel && typeof (window as any).gtag === "function") {
+            (window as any).gtag("event", "conversion", {
+              send_to: `${adsId}/${convLabel}`,
+            });
+          }
+        }
       }
     };
 
@@ -59,13 +74,7 @@ export default function BookingPage() {
       <Section variant="white">
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 items-start">
           {/* Booking Iframe */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="lg:col-span-2 bg-card rounded-2xl p-3 sm:p-4 border border-border shadow-sm flex flex-col min-h-[500px] sm:min-h-[800px]"
-          >
+          <AnimateInView animation="fade-left" className="lg:col-span-2 bg-card rounded-2xl p-3 sm:p-4 border border-border shadow-sm flex flex-col min-h-[500px] sm:min-h-[800px]">
             <iframe
               ref={iframeRef}
               id="cliniko-43314311"
@@ -77,16 +86,10 @@ export default function BookingPage() {
               style={{ pointerEvents: "auto", flex: 1, minHeight: "500px" }}
               className="w-full rounded-xl sm:min-h-[800px]"
             />
-          </motion.div>
+          </AnimateInView>
 
           {/* Sidebar */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
+          <AnimateInView animation="fade-right" className="space-y-6">
             {/* Contact Info */}
             <div className="bg-card rounded-xl p-6 border border-border">
               <h3 className="font-semibold text-foreground mb-4">
@@ -139,7 +142,7 @@ export default function BookingPage() {
                 Get directions →
               </a>
             </div>
-          </motion.div>
+          </AnimateInView>
         </div>
       </Section>
     </>

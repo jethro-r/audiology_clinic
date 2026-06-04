@@ -1,50 +1,25 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   Shield,
   Clock,
   Award,
-  ChevronDown,
   ArrowRight,
-  CheckCircle,
 } from "lucide-react";
 import Hero from "@/components/Hero";
 import ServiceCard from "@/components/ServiceCard";
 import Button from "@/components/Button";
+import FaqAccordion from "@/components/FaqAccordion";
+import AnimateInView from "@/components/AnimateInView";
 import { Section, SectionHeader, CTASection } from "@/components/sections";
-import { useState, useEffect } from "react";
-import DOMPurify from "isomorphic-dompurify";
 import { type Service, type FAQ } from "@/lib/data";
 
-export default function HomePage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [services, setServices] = useState<Service[]>([]);
-  const [faqs, setFaqs] = useState<FAQ[]>([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [servicesRes, faqsRes] = await Promise.all([
-          fetch('/api/services?homepage=true'),
-          fetch('/api/faqs'),
-        ]);
-        if (servicesRes.ok) {
-          const data = await servicesRes.json();
-          setServices(data);
-        }
-        if (faqsRes.ok) {
-          const data = await faqsRes.json();
-          setFaqs(data);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
-    fetchData();
-  }, []);
-
+export default function HomePageContent({
+  services,
+  faqs,
+}: {
+  services: Service[];
+  faqs: FAQ[];
+}) {
   return (
     <>
       <Hero />
@@ -69,20 +44,14 @@ export default function HomePage() {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mt-10"
-        >
+        <AnimateInView className="text-center mt-10">
           <Link href="/services">
             <Button variant="outline">
               View All Services
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
-        </motion.div>
+        </AnimateInView>
       </Section>
 
       {/* My Promise Section */}
@@ -92,13 +61,7 @@ export default function HomePage() {
           variant="dark"
         />
         <div className="grid md:grid-cols-3 gap-6 md:gap-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
+          <AnimateInView className="text-center">
             <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white/10 flex items-center justify-center">
               <Shield className="w-7 h-7 text-secondary" />
             </div>
@@ -108,14 +71,8 @@ export default function HomePage() {
             <p className="text-white/70 text-sm leading-relaxed">
               Advice you can trust — we work for your hearing, not brands.
             </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
+          </AnimateInView>
+          <AnimateInView delay={100} className="text-center">
             <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white/10 flex items-center justify-center">
               <Award className="w-7 h-7 text-secondary" />
             </div>
@@ -125,14 +82,8 @@ export default function HomePage() {
             <p className="text-white/70 text-sm leading-relaxed">
               Understand your hearing clearly with objective testing and honest recommendations.
             </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
+          </AnimateInView>
+          <AnimateInView delay={200} className="text-center">
             <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-white/10 flex items-center justify-center">
               <Clock className="w-7 h-7 text-secondary" />
             </div>
@@ -142,7 +93,7 @@ export default function HomePage() {
             <p className="text-white/70 text-sm leading-relaxed">
               Long-term follow-up and fine-tuning to keep your hearing at its best.
             </p>
-          </motion.div>
+          </AnimateInView>
         </div>
       </Section>
 
@@ -153,38 +104,7 @@ export default function HomePage() {
           title="Frequently Asked Questions"
           description="Find answers to common questions about our services and what to expect."
         />
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-              viewport={{ once: true }}
-              className="border border-border rounded-lg overflow-hidden"
-            >
-              <button
-                onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                className="w-full flex items-center justify-between p-4 sm:p-5 text-left bg-white hover:bg-card transition-colors gap-4"
-              >
-                <span className="font-medium text-foreground text-sm sm:text-base">
-                  {faq.question}
-                </span>
-                <ChevronDown
-                  className={`h-5 w-5 text-muted transition-transform duration-200 ${
-                    openFaq === index ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {openFaq === index && (
-                <div
-                  className="px-4 sm:px-5 pb-4 text-muted text-sm sm:text-base rich-text"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(faq.answer) }}
-                />
-              )}
-            </motion.div>
-          ))}
-        </div>
+        <FaqAccordion faqs={faqs} />
       </Section>
 
       <CTASection

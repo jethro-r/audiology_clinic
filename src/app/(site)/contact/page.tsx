@@ -1,9 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import { PageHero, Section } from "@/components/sections";
+import AnimateInView from "@/components/AnimateInView";
+import Image from "next/image";
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -68,63 +67,54 @@ export default function ContactPage() {
       </PageHero>
 
       <Section variant="white">
+        {/* Contact info bar */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          {contactInfo.map((item) => (
+            <div
+              key={item.title}
+              className="flex flex-col items-center text-center p-4 bg-card rounded-lg"
+            >
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
+                <item.icon className="h-5 w-5 text-primary" />
+              </div>
+              {item.link ? (
+                <a
+                  href={item.link}
+                  className="text-muted hover:text-primary transition-colors whitespace-pre-line text-sm"
+                >
+                  {item.content}
+                </a>
+              ) : (
+                <p className="text-muted whitespace-pre-line text-sm">
+                  {item.content}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
+          <AnimateInView animation="fade-left">
             <h2 className="text-2xl font-bold text-foreground mb-6">
               Send Us a Message
             </h2>
             <ContactForm />
-          </motion.div>
+          </AnimateInView>
 
           {/* Contact Info & Map */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <div>
-              <h2 className="text-2xl font-bold text-foreground mb-6">
-                Contact Information
-              </h2>
-              <div className="grid sm:grid-cols-2 gap-6">
-                {contactInfo.map((item) => (
-                  <div
-                    key={item.title}
-                    className="flex items-start gap-4 p-4 bg-card rounded-lg"
-                  >
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
-                      <item.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground mb-1">
-                        {item.title}
-                      </h3>
-                      {item.link ? (
-                        <a
-                          href={item.link}
-                          className="text-muted hover:text-primary transition-colors whitespace-pre-line"
-                        >
-                          {item.content}
-                        </a>
-                      ) : (
-                        <p className="text-muted whitespace-pre-line">
-                          {item.content}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <AnimateInView animation="fade-right" className="space-y-8">
+            {/* Clinic photo */}
+            <div className="relative w-full aspect-video rounded-xl overflow-hidden">
+              <Image
+                src="/frontend/DSC00101.jpeg"
+                alt="Veritas Hearing clinic"
+                fill
+                quality={90}
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
-
 
             {/* Google Maps Embed */}
             <div>
@@ -173,13 +163,9 @@ export default function ContactPage() {
                   <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
                   We&apos;re located at 37 Lake Road, Frankton
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  Elevator access available for upper floor visitors
-                </li>
               </ul>
             </div>
-          </motion.div>
+          </AnimateInView>
         </div>
       </Section>
 
