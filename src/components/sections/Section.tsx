@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { motion } from "framer-motion";
+import AnimateInView from "@/components/AnimateInView";
 
 interface SectionProps {
   children: ReactNode;
@@ -76,13 +76,7 @@ export function SectionHeader({
   const descriptionColor = lightText ? "text-white/80" : "text-muted";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-      className={`mb-12 ${alignClass} ${maxWidthClass} ${className}`}
-    >
+    <AnimateInView className={`mb-12 ${alignClass} ${maxWidthClass} ${className}`}>
       {label && (
         <span className={`${labelColor} font-medium inline-block mb-2`}>
           {label}
@@ -92,6 +86,6 @@ export function SectionHeader({
         {title}
       </h2>
       {description && <p className={`${descriptionColor} text-lg`}>{description}</p>}
-    </motion.div>
+    </AnimateInView>
   );
 }

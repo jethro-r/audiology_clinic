@@ -1,7 +1,5 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin } from "lucide-react";
 
 // Custom WhatsApp icon (chat bubble with phone)
@@ -26,24 +24,8 @@ const quickLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
-export default function Footer() {
+export default function Footer({ services }: { services: Service[] }) {
   const currentYear = new Date().getFullYear();
-  const [services, setServices] = useState<Service[]>([]);
-
-  useEffect(() => {
-    async function fetchServices() {
-      try {
-        const res = await fetch('/api/services?footer=true');
-        if (res.ok) {
-          const data = await res.json();
-          setServices(data);
-        }
-      } catch (error) {
-        console.error('Error fetching services:', error);
-      }
-    }
-    fetchServices();
-  }, []);
 
   return (
     <footer className="bg-primary-dark text-white/80">
@@ -52,9 +34,11 @@ export default function Footer() {
           {/* Clinic Info */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img
-                src="/images/icon.png"
+              <Image
+                src="/frontend/icon.png"
                 alt="Veritas Hearing"
+                width={40}
+                height={40}
                 className="h-10 w-auto"
               />
               <div>
@@ -188,9 +172,9 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 mt-8 pt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
           <p className="text-sm text-white/60 text-center sm:text-left">
-            © {currentYear} Veritas Hearing. All rights reserved.
+            &copy; {currentYear} Veritas Hearing. All rights reserved.
           </p>
-          
+
         </div>
       </div>
     </footer>

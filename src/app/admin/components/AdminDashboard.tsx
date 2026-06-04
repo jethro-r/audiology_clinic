@@ -8,6 +8,7 @@ interface Stats {
   team: number;
   articles: number;
   faqs: number;
+  media: number;
 }
 
 const quickLinks = [
@@ -59,6 +60,18 @@ const quickLinks = [
     color: "bg-purple-50 text-purple-700",
     addHref: "/admin/faqs/new",
   },
+  {
+    label: "Media Library",
+    href: "/admin/media",
+    description: "Upload and manage images",
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" />
+      </svg>
+    ),
+    color: "bg-pink-50 text-pink-700",
+    addHref: "/admin/media",
+  },
 ];
 
 export default function AdminDashboardPage() {
@@ -68,20 +81,22 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [services, team, articles, faqs] = await Promise.all([
+        const [services, team, articles, faqs, media] = await Promise.all([
           fetch("/api/admin/services?limit=1", { credentials: "include" }).then((r) => r.json()),
           fetch("/api/admin/team?limit=1", { credentials: "include" }).then((r) => r.json()),
           fetch("/api/admin/articles?limit=1", { credentials: "include" }).then((r) => r.json()),
           fetch("/api/admin/faqs?limit=1", { credentials: "include" }).then((r) => r.json()),
+          fetch("/api/admin/media", { credentials: "include" }).then((r) => r.json()),
         ]);
         setStats({
           services: services.total ?? 0,
           team: team.total ?? 0,
           articles: articles.total ?? 0,
           faqs: faqs.total ?? 0,
+          media: Array.isArray(media) ? media.length : 0,
         });
       } catch {
-        setStats({ services: 0, team: 0, articles: 0, faqs: 0 });
+        setStats({ services: 0, team: 0, articles: 0, faqs: 0, media: 0 });
       } finally {
         setLoading(false);
       }
@@ -94,6 +109,7 @@ export default function AdminDashboardPage() {
     { label: "Team Members", value: stats?.team, href: "/admin/team" },
     { label: "Articles", value: stats?.articles, href: "/admin/articles" },
     { label: "FAQs", value: stats?.faqs, href: "/admin/faqs" },
+    { label: "Media", value: stats?.media, href: "/admin/media" },
   ];
 
   return (

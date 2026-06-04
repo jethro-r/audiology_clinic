@@ -1,7 +1,36 @@
 // Database-driven data fetching functions
-// Replaces the static data with API calls
 
 import { unstable_cache } from 'next/cache';
+import { cache as reactCache } from 'react';
+import { prisma } from '@/lib/db';
+
+// Direct Prisma queries for server components
+export async function getServicesDirect(options?: { homepage?: boolean; footer?: boolean }): Promise<Service[]> {
+  const where: Record<string, boolean> = {};
+  if (options?.homepage) where.showOnHomepage = true;
+  if (options?.footer) where.showInFooter = true;
+  const results = await prisma.service.findMany({ where, orderBy: { sortOrder: 'asc' } });
+  return results.map((r) => ({
+    ...r,
+    featureTooltips: r.featureTooltips as Record<string, string> | null,
+  }));
+}
+
+export async function getTeamMembersDirect(): Promise<TeamMember[]> {
+  return prisma.teamMember.findMany({ where: { active: true }, orderBy: { sortOrder: 'asc' } });
+}
+
+export async function getArticlesDirect(): Promise<Article[]> {
+  return prisma.article.findMany({ where: { published: true }, orderBy: { publishedAt: 'desc' } }) as Promise<Article[]>;
+}
+
+export async function getArticleBySlugDirect(slug: string): Promise<Article | null> {
+  return prisma.article.findUnique({ where: { slug, published: true } }) as Promise<Article | null>;
+}
+
+export async function getFaqsDirect(): Promise<FAQ[]> {
+  return prisma.faq.findMany({ where: { active: true }, orderBy: { sortOrder: 'asc' } });
+}
 
 export interface Service {
   id: string;
@@ -60,90 +89,6 @@ export interface FAQ {
   updatedAt: Date;
 }
 
-// Fetch services with caching
-export const getServices = unstable_cache(
-  async (options: { homepage?: boolean; footer?: boolean } = {}): Promise<Service[]> => {
-    try {
-      const params = new URLSearchParams();
-      if (options.homepage) params.set('homepage', 'true');
-      if (options.footer) params.set('footer', 'true');
-
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-      const url = `${baseUrl}/api/services?${params.toString()}`;
-      
-      const res = await fetch(url, { next: { revalidate: 3600 } }); // Cache for 1 hour
-      if (!res.ok) throw new Error('Failed to fetch services');
-      
-      return res.json();
-    } catch (error) {
-      console.error('Error fetching services:', error);
-      return [];
-    }
-  },
-  ['services'],
-  { revalidate: 3600, tags: ['services'] }
-);
-
-// Fetch single service by slug
-export const getServiceBySlug = unstable_cache(
-  async (slug: string): Promise<Service | null> => {
-    try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${baseUrl}/api/services/${slug}`, {
-        next: { revalidate: 3600 },
-      });
-      
-      if (!res.ok) return null;
-      return res.json();
-    } catch (error) {
-      console.error('Error fetching service:', error);
-      return null;
-    }
-  },
-  ['service'],
-  { revalidate: 3600, tags: ['services'] }
-);
-
-// Fetch team members with caching
-export const getTeamMembers = unstable_cache(
-  async (): Promise<TeamMember[]> => {
-    try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${baseUrl}/api/team`, {
-        next: { revalidate: 3600 },
-      });
-      
-      if (!res.ok) throw new Error('Failed to fetch team members');
-      return res.json();
-    } catch (error) {
-      console.error('Error fetching team members:', error);
-      return [];
-    }
-  },
-  ['team-members'],
-  { revalidate: 3600, tags: ['team'] }
-);
-
-// Fetch articles with caching
-export const getArticles = unstable_cache(
-  async (): Promise<Article[]> => {
-    try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-      const res = await fetch(`${baseUrl}/api/articles`, {
-        next: { revalidate: 3600 },
-      });
-      
-      if (!res.ok) throw new Error('Failed to fetch articles');
-      return res.json();
-    } catch (error) {
-      console.error('Error fetching articles:', error);
-      return [];
-    }
-  },
-  ['articles'],
-  { revalidate: 3600, tags: ['articles'] }
-);
-
 // Service names for contact form dropdown
 export const serviceNames = [
   'Comprehensive Hearing Assessment',
@@ -152,3 +97,12 @@ export const serviceNames = [
   'Ear Wax Removal',
   'Other',
 ];
+
+// Cached footer services — used in root layout, cached for 1 hour
+const cachedFooterServices = unstable_cache(
+  async () => getServicesDirect({ footer: true }),
+  ['footer-services'],
+  { revalidate: 3600, tags: ['services'] }
+);
+
+export const getFooterServices = reactCache(cachedFooterServices);

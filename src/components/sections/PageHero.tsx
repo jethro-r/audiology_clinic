@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Badge from "@/components/Badge";
 import Image from "next/image";
 
@@ -36,11 +33,7 @@ export default function PageHero({
       <section className={`pt-8 sm:pt-12 pb-14 sm:pb-20 bg-primary ${className}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="animate-slide-in-left">
               {badge && (
               <Badge variant="outline-primary" className="mb-4">
                 {badge}
@@ -53,22 +46,18 @@ export default function PageHero({
                 <p className="text-lg text-white/70">{description}</p>
               )}
               {children}
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
+            </div>
+            <div className="relative animate-slide-in-right" style={{ animationDelay: "200ms" }}>
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                 <Image
                   src={image}
                   alt={title}
                   fill
+                  quality={90}
                   className="object-cover"
                 />
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -79,12 +68,7 @@ export default function PageHero({
   return (
     <section className={`pt-8 sm:pt-12 pb-14 sm:pb-20 bg-primary ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
-        >
+        <div className="text-center max-w-3xl mx-auto animate-fade-in">
           {badge && (
           <Badge variant="outline-primary" className="mb-4">
             {badge}
@@ -97,7 +81,7 @@ export default function PageHero({
             <p className="text-lg text-white/70">{description}</p>
           )}
           {children}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

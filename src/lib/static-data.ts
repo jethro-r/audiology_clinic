@@ -28,7 +28,7 @@ export const services: Service[] = [
       "A thorough, unhurried assessment to understand your hearing and how it affects daily life — with clear answers and no pressure.",
     fullDescription:
       "A thorough, unhurried assessment to understand your hearing and how it affects daily life — with clear answers and no pressure.",
-    image: "/images/Comprehensive Hearing Assessment.jpg",
+    image: "/frontend/comprehensive-hearing-assessment.webp",
     iconName: "Ear",
     features: [
       "Diagnostic hearing testing",
@@ -71,7 +71,7 @@ export const services: Service[] = [
       "Comprehensive checks to ensure your hearing and hearing aids are performing at their best.",
     fullDescription:
       "Comprehensive checks to ensure your hearing and hearing aids are performing at their best.",
-    image: "/images/Ongoing hearing care.jpg",
+    image: "/frontend/ongoing-hearing-care.jpg",
     iconName: "Volume2",
     features: [
       "Ear wax removal",

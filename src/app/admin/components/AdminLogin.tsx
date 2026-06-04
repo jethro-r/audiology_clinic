@@ -55,7 +55,7 @@ export default function AdminLogin({ onSuccess, loginFn }: AdminLoginProps) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(42,92,68,0.6),transparent_60%)]" />
         <div className="relative text-center px-12">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-white/10 backdrop-blur mb-8">
-            <img src="/images/icon.png" alt="Veritas Hearing" className="h-12 w-auto brightness-0 invert" />
+            <img src="/frontend/icon.png" alt="Veritas Hearing" className="h-12 w-auto brightness-0 invert" />
           </div>
           <h2 className="text-3xl font-semibold text-white mb-3">Veritas Hearing</h2>
           <p className="text-white/60 text-lg">Content Management</p>
@@ -71,7 +71,7 @@ export default function AdminLogin({ onSuccess, loginFn }: AdminLoginProps) {
       <div className="flex-1 flex items-center justify-center bg-white px-6">
         <div className="w-full max-w-sm">
           <div className="lg:hidden text-center mb-10">
-            <img src="/images/icon.png" alt="Veritas Hearing" className="h-12 w-auto mx-auto mb-3" />
+            <img src="/frontend/icon.png" alt="Veritas Hearing" className="h-12 w-auto mx-auto mb-3" />
             <p className="text-sm text-muted">Admin Portal</p>
           </div>
 
