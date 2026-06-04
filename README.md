@@ -1,42 +1,49 @@
-# Veritas Hearing - Audiology Clinic Website
+# Veritas Hearing — Audiology Clinic Website
 
 Modern, professional marketing website for Veritas Hearing, an independent audiology clinic based in Hamilton, New Zealand.
 
-## Company Information
+## Company
 
-- **Company Name:** Veritas Hearing
+- **Name:** Veritas Hearing
 - **Location:** 37 Lake Road, Frankton, Hamilton 3204, New Zealand
-- **Contact:**
-  - Phone: 029 0451 0839
-  - Email: info@veritashearing.co.nz
+- **Phone:** 029 0451 0839
+- **Email:** info@veritashearing.co.nz
 
 ## Features
 
-- 🌐 **Marketing Website** - Professional clinic website with service information
-- 📄 **Pages** - Home, About, Services, Packages, Team, Resources, Contact
-- 🗄️ **Database** - PostgreSQL (Neon) for dynamic content management
-- 🎨 **Custom Design System** - Forest green & gold color scheme with consistent components
-- 📱 **Responsive Design** - Mobile-first with smooth animations
-- 📞 **Contact Form** - Client-side contact form for inquiries
-- 📝 **Content Management** - Database-driven services, team members, and articles
+- 🌐 **Marketing Pages** — Home, About, Services, Hearing Aids, Team, Resources, Contact, Booking
+- 📊 **Admin CMS** — Manage services, team members, articles, FAQs, and site settings
+- 🖼️ **Media Library** — Upload, browse, and manage images via Vercel Blob storage
+- 🗄️ **Database-Driven** — PostgreSQL (Neon) with Prisma ORM for dynamic content
+- 🎨 **Design System** — Forest green & gold with consistent section components
+- 📱 **Responsive** — Mobile-first with IntersectionObserver animations
+- 🔒 **Admin Auth** — Password-protected admin panel with session management
+- 📝 **Rich Text Editing** — TipTap editor for articles and service descriptions
 
 ## Tech Stack
 
-- **Framework:** Next.js 16 (App Router)
-- **Language:** TypeScript
-- **Database:** PostgreSQL (Neon) with Prisma 6 ORM
-- **Styling:** Tailwind CSS 4
-- **Animations:** Framer Motion
-- **Icons:** Lucide React & Heroicons
-- **Deployment:** Docker with Traefik reverse proxy
+| Technology | Purpose |
+|-----------|---------|
+| Next.js 16 (App Router) | Framework |
+| React 19 | UI library |
+| TypeScript | Language |
+| Tailwind CSS 4 | Styling |
+| Prisma 6 | Database ORM |
+| PostgreSQL (Neon) | Database |
+| TipTap | Rich text editor |
+| Vercel Blob | Image storage |
+| Lucide React | Icons |
+| Geist | Typography |
 
-## Prerequisites
+## Getting Started
 
-- Docker & Docker Compose (for production deployment)
-- Node.js 20+ (for local development)
+### Prerequisites
+
+- Node.js 20+
 - PostgreSQL database (Neon or local)
+- Docker (optional, for staging deployment)
 
-## Quick Start (Local Development)
+### Local Development
 
 ```bash
 # Clone and install
@@ -46,121 +53,127 @@ npm install
 
 # Configure environment
 cp .env.example .env.local
-# Edit .env.local and add your Neon DATABASE_URL
+# Edit .env.local — add your Neon DATABASE_URL
 
 # Setup database
 npx prisma generate
-npx prisma db push
+npm run db:push
 npm run db:seed
 
-# Start development
+# Start development server
 npm run dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000)
 
-## Deployment
+### Admin Panel
 
-### Staging (Docker)
+Visit `/admin` and log in with the configured password. From there you can manage:
 
-```bash
-# On server - Initial setup
-cp .env.example .env
-# Edit .env with DATABASE_URL from Neon
-
-npx prisma generate
-npx prisma db push
-npm run db:seed
-
-# Deploy with Docker
-docker compose up -d --build
-
-# Updates
-git pull
-docker compose up -d --build
-```
-
-### Production (Vercel)
-
-1. **Push to GitHub**
-   ```bash
-   git push origin main
-   ```
-
-2. **Connect to Vercel**
-   - Import repository in Vercel dashboard
-   - Add environment variable: `DATABASE_URL` (from Neon)
-
-3. **Deploy**
-   - Vercel will automatically build and deploy
-   - Database setup runs automatically via `vercel.json`
-
-4. **Seed Database** (one-time)
-   ```bash
-   # Run locally against production database
-   DATABASE_URL="your-production-url" npm run db:seed
-   ```
-
-The `docker-compose.yml` file includes:
-- **Container:** `audiology-clinic`
-- **Network:** `proxy` (for Traefik integration)
-- **Health checks:** Automatic container health monitoring
-- **Traefik labels:** For routing and SSL configuration
+- **Services** — Add/edit services with icons, images, features, and rich descriptions
+- **Team** — Manage team member profiles and specialisations
+- **Articles** — Write and publish patient resources with rich text
+- **FAQs** — Manage frequently asked questions
+- **Media** — Upload and organise images
+- **Settings** — Site-wide configuration
 
 ## Project Structure
 
 ```
-prisma/
-├── schema.prisma       # Database models
-└── seed.ts            # Database seed data
-
 src/
-├── app/               # Next.js pages & API routes
-├── components/        # React components
-└── lib/              # Utilities & database client
+├── app/
+│   ├── (site)/            # Public pages (route group)
+│   │   ├── page.tsx       # Homepage
+│   │   ├── layout.tsx     # Shared layout with Header/Footer
+│   │   ├── loading.tsx    # Skeleton loading UI
+│   │   ├── about/
+│   │   ├── booking/
+│   │   ├── contact/
+│   │   ├── hearing-aids/
+│   │   ├── resources/
+│   │   ├── services/
+│   │   └── team/
+│   ├── admin/             # Admin CMS
+│   └── api/               # API routes
+│       ├── admin/         # Upload & media management
+│       ├── contact/       # Contact form
+│       └── faqs/          # FAQ queries
+├── components/
+│   ├── sections/          # PageHero, Section, CTASection
+│   ├── admin/             # AdminLayout, AdminAuthWrapper, RichTextEditor
+│   ├── AnimateInView.tsx  # IntersectionObserver animation wrapper
+│   ├── NavigationProgress.tsx
+│   ├── HearingAid*.tsx    # Hearing aids page components
+│   └── ...Content.tsx     # Client components for server-rendered pages
+├── hooks/
+│   └── useInView.ts       # Viewport detection hook
+├── lib/
+│   ├── data.ts            # Prisma query functions
+│   ├── db.ts              # Prisma client singleton
+│   ├── hearingAidData.ts  # Hearing aid types, brands, care data
+│   └── static-data.ts     # Fallback static service data
+└── ...
 
-public/               # Static assets
+public/
+└── frontend/              # All site images (WebP preferred, SVG for logos)
+
+scripts/
+├── optimize-images.ts     # Batch image optimisation with sharp
+└── dumpRemoteDb.ts        # Remote DB dump utility
+
+prisma/
+├── schema.prisma          # Database models
+└── seed.ts               # Seed data
 ```
 
-See [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) for design guidelines.
+## Deployment
+
+### Production (Vercel)
+
+1. Push to GitHub — Vercel auto-deploys from the `main` branch
+2. Set `DATABASE_URL` environment variable in Vercel dashboard
+3. Seed the database once: `DATABASE_URL="your-url" npm run db:seed`
+
+### Staging (Docker)
+
+```bash
+cp .env.example .env  # Add DATABASE_URL
+docker compose up -d --build
+```
+
+Uses Traefik reverse proxy with health checks and SSL.
 
 ## Available Scripts
 
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start development server |
-| `npm run build` | Build for production |
+| `npm run build` | Production build |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
-| `npm run db:push` | Push database schema |
-| `npm run db:seed` | Seed database |
-| `npm run db:studio` | Open database GUI |
-
-## Content Management
-
-Manage services, team members, and articles:
-
-```bash
-npm run db:studio
-```
-
-Opens at [http://localhost:5555](http://localhost:5555)
+| `npm run db:push` | Push Prisma schema to database |
+| `npm run db:seed` | Seed database with initial data |
+| `npm run db:studio` | Open Prisma Studio GUI |
+| `npm run db:dump:remote` | Dump remote DB to local |
+| `npm run db:dump:remote:dry` | Dry-run remote DB dump |
+| `npm run db:dump:remote:noimg` | Dump remote DB without images |
 
 ## Database Models
 
-- **Service** - Marketing services with features and details
-- **TeamMember** - Team profiles and specializations
-- **Article** - Patient resources and blog posts
+- **Service** — Marketing services with features, icons, images, and rich descriptions
+- **TeamMember** — Team profiles with specialisations and photos
+- **Article** — Patient resources and blog posts with rich text content
+- **FAQ** — Frequently asked questions with sort ordering
 
 ## Environments
 
 | Environment | Hosting | Database | Config |
 |-------------|---------|----------|--------|
-| Local | localhost:3000 | Neon | `.env.local` |
+| Local | `localhost:3000` | Neon | `.env.local` |
 | Staging | Docker + Traefik | Neon | `.env` on server |
 | Production | Vercel | Neon | Vercel dashboard |
 
 ---
 
-**License:** Private - Veritas Hearing  
+**License:** Private — Veritas Hearing
 **Contact:** info@veritashearing.co.nz
