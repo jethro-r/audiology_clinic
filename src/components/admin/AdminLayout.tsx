@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 
-type Tab = "dashboard" | "services" | "team" | "articles" | "faqs" | "settings";
+type Tab = "dashboard" | "services" | "team" | "articles" | "faqs" | "settings" | "media";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -63,6 +63,16 @@ const tabs: { id: Tab; label: string; icon: ReactNode; path: string }[] = [
     path: "/admin/faqs",
   },
   {
+    id: "media",
+    label: "Media",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21zM8.25 8.625a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" />
+      </svg>
+    ),
+    path: "/admin/media",
+  },
+  {
     id: "settings",
     label: "Settings",
     icon: (
@@ -102,7 +112,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="px-6 py-6 border-b border-white/10">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
-              <img src="/images/icon.png" alt="" className="h-5 w-auto brightness-0 invert" />
+              <img src="/frontend/icon.png" alt="" className="h-5 w-auto brightness-0 invert" />
             </div>
             <div>
               <div className="text-sm font-semibold text-white leading-tight">Veritas Hearing</div>

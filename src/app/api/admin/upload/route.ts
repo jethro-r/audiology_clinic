@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const validTypes = ['articles', 'services', 'team'];
+    const validTypes = ['articles', 'services', 'team', 'media'];
     const folderType = validTypes.includes(type) ? type : 'articles';
 
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
