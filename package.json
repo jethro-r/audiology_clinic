@@ -10,6 +10,9 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
+    "db:dump:remote": "tsx scripts/dumpRemoteDb.ts",
+    "db:dump:remote:dry": "tsx scripts/dumpRemoteDb.ts --dry-run",
+    "db:dump:remote:noimg": "tsx scripts/dumpRemoteDb.ts --skip-images",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -27,14 +30,13 @@
     "@vercel/blob": "^2.3.1",
     "@vercel/speed-insights": "^1.3.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.23.26",
     "geist": "^1.7.0",
-    "isomorphic-dompurify": "^3.8.0",
     "lucide-react": "^0.561.0",
     "next": "16.0.10",
     "nodemailer": "^8.0.1",
     "react": "19.2.1",
-    "react-dom": "19.2.1"
+    "react-dom": "19.2.1",
+    "yet-another-react-lightbox": "^3.32.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -45,6 +47,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "prisma": "^6.1.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "tsx": "^4.19.2",
     "typescript": "^5"

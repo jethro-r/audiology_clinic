@@ -24,6 +24,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
     remotePatterns: [
       {
         protocol: 'https',
