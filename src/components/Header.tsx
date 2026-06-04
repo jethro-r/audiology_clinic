@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Menu, X, Phone } from "lucide-react";
 import Button from "./Button";
 
@@ -32,6 +33,11 @@ export default function Header() {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const buttonRef = useRef<HTMLAnchorElement>(null);
+  const router = useRouter();
+
+  const prefetchPage = useCallback((href: string) => {
+    router.prefetch(href);
+  }, [router]);
 
   // Calculate how many nav items fit in available space
   useEffect(() => {
@@ -128,6 +134,7 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
+                onMouseEnter={() => prefetchPage(item.href)}
                 className="text-foreground hover:text-primary transition-colors font-medium whitespace-nowrap"
               >
                 {item.name}
@@ -137,7 +144,7 @@ export default function Header() {
 
           {/* CTA Button - always visible on desktop/tablet */}
           <div className="hidden md:flex items-center gap-3">
-            <Link ref={buttonRef} href="/booking">
+            <Link ref={buttonRef} href="/booking" onMouseEnter={() => prefetchPage("/booking")}>
               <Button>Book Assessment</Button>
             </Link>
           </div>
@@ -188,6 +195,7 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
+                  onMouseEnter={() => prefetchPage(item.href)}
                   className="text-foreground hover:text-primary hover:bg-primary/5 transition-colors font-medium py-3 px-2 rounded-lg"
                   onClick={() => setMobileMenuOpen(false)}
                 >
