@@ -1,7 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Button from "./Button";
 
@@ -11,11 +9,7 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="animate-slide-in-left">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4 sm:mb-6">
               Independent hearing care, <br className="hidden sm:block" />
               <span className="text-secondary">delivered with integrity</span>
@@ -33,24 +27,21 @@ export default function Hero() {
                 </Button>
               </Link>
             </div>
-          </motion.div>
+          </div>
 
           {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
-          >
+          <div className="relative animate-slide-in-right" style={{ animationDelay: "200ms" }}>
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-              <img
-                src="/images/hero-clinic.png"
+              <Image
+                src="/frontend/hero-clinic.webp"
                 alt="Veritas Hearing professional care"
-                className="absolute inset-0 w-full h-full object-cover"
+                fill
+                sizes="50vw"
+                className="object-cover"
+                priority
               />
             </div>
-
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
