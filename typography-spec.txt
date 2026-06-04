@@ -1,0 +1,105 @@
+VERITAS HEARING — TYPOGRAPHY SPECIFICATION
+
+
+PRIMARY TYPEFACE
+
+Geist by Vercel
+A modern, clean sans-serif designed for excellent legibility across screen sizes.
+Variable font supporting weights 100–900.
+
+Secondary: Geist Mono — used sparingly for technical/admin interfaces only.
+Fallback stack: system-ui, sans-serif
+
+
+TYPE SCALE
+
+Page Hero Heading
+  Mobile: 30px / Tablet: 36px / Desktop: 48px
+  Weight: Bold / Leading: Tight
+
+Section Heading
+  Mobile: 24px / Tablet: 30px / Desktop: 36px
+  Weight: Bold / Leading: Tight
+
+CTA Heading
+  Mobile: 30px / Tablet: 36px
+  Weight: Bold / Leading: Default
+
+Card Title
+  20px across all breakpoints
+  Weight: Semibold / Leading: Default
+
+Subtitle / Lead
+  18px across all breakpoints
+  Weight: Medium / Leading: Relaxed
+
+Body Text
+  16px across all breakpoints
+  Weight: Normal / Leading: Relaxed
+
+Small Text
+  14px across all breakpoints
+  Weight: Normal / Leading: Default
+
+Caption / Footer
+  12px across all breakpoints
+  Weight: Normal / Leading: Default
+
+All headings scale fluidly across breakpoints (small to medium to large).
+
+
+WEIGHTS IN USE
+
+Normal (400)
+  Body text, paragraphs, descriptions
+
+Medium (500)
+  Subtitles, card descriptions, form labels
+
+Semibold (600)
+  Card titles, inline emphasis, rich-text headings
+
+Bold (700)
+  Page headings, hero text, CTAs
+
+
+LINE HEIGHT
+
+Tight (1.25)
+  Hero headings, page headings
+
+Relaxed (1.625)
+  Body content, article text, descriptions
+
+Default (1.5)
+  Everything else
+
+
+COLOUR APPLICATION
+
+Hero Sections
+  Background: Forest Green #183D2D / Text: White
+
+Main Content Sections
+  Background: White #FFFFFF / Text: Dark Grey
+
+Alternating Sections
+  Background: Cream #F7F5EF / Text: Dark Grey
+
+Gold Accent Headings
+  Background: Any / Text: Gold #C6A667
+
+CTA Sections
+  Background: Forest Green #183D2D / Text: White
+
+
+SUMMARY
+
+The Veritas Hearing site uses a single typeface family (Geist) across all
+public-facing pages, keeping the visual language consistent and professional.
+Headings use bold weight with a three-tier responsive scale, body text sits at
+16px normal weight with relaxed leading for comfortable reading, and accent text
+uses gold (#C6A667) to tie into the brand palette.
+
+
+Prepared for Veritas Hearing — June 2026
