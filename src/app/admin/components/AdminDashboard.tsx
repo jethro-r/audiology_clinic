@@ -79,27 +79,30 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchStats() {
+    async function fetchCount(
+      url: string,
+      extract: (data: unknown) => number,
+    ): Promise<number> {
       try {
-        const [services, team, articles, faqs, media] = await Promise.all([
-          fetch("/api/admin/services?limit=1", { credentials: "include" }).then((r) => r.json()),
-          fetch("/api/admin/team?limit=1", { credentials: "include" }).then((r) => r.json()),
-          fetch("/api/admin/articles?limit=1", { credentials: "include" }).then((r) => r.json()),
-          fetch("/api/admin/faqs?limit=1", { credentials: "include" }).then((r) => r.json()),
-          fetch("/api/admin/media", { credentials: "include" }).then((r) => r.json()),
-        ]);
-        setStats({
-          services: services.total ?? 0,
-          team: team.total ?? 0,
-          articles: articles.total ?? 0,
-          faqs: faqs.total ?? 0,
-          media: Array.isArray(media) ? media.length : 0,
-        });
+        const res = await fetch(url, { credentials: "include" });
+        if (!res.ok) return 0;
+        const data = await res.json();
+        return extract(data);
       } catch {
-        setStats({ services: 0, team: 0, articles: 0, faqs: 0, media: 0 });
-      } finally {
-        setLoading(false);
+        return 0;
       }
+    }
+
+    async function fetchStats() {
+      const [services, team, articles, faqs, media] = await Promise.all([
+        fetchCount("/api/admin/services?limit=1", (d) => ((d as Record<string, unknown>).total as number) ?? 0),
+        fetchCount("/api/admin/team?limit=1", (d) => ((d as Record<string, unknown>).total as number) ?? 0),
+        fetchCount("/api/admin/articles?limit=1", (d) => ((d as Record<string, unknown>).total as number) ?? 0),
+        fetchCount("/api/admin/faqs?limit=1", (d) => ((d as Record<string, unknown>).total as number) ?? 0),
+        fetchCount("/api/admin/media", (d) => Array.isArray(d) ? d.length : 0),
+      ]);
+      setStats({ services, team, articles, faqs, media });
+      setLoading(false);
     }
     fetchStats();
   }, []);
