@@ -19,7 +19,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self'",
-      "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.google.com https://googleads.g.doubleclick.net",
+      "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.google.com https://www.google.co.nz https://googleads.g.doubleclick.net https://www.googleadservices.com",
       "frame-src 'self' https://www.google.com https://googleads.g.doubleclick.net https://*.cliniko.com",
       "frame-ancestors 'none'",
     ].join("; "),

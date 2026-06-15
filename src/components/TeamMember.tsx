@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CheckCircle, User } from "lucide-react";
 import Badge from "./Badge";
 import AnimateInView from "@/components/AnimateInView";
@@ -27,11 +28,12 @@ export default function TeamMember({
         {/* Photo */}
         <div className="aspect-[4/3] bg-primary/10 relative">
           {imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={imageUrl}
               alt={name}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">

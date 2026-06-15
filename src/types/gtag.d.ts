@@ -1,6 +1,6 @@
-// Global types for gtag.js — the shared snippet behind both Google Analytics 4
-// (Measurement IDs like "G-XXXXXXXXXX") and Google Ads conversion tracking
-// (IDs like "AW-XXXXXXXXXX"). Loaded in src/app/layout.tsx.
+// Global types for gtag.js, loaded in src/app/layout.tsx. Here gtag is used
+// only for GA4 (via the Google Tag container / a Measurement ID). Google Ads
+// conversions are imported from GA4 key events — no Ads tag is fired in code.
 // Docs: https://developers.google.com/gtagjs/reference/api
 
 interface Window {

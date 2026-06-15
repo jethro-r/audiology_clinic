@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Award,
   Heart,
@@ -144,11 +145,13 @@ export default function AboutPage() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Image */}
           <AnimateInView animation="fade-left">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden">
-              <img
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <Image
                 src="/frontend/Trusted-Care.jpg"
                 alt="Trusted hearing care at Veritas Hearing"
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
               />
             </div>
           </AnimateInView>
