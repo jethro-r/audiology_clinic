@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import NavigationProgress from "@/components/NavigationProgress";
+import GaPageView from "@/components/GaPageView";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -57,27 +58,35 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // gtag.js loads the Google Tag container (GT-…) or a standalone GA4
+  // Measurement ID (G-…). Google Ads is handled inside the container, and Ads
+  // conversions are imported from GA4 key events — so no Ads config lives here.
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const hasGtag = Boolean(gaId);
+  const gtagConfigs = gaId ? `gtag('config', '${gaId}');` : "";
+
   return (
     <html lang="en">
       <body className="antialiased">
         <NavigationProgress />
-        {process.env.NEXT_PUBLIC_GOOGLE_ADS_ID && (
+        {hasGtag && (
           <>
             <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}`}
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
               strategy="afterInteractive"
             />
-            <Script id="google-ads" strategy="afterInteractive">
+            <Script id="gtag-init" strategy="afterInteractive">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}');
+                ${gtagConfigs}
               `}
             </Script>
           </>
         )}
         {children}
+        <GaPageView />
         <Analytics />
         <SpeedInsights />
       </body>

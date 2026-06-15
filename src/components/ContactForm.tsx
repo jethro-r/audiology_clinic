@@ -99,6 +99,11 @@ export default function ContactForm() {
 
       if (response.ok) {
         setStatus("success");
+        // GA4: a submitted enquiry is a lead — mark `generate_lead` as a key
+        // event in GA4 to count it as a (secondary) conversion.
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "generate_lead");
+        }
         // Show more detailed success info
         if (data.accepted && data.accepted.length > 0) {
           setStatusMessage(`Thank you! Your message was sent successfully. We'll be in touch soon.`);

@@ -22,18 +22,15 @@ export default function BookingPage() {
         iframeRef.current.scrollIntoView();
 
         if (e.data.search("cliniko-bookings-page:confirmed") > -1) {
-          const dataLayer = (window as any).dataLayer || [];
-          (window as any).dataLayer = dataLayer;
-          dataLayer.push({ event: "clinikoBookingCompleted" });
-
-          // Google Ads conversion — fires when NEXT_PUBLIC_ADS_CONV_LABEL is set
-          const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
-          const convLabel = process.env.NEXT_PUBLIC_ADS_CONV_LABEL;
-          if (adsId && convLabel && typeof (window as any).gtag === "function") {
-            (window as any).gtag("event", "conversion", {
-              send_to: `${adsId}/${convLabel}`,
-            });
+          // GA4: a confirmed booking is a scheduled appointment — mark this
+          // event as a key event in GA4 to count it as a conversion. Google Ads
+          // picks it up by importing this GA4 key event (no Ads tag in code).
+          if (typeof window.gtag === "function") {
+            window.gtag("event", "schedule");
           }
+          // Keep the dataLayer push for any GTM-managed listeners.
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: "clinikoBookingCompleted" });
         }
       }
     };
