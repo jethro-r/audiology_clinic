@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 // The Turbopack / React dev runtime uses eval; keep it out of production.
 const isDev = process.env.NODE_ENV === "development";
 
+// Vercel injects its toolbar/live-feedback script in preview deployments and
+// local dev, but not in production. Only allowlist vercel.live when active.
+const enableVercelToolbar = isDev || process.env.VERCEL_ENV === "preview";
+
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
@@ -15,12 +19,14 @@ const securityHeaders = [
       "default-src 'self'",
       `script-src 'self' 'unsafe-inline'${
         isDev ? " 'unsafe-eval'" : ""
-      } https://www.googletagmanager.com https://va.vercel-scripts.com https://www.google.com https://googleads.g.doubleclick.net`,
+      }${enableVercelToolbar ? " https://vercel.live" : ""} https://www.googletagmanager.com https://va.vercel-scripts.com https://www.google.com https://*.doubleclick.net https://connect.facebook.net`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self'",
-      "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.google.com https://www.google.co.nz https://googleads.g.doubleclick.net https://www.googleadservices.com",
-      "frame-src 'self' https://www.google.com https://googleads.g.doubleclick.net https://*.cliniko.com",
+      "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.google.com https://www.google.co.nz https://*.doubleclick.net https://www.googleadservices.com https://www.facebook.com https://connect.facebook.net",
+      `frame-src 'self' https://www.google.com https://googleads.g.doubleclick.net https://*.cliniko.com${
+        enableVercelToolbar ? " https://vercel.live" : ""
+      }`,
       "frame-ancestors 'none'",
     ].join("; "),
   },

@@ -104,6 +104,10 @@ export default function ContactForm() {
         if (typeof window.gtag === "function") {
           window.gtag("event", "generate_lead");
         }
+        // Meta Pixel: fire the standard Lead event for ad attribution.
+        if (typeof window.fbq === "function") {
+          window.fbq("track", "Lead");
+        }
         // Show more detailed success info
         if (data.accepted && data.accepted.length > 0) {
           setStatusMessage(`Thank you! Your message was sent successfully. We'll be in touch soon.`);
