@@ -24,7 +24,9 @@ const securityHeaders = [
       "img-src 'self' data: blob: https:",
       "font-src 'self'",
       "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://www.google.com https://www.google.co.nz https://*.doubleclick.net https://www.googleadservices.com https://www.facebook.com https://connect.facebook.net",
-      "frame-src 'self' https://www.google.com https://googleads.g.doubleclick.net https://*.cliniko.com",
+      `frame-src 'self' https://www.google.com https://googleads.g.doubleclick.net https://*.cliniko.com${
+        enableVercelToolbar ? " https://vercel.live" : ""
+      }`,
       "frame-ancestors 'none'",
     ].join("; "),
   },
