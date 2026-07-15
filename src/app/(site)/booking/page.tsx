@@ -28,6 +28,10 @@ export default function BookingPage() {
           if (typeof window.gtag === "function") {
             window.gtag("event", "schedule");
           }
+          // Meta Pixel: fire the standard Lead event for a confirmed booking.
+          if (typeof window.fbq === "function") {
+            window.fbq("track", "Lead");
+          }
           // Keep the dataLayer push for any GTM-managed listeners.
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({ event: "clinikoBookingCompleted" });
