@@ -9,13 +9,14 @@ Veritas Hearing marketing website for an independent audiology clinic in Hamilto
 **Tech Stack:** Next.js 16, React 19, TypeScript, Tailwind CSS 4, Prisma 6, PostgreSQL (Neon)
 
 ### Key Features
-- Marketing pages (Home, About, Services, Hearing Aids, Team, Resources, Contact, Booking)
+- Marketing pages (Home, About, Services, Hearing Aids, Team, Resources, Contact, Booking, Privacy Policy)
 - Admin CMS with media library (services, team, articles, FAQs, settings)
 - Database-driven content via direct Prisma queries (no internal API fetch pattern)
 - Custom animation system using IntersectionObserver (no framer-motion)
 - Navigation progress bar for client-side transitions
 - Hearing aids page with lightbox (yet-another-react-lightbox)
 - Image optimization pipeline (WebP preferred, images in `public/frontend/`)
+- Consent-gated third-party tracking (GA4 + Meta Pixel) via `ConsentProvider`
 
 ## Environments
 
@@ -59,6 +60,7 @@ All public pages live in a Next.js route group with a shared server layout that 
 | `/resources/articles/[slug]` | `getArticleBySlugDirect` | `ArticleContent` |
 | `/booking` | Static | Cliniko iframe |
 | `/contact` | Static | `ContactForm` |
+| `/privacy-policy` | Static | — |
 
 ### Data Layer — `src/lib/data.ts`
 
@@ -75,6 +77,18 @@ Custom `IntersectionObserver`-based animation wrapper (replaces framer-motion). 
 ### Images — `public/frontend/`
 
 All site images live in `public/frontend/`. WebP format preferred. Brand logos are SVGs. Use Next.js `<Image>` component everywhere — never raw `<img>` tags.
+
+### Tracking & Consent — `src/components/ConsentProvider.tsx`
+
+GA4 (Google Analytics 4) and Meta Pixel are gated behind visitor consent. Nothing third-party loads until the visitor accepts.
+
+- `ConsentProvider` is a client component mounted in `src/app/(site)/layout.tsx`. It reads `veritas-cookie-consent` from `localStorage` on mount and renders the cookie banner when no choice has been recorded.
+- **Accept** → writes `"accepted"`, mounts the GA4 + Meta Pixel `<Script>` tags (via `next/script`) and `GaPageView` / `MetaPageView`. The scripts' inline init fires the initial page view automatically.
+- **Decline** → writes `"declined"`. No third-party scripts load, no events fire, no requests are made to Google or Meta.
+- The provider lives in the `(site)` layout, so `/admin` pages are never tracked.
+- `GaPageView` and `MetaPageView` (also client components) skip their first render to avoid double-counting the initial page view fired by the inline init.
+- Vercel Analytics + Speed Insights remain in the root layout **ungated** — they are first-party and privacy-friendly.
+- Env vars: `NEXT_PUBLIC_GA_MEASUREMENT_ID` (GA4), `NEXT_PUBLIC_META_PIXEL_ID` (Meta Pixel). If unset, the corresponding scripts and trackers are skipped.
 
 ## API Routes
 

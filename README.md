@@ -11,7 +11,7 @@ Modern, professional marketing website for Veritas Hearing, an independent audio
 
 ## Features
 
-- 🌐 **Marketing Pages** — Home, About, Services, Hearing Aids, Team, Resources, Contact, Booking
+- 🌐 **Marketing Pages** — Home, About, Services, Hearing Aids, Team, Resources, Contact, Booking, Privacy Policy
 - 📊 **Admin CMS** — Manage services, team members, articles, FAQs, and site settings
 - 🖼️ **Media Library** — Upload, browse, and manage images via Vercel Blob storage
 - 🗄️ **Database-Driven** — PostgreSQL (Neon) with Prisma ORM for dynamic content
@@ -19,6 +19,7 @@ Modern, professional marketing website for Veritas Hearing, an independent audio
 - 📱 **Responsive** — Mobile-first with IntersectionObserver animations
 - 🔒 **Admin Auth** — Password-protected admin panel with session management
 - 📝 **Rich Text Editing** — TipTap editor for articles and service descriptions
+- 🍪 **Consent-Gated Tracking** — GA4 + Meta Pixel load only after visitor opt-in via `ConsentProvider`
 
 ## Tech Stack
 
@@ -90,6 +91,7 @@ src/
 │   │   ├── booking/
 │   │   ├── contact/
 │   │   ├── hearing-aids/
+│   │   ├── privacy-policy/
 │   │   ├── resources/
 │   │   ├── services/
 │   │   └── team/
@@ -102,6 +104,7 @@ src/
 │   ├── sections/          # PageHero, Section, CTASection
 │   ├── admin/             # AdminLayout, AdminAuthWrapper, RichTextEditor
 │   ├── AnimateInView.tsx  # IntersectionObserver animation wrapper
+│   ├── ConsentProvider.tsx  # Cookie banner + GA4/Meta Pixel consent gate
 │   ├── NavigationProgress.tsx
 │   ├── HearingAid*.tsx    # Hearing aids page components
 │   └── ...Content.tsx     # Client components for server-rendered pages

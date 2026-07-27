@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ConsentProvider from "@/components/ConsentProvider";
 import { getFooterServices } from "@/lib/data";
 
 export default async function SiteLayout({
@@ -14,6 +15,7 @@ export default async function SiteLayout({
       <Header />
       <main className="min-h-screen">{children}</main>
       <Footer services={footerServices} />
+      <ConsentProvider />
     </>
   );
 }

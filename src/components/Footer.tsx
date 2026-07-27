@@ -174,7 +174,12 @@ export default function Footer({ services }: { services: Service[] }) {
           <p className="text-sm text-white/60 text-center sm:text-left">
             &copy; {currentYear} Veritas Hearing. All rights reserved.
           </p>
-
+          <Link
+            href="/privacy-policy"
+            className="text-sm text-white/60 hover:text-secondary transition-colors"
+          >
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>
