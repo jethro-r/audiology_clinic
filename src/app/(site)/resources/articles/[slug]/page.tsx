@@ -1,11 +1,39 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { getArticleBySlugDirect } from "@/lib/data";
 import { PageHero, Section } from "@/components/sections";
 import ArticleContent from "@/components/ArticleContent";
+import ArticleSchema from "@/components/schema/ArticleSchema";
 
 export const revalidate = 3600;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getArticleBySlugDirect(slug);
+
+  if (!article) {
+    return {};
+  }
+
+  return {
+    title: article.title,
+    description: article.excerpt,
+    alternates: { canonical: `/resources/articles/${article.slug}` },
+    openGraph: {
+      type: "article",
+      url: `/resources/articles/${article.slug}`,
+      title: article.title,
+      description: article.excerpt,
+      publishedTime: article.publishedAt?.toISOString(),
+    },
+  };
+}
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -17,6 +45,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
+      <ArticleSchema article={article} />
       <PageHero
         badge={article.categories[0]}
         title={article.title}

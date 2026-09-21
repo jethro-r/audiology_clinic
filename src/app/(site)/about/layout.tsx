@@ -1,10 +1,12 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/about" },
   title: "About Us",
   description:
     "Learn about Veritas Hearing Audiology Clinic - our mission, values, and commitment to providing compassionate hearing healthcare since 2005.",
   openGraph: {
+    url: "/about",
     title: "About Us | Veritas Hearing Audiology Clinic",
     description:
       "Since 2005, Veritas Hearing Audiology Clinic has been dedicated to helping our community hear better through expert, compassionate care.",

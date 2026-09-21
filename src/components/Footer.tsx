@@ -142,7 +142,7 @@ export default function Footer({ services }: { services: Service[] }) {
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-secondary flex-shrink-0" />
                 <a
-                  href="tel:+6480055551"
+                  href="tel:+642904510839"
                   className="text-sm hover:text-secondary transition-colors"
                 >
                   029 0451 0839

@@ -22,7 +22,7 @@ const contactInfo = [
     icon: Phone,
     title: "Phone",
     content: "029 0451 0839",
-    link: "tel:+6480055551",
+    link: "tel:+642904510839",
   },
   {
     icon: Mail,

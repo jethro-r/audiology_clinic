@@ -1,9 +1,23 @@
+import type { Metadata } from "next";
 import { PageHero, Section, SectionHeader, CTASection } from "@/components/sections";
 import HearingAidTypeCards from "@/components/HearingAidTypeCards";
 import HearingAidBrands from "@/components/HearingAidBrands";
 import HearingAidCare from "@/components/HearingAidCare";
 import HearingAidStyles from "@/components/HearingAidStyles";
 import { hearingAidTypes, brands, comprehensiveCareItems } from "@/lib/hearingAidData";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/hearing-aids" },
+  title: "Hearing Aids Hamilton | Independent, Unbiased Advice",
+  description:
+    "Independent hearing aid fittings in Hamilton — we recommend what suits you, not what pays the most commission. Talk to Paul Hsu directly.",
+  openGraph: {
+    url: "/hearing-aids",
+    title: "Hearing Aids Hamilton | Independent, Unbiased Advice",
+    description:
+      "Independent hearing aid fittings in Hamilton — we recommend what suits you, not what pays the most commission. Talk to Paul Hsu directly.",
+  },
+};
 
 export default function HearingAidsPage() {
   return (
