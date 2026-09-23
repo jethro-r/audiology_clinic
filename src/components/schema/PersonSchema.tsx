@@ -2,8 +2,10 @@ import JsonLd, { stripHtml } from "./JsonLd";
 import { SITE_URL } from "@/lib/site";
 import type { TeamMember } from "@/lib/data";
 
-// One Physician node per active team member, rendered on /team.
-export default function PhysicianSchema({ members }: { members: TeamMember[] }) {
+// One Person node per active team member, rendered on /team.
+// Audiologists are not physicians (schema.org has no Audiologist type),
+// so Person + jobTitle from the DB carries the actual role.
+export default function PersonSchema({ members }: { members: TeamMember[] }) {
   return (
     <>
       {members.map((member) => (
@@ -11,7 +13,7 @@ export default function PhysicianSchema({ members }: { members: TeamMember[] }) 
           key={member.id}
           data={{
             "@context": "https://schema.org",
-            "@type": "Physician",
+            "@type": "Person",
             name: member.name,
             jobTitle: member.title,
             description: stripHtml(member.bio),

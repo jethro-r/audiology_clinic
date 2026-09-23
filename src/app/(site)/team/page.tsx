@@ -1,7 +1,7 @@
 import { getTeamMembersDirect } from "@/lib/data";
 import { PageHero, Section, SectionHeader, CTASection } from "@/components/sections";
 import TeamContent from "@/components/TeamContent";
-import PhysicianSchema from "@/components/schema/PhysicianSchema";
+import PersonSchema from "@/components/schema/PersonSchema";
 
 export const revalidate = 3600;
 
@@ -10,7 +10,7 @@ export default async function TeamPage() {
 
   return (
     <>
-      <PhysicianSchema members={members} />
+      <PersonSchema members={members} />
       <PageHero
         badge="Your Audiologist"
         title="Meet Your Audiologist"
