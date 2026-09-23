@@ -6,6 +6,8 @@ import { getArticleBySlugDirect } from "@/lib/data";
 import { PageHero, Section } from "@/components/sections";
 import ArticleContent from "@/components/ArticleContent";
 import ArticleSchema from "@/components/schema/ArticleSchema";
+import FaqSchema from "@/components/schema/FaqSchema";
+import { extractArticleFaqs } from "@/lib/articleFaqs";
 
 export const revalidate = 3600;
 
@@ -43,9 +45,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
+  // FAQ sections live inside the article rich text — emit FAQPage markup
+  // automatically when one is present.
+  const faqs = extractArticleFaqs(article.content);
+
   return (
     <>
       <ArticleSchema article={article} />
+      {faqs.length > 0 && <FaqSchema faqs={faqs} />}
       <PageHero
         badge={article.categories[0]}
         title={article.title}

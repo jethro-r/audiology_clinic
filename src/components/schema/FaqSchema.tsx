@@ -1,8 +1,12 @@
 import JsonLd, { stripHtml } from "./JsonLd";
-import type { FAQ } from "@/lib/data";
 
-// FAQPage markup for the homepage FAQ accordion.
-export default function FaqSchema({ faqs }: { faqs: FAQ[] }) {
+// FAQPage markup for FAQ content — the homepage accordion (DB rows) and
+// article FAQ sections (parsed from rich text) both satisfy this shape.
+export default function FaqSchema({
+  faqs,
+}: {
+  faqs: { question: string; answer: string }[];
+}) {
   return (
     <JsonLd
       data={{
