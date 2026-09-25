@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { PageHero, Section, SectionHeader, CTASection } from "@/components/sections";
+import Button from "@/components/Button";
+import AnimateInView from "@/components/AnimateInView";
 import HearingAidTypeCards from "@/components/HearingAidTypeCards";
 import HearingAidBrands from "@/components/HearingAidBrands";
 import HearingAidCare from "@/components/HearingAidCare";
@@ -54,6 +58,24 @@ export default function HearingAidsPage() {
       <Section variant="white" containerClassName="max-w-4xl">
         <SectionHeader label="Brands" title="Trusted Hearing Aid Brands" />
         <HearingAidBrands brands={brands} />
+      </Section>
+
+      {/* Phonak EON promo */}
+      <Section variant="primary">
+        <AnimateInView className="text-center">
+          <span className="text-secondary uppercase font-medium inline-block mb-2">
+            Now at Veritas Hearing
+          </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8">
+            Phonak EON — what&apos;s actually new in Phonak&apos;s 2026 flagship
+          </h2>
+          <Link href="/hearing-aids/eon">
+            <Button variant="secondary" size="lg">
+              Explore the Phonak EON
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+        </AnimateInView>
       </Section>
 
       {/* Comprehensive Care */}
