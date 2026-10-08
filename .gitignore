@@ -48,3 +48,6 @@ public/images/
 public/uploads/
 
 tmp/
+
+# client-supplied material + scratch notes (not tracked by design)
+sam/

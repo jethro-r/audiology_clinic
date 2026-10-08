@@ -124,3 +124,7 @@ GA4 (Google Analytics 4) and Meta Pixel are gated behind visitor consent. Nothin
 
 - `scripts/optimize-images.ts` — Batch convert/compress images using sharp
 - `scripts/dumpRemoteDb.ts` — Dump remote DB to local (supports `--dry-run`, `--skip-images`, `--force`)
+
+## Strategy & Status Docs
+
+`docs/` holds the three planning documents (Growth Playbook, Plan of implementation, Developer Handoff). They are the single source of truth for strategy and status. Dated inline notes (e.g. **[8 Oct 2026]**) record shipped work and expired premises — update those annotations when completing or invalidating planned work, rather than creating parallel status files. `sam/` (untracked) holds client-supplied material and scratch notes only.
