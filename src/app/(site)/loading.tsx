@@ -1,8 +1,11 @@
+// The sections carry [data-page-skeleton]: NavigationProgress holds the top
+// progress bar until these leave the screen, so the bar finishes when real
+// content is visible, not when the route shell commits.
 export default function Loading() {
   return (
     <>
       {/* Hero skeleton */}
-      <section className="pt-8 sm:pt-12 pb-14 sm:pb-20 bg-primary">
+      <section data-page-skeleton className="pt-8 sm:pt-12 pb-14 sm:pb-20 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <div className="h-6 w-24 bg-white/20 rounded-full mx-auto mb-4 animate-pulse" />
@@ -13,7 +16,7 @@ export default function Loading() {
       </section>
 
       {/* Content skeleton */}
-      <section className="py-16 lg:py-24 bg-white">
+      <section data-page-skeleton className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
             <div className="h-4 w-2/3 bg-gray-200 rounded animate-pulse" />

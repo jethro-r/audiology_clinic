@@ -1,51 +1,77 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 
 type ProgressState = "idle" | "loading" | "completing";
 
-export default function NavigationProgress() {
-  const pathname = usePathname();
-  const [state, setState] = useState<ProgressState>("idle");
-  const completeTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
+// The (site) loading skeleton carries [data-page-skeleton]; while it is on
+// screen the route has committed but real content hasn't arrived yet.
+const SKELETON_SELECTOR = "[data-page-skeleton]";
+// Backstop for clicks that never become navigations (e.g. an unmarked file
+// download link). A visible skeleton means a navigation is in flight, so
+// this stays silent then — the poll owns completion.
+const STALL_MS = 10_000;
+const HIDE_MS = 400; // matches the width + opacity transition duration
 
+export default function NavigationProgress() {
+  const [state, setState] = useState<ProgressState>("idle");
+  const targetPathRef = useRef<string | null>(null);
+
+  // The App Router exposes no global navigation events, so the bar starts on
+  // qualifying link clicks: local, not the current page, not target/download.
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      // Walk up from click target to find an anchor tag
-      const target = (e.target as HTMLElement).closest("a");
-      if (!target) return;
+      const anchor = (e.target as HTMLElement).closest("a");
+      if (!anchor) return;
 
-      const href = target.getAttribute("href");
-      if (!href) return;
-
-      // Only trigger for local, non-hash, non-external links
+      const href = anchor.getAttribute("href");
       if (
-        href.startsWith("/") &&
-        !href.startsWith("#") &&
-        !target.hasAttribute("target")
-      ) {
-        setState("loading");
-      }
+        !href?.startsWith("/") ||
+        anchor.hasAttribute("target") ||
+        anchor.hasAttribute("download")
+      )
+        return;
+
+      const path = href.split("#")[0].split("?")[0];
+      if (path === window.location.pathname) return;
+
+      targetPathRef.current = path;
+      setState("loading");
     }
 
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
   }, []);
 
-  // When pathname changes, navigation is done — complete the bar
+  // While loading, poll until the clicked page's content is actually on
+  // screen: the URL has reached the target path, and the loading skeleton
+  // (if one was shown) has been replaced by real content.
   useEffect(() => {
-    if (state === "loading") {
-      setState("completing");
-      completeTimerRef.current = setTimeout(() => {
-        setState("idle");
-      }, 400);
-    }
+    if (state !== "loading") return;
+
+    const finish = () => setState("completing");
+    const poll = setInterval(() => {
+      if (window.location.pathname !== targetPathRef.current) return;
+      if (document.querySelector(SKELETON_SELECTOR)) return;
+      finish();
+    }, 100);
+
+    const stall = setTimeout(() => {
+      if (!document.querySelector(SKELETON_SELECTOR)) finish();
+    }, STALL_MS);
 
     return () => {
-      if (completeTimerRef.current) clearTimeout(completeTimerRef.current);
+      clearInterval(poll);
+      clearTimeout(stall);
     };
-  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [state]);
+
+  // Hide the bar once the completion transition has played.
+  useEffect(() => {
+    if (state !== "completing") return;
+    const hide = setTimeout(() => setState("idle"), HIDE_MS);
+    return () => clearTimeout(hide);
+  }, [state]);
 
   if (state === "idle") return null;
 
@@ -60,7 +86,7 @@ export default function NavigationProgress() {
           ? "width 200ms ease-out, opacity 300ms ease-out 100ms"
           : "none",
         animation:
-          state === "loading" ? "progress-load 2s ease-out forwards" : "none",
+          state === "loading" ? "progress-load 20s ease-out forwards" : "none",
       }}
     />
   );
