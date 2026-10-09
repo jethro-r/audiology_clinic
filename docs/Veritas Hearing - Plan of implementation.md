@@ -5,6 +5,13 @@ Every item below was verified against the live site (**www**.veritashearing.co.n
 the production host; non-www redirects to it). The audits are ~70% accurate — this is the
 corrected, prioritized list.
 
+> **[8 Oct 2026 — status]** Items 1–5 and 7: **done** (commit 39e076c, deployed; schema
+> types later corrected to LocalBusiness/Person in PR #6). Item 6 (www-primary 308):
+> Vercel-dashboard change — still a 307 at audit time, unconfirmed since. Under
+> "Strategy calls": homepage reviews are **done** (PR #10, real Google reviews);
+> landing pages remain blocked on the Content Pack, which is still not in the repo.
+> GSC verification + sitemap submission: done by Paul.
+
 ## Already done — ignore these audit items
 
 | Audit claim | Reality |

@@ -4,7 +4,28 @@
 
 veritashearing.co.nz vs. the Hamilton & NZ hearing-care market — where the site stands today, what to fix this week, the keyword and backlink plan to build Domain Rating, how to earn a place in AI Overviews, and ready-topaste copy for Paul. 
 
-Prepared 14 Sep 2026   |   Market: Hamilton / Waikato, NZ   |   Source: Ahrefs Site Explorer & Keywords Explorer 
+Prepared 14 Sep 2026   |   Market: Hamilton / Waikato, NZ   |   Source: Ahrefs Site Explorer & Keywords Explorer
+
+> ## Status update — 8 Oct 2026
+>
+> This Playbook remains the strategy source of truth. The notes below record what has
+> shipped since preparation and which premises have expired. Inline notes marked
+> **[8 Oct 2026]** supersede any conflicting original text.
+>
+> **Done:** per-page titles/descriptions + canonicals (www host), sitemap + robots,
+> JSON-LD ×4 (39e076c; types corrected to LocalBusiness/Person in PR #6); GSC verified
+> and sitemap submitted (Paul); consent-gated GA4 + Meta Pixel (6143459); real privacy
+> policy from Paul's copy (PR #9); homepage Google-reviews section (PR #10).
+>
+> **Open:** Content Pack doc still not in the repo — landing pages and the remaining
+> guides depend on it; directory listings (Healthpoint etc.) are Paul-side; the
+> non-www → www redirect was a temporary 307 at audit time and the permanent 308
+> (Vercel dashboard) is unconfirmed.
+>
+> **Expired premise:** FAQPage schema no longer earns Google FAQ rich results for this
+> site class (Google limited them to well-known government/health-authority sites in
+> Aug 2023) — see the note in §07.
+
 
 **01 — READ THIS FIRST** 
 
@@ -83,7 +104,12 @@ The Hamilton hearing-care market splits into two tiers: national hearing-aid-ret
 
 ## **Immediate interventions** 
 
-Zero organic keywords with a live, functioning website almost always traces to one of these. Work down this list before anything else — content and links won't help if the site isn't being crawled and read properly. 
+Zero organic keywords with a live, functioning website almost always traces to one of these. Work down this list before anything else — content and links won't help if the site isn't being crawled and read properly.
+
+> **[8 Oct 2026]** Status of this list: GSC verified + sitemap submitted (done, Paul);
+> robots/meta robots clean (done); unique titles + descriptions on every page (done,
+> 39e076c); Paul's bio was already live on /team at audit time; LocalBusiness + Person
+> schema shipped (39e076c, retyped in PR #6). Healthpoint listing: still open, Paul-side.
 
 ##### **[THIS WEEK]  Confirm indexing in Google Search Console** 
 
@@ -183,7 +209,16 @@ The SERP data draws a clean line: hyper-local "near me"-type searches (hearing a
 
 - **Byline everything with Paul's name and NZAS credentials.** AI systems favour content with clear, identifiable, first-hand expertise over anonymous marketing copy — currently missing site-wide. 
 
-- **Add FAQPage and Article/MedicalWebPage schema** to every guide — it's how both Google's classic rich results and AI systems parse a direct Q&A structure. 
+- **Add FAQPage and Article/MedicalWebPage schema** to every guide — it's how both Google's classic rich results and AI systems parse a direct Q&A structure.
+
+> **[8 Oct 2026 — expired premise]** The "classic rich results" half of this no longer
+> applies: Google has shown FAQ rich results only for well-known government and
+> health-authority sites since Aug 2023, so this site gets no SERP FAQ treatment
+> regardless of markup validity. The AI-parsing half survives mainly through semantic
+> HTML — write FAQ questions as real headings with the answer immediately beneath
+> (which is how the articles are already authored). FAQPage schema remains worthwhile
+> only where FAQ data is structured at authoring time (the Content Pack pattern for
+> the landing pages). The article FAQ-schema attempt (PR #7) was closed for this reason.
 
 - **Write like an independent clinician, not a retailer.** Every top-ranking competitor page on pricing and "best hearing aids" is trying to sell its own stock. Veritas's "no sales pressure" positioning is a genuine content advantage here. 
 
@@ -201,7 +236,10 @@ Split the generic Services page into dedicated pages per service + Hamilton/Fran
 
 ##### **[HIGH IMPACT]  FAQ blocks on every service page** 
 
-Lift the real "People Also Ask" questions surfaced in the keyword research (e.g. "Can an audiologist help with ear wax?", "How much is an appointment with an audiologist?") straight onto the relevant page, schema-marked. 
+Lift the real "People Also Ask" questions surfaced in the keyword research (e.g. "Can an audiologist help with ear wax?", "How much is an appointment with an audiologist?") straight onto the relevant page, schema-marked.
+
+> **[8 Oct 2026]** The FAQ content itself is still recommended (PAA-shaped questions,
+> direct answers). Only the "schema-marked" part carries no SERP payoff — see the §07 note.
 
 ##### **[QUICK]  Internal-link the existing 5 blog posts** 
 
@@ -215,7 +253,12 @@ Name, address (37 Lake Road, Frankton), phone and hours in the footer sitewide, 
 
 ##### **[QUICK]  Real patient reviews on the homepage** 
 
-Pull genuine, consented Google reviews into a homepage widget. Never fabricate or paraphrase reviews as new copy. 
+Pull genuine, consented Google reviews into a homepage widget. Never fabricate or paraphrase reviews as new copy.
+
+> **[8 Oct 2026]** Done — PR #10 ships five real Google reviews (verbatim, Paul-supplied)
+> plus a "read all our reviews on Google" card. Deliberately no Review/AggregateRating
+> JSON-LD: Google has ignored self-serving LocalBusiness review markup since 2019, so
+> the visible content carries the conversion and AI-citation value.
 
 ##### **[CHECK]  Mobile speed and image weight** 
 
@@ -359,7 +402,10 @@ Hi [Name], it's Paul from Veritas Hearing. If you know anyone in Frankton or Ham
 
 - Healthpoint, Yellow, NZAS, ACC and Veterans' Affairs listings claimed 
 
-- Dedicated hearing-test-hamilton and hearing-aids-hamilton pages live with FAQ schema 
+- Dedicated hearing-test-hamilton and hearing-aids-hamilton pages live with FAQ schema
+
+> **[8 Oct 2026]** Still pending (Content Pack). When built, the FAQ schema is optional
+> (see §07) — the pages themselves are the priority.
 
 - First two content guides published (pricing + signs of hearing loss) 
 

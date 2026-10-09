@@ -6,6 +6,19 @@
 
 Everything below is scoped to close the gap identified in the Veritas Hearing Growth Playbook: the site is fully live but has zero indexed organic keywords. That almost always comes down to metadata, indexing setup and missing structured data — not content. This is written for a Next.js app deployed on Vercel; swap the App Router / Pages Router snippet for whichever this repo actually uses.
 
+> ## [8 Oct 2026 — status]
+>
+> - **P0 done** — GSC verified + sitemap submitted (Paul); robots/sitemap shipped with the www host (39e076c).
+> - **P1 done** — per-page metadata + canonicals shipped (39e076c). One deviation: the canonical host is **www** (locked decision, matching the deployed redirect), the opposite of the "non-www is the simpler default" suggested below. The non-www → www redirect was a temporary 307 at audit time; making it a permanent 308 is a Vercel-dashboard item, unconfirmed.
+> - **P2 open** — blocked on the Content Pack (still not in the repo). Paul has since published two of the guides as CMS articles.
+> - **P3 done with changes** — schema shipped as **LocalBusiness / Person** (PR #6; the Physician/MedicalBusiness types prescribed below were the wrong types for an audiologist practice). FAQPage shipped on the homepage only; see the expired-premise note at the FAQ component before extending it.
+> - **P4 partial** — NAP footer confirmed site-wide; internal linking deferred until the new pages exist.
+> - **P5 done** — Vercel Analytics + Speed Insights enabled (first-party, ungated); consent-gated GA4 + Meta Pixel shipped (6143459) with Lead events on contact-form submit and booking confirmation.
+>
+> Also shipped since preparation: real privacy policy from Paul's supplied copy (PR #9)
+> and a homepage Google-reviews section (PR #10). The article FAQ-schema attempt
+> (PR #7) was closed — see the note under the Faq component in P3.
+
 ---
 
 ## Before you start: confirmed stack & current state
@@ -290,6 +303,14 @@ export function Faq({ items }: { items: FaqItem[] }) {
 
 The Q&A pairs to pass in for each page are already written in the Content Pack — copy them into a data file rather than re-writing.
 
+> **[8 Oct 2026 — expired premise]** Google has limited FAQ rich results to well-known
+> government/health-authority sites since Aug 2023, so this schema no longer earns SERP
+> FAQ treatment for this site. The component design below remains right where FAQ data
+> is structured at authoring time (landing pages built from the Content Pack: one data
+> source renders both the visible Q&A and its schema, no parsing). For freeform CMS
+> articles, do not parse FAQ sections out of rich text — write questions as real
+> headings instead. PR #7 tried the parse approach and was closed.
+
 ### Article schema on the 5 existing blog posts + new resource pages — `P2`
 
 ```json
@@ -338,17 +359,20 @@ Check the homepage and `/hearing-test-hamilton` once built. Enable Vercel Speed 
 
 ## Acceptance checklist
 
-- [ ] Google Search Console verified for veritashearing.co.nz, sitemap submitted
-- [ ] robots.txt live at /robots.txt, sitemap live at /sitemap.xml
-- [ ] No noindex header/tag present on the Production deployment
-- [ ] Every existing page has a unique title, meta description and canonical tag (no duplicates)
-- [ ] Single canonical domain enforced (www → non-www or vice versa), http → https forced
-- [ ] All 6 new pages from the keyword plan are live, linked from nav/footer/related content, and indexed-requested in Search Console
-- [ ] MedicalBusiness schema present site-wide; validates in Rich Results Test
-- [ ] Physician schema present on About/Team page (after Paul's bio copy is live)
-- [ ] FAQPage schema present and validating on all 6 new pages
-- [ ] Existing 5 blog posts cross-linked to relevant service pages and vice versa
-- [ ] Lighthouse SEO score ≥ 95 on homepage and one new service page
+> **[8 Oct 2026]** Ticked below with the date each item was verified. Items left open
+> are tracked in the status banners at the top of the three docs.
+
+- [x] Google Search Console verified for veritashearing.co.nz, sitemap submitted *(Paul, Oct 2026)*
+- [x] robots.txt live at /robots.txt, sitemap live at /sitemap.xml *(39e076c)*
+- [x] No noindex header/tag present on the Production deployment *(repo clean; re-check header on prod after next deploy)*
+- [x] Every existing page has a unique title, meta description and canonical tag (no duplicates) *(39e076c)*
+- [ ] Single canonical domain enforced (www → non-www or vice versa), http → https forced *(www canonical in code; non-www → www was 307 at audit — 308 dashboard change unconfirmed)*
+- [ ] All 6 new pages from the keyword plan are live, linked from nav/footer/related content, and indexed-requested in Search Console *(blocked on Content Pack)*
+- [x] MedicalBusiness schema present site-wide; validates in Rich Results Test *(shipped as LocalBusiness — PR #6)*
+- [x] Physician schema present on About/Team page (after Paul's bio copy is live) *(shipped as Person — PR #6)*
+- [ ] FAQPage schema present and validating on all 6 new pages *(downgraded to optional — expired premise, see P3 note)*
+- [ ] Existing 5 blog posts cross-linked to relevant service pages and vice versa *(deferred until new pages exist)*
+- [ ] Lighthouse SEO score ≥ 95 on homepage and one new service page *(re-run once landing pages ship)*
 
 ---
 
