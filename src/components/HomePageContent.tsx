@@ -9,6 +9,7 @@ import Hero from "@/components/Hero";
 import ServiceCard from "@/components/ServiceCard";
 import Button from "@/components/Button";
 import FaqAccordion from "@/components/FaqAccordion";
+import ReviewsSection from "@/components/ReviewsSection";
 import AnimateInView from "@/components/AnimateInView";
 import { Section, SectionHeader, CTASection } from "@/components/sections";
 import { type Service, type FAQ } from "@/lib/data";
@@ -96,6 +97,9 @@ export default function HomePageContent({
           </AnimateInView>
         </div>
       </Section>
+
+      {/* Reviews Section */}
+      <ReviewsSection />
 
       {/* FAQ Section */}
       <Section variant="white" containerClassName="max-w-3xl">
