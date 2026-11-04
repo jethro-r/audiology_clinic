@@ -145,7 +145,7 @@ export default function Footer({ services }: { services: Service[] }) {
                   href="tel:+642904510839"
                   className="text-sm hover:text-secondary transition-colors"
                 >
-                  029 0451 0839
+                  029 045 10839
                 </a>
               </li>
               <li className="flex items-center gap-3">
