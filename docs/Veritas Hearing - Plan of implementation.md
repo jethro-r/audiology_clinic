@@ -10,6 +10,10 @@ corrected, prioritized list.
 > Vercel-dashboard change — still a 307 at audit time, unconfirmed since. Under
 > "Strategy calls": homepage reviews are **done** (PR #10, real Google reviews);
 > landing pages remain blocked on the Content Pack, which is still not in the repo.
+> **[4 Nov 2026]** Partially unblocked: a CMS-driven `/services/[slug]` landing-page
+> template shipped with the Hearing Aid Fittings page (content supplied by Paul via
+> Trello — see the Growth Playbook note). Per-service landing pages no longer wait
+> on the Content Pack; each is authored in the admin.
 > GSC verification + sitemap submission: done by Paul.
 
 ## Already done — ignore these audit items

@@ -234,6 +234,12 @@ The SERP data draws a clean line: hyper-local "near me"-type searches (hearing a
 
 Split the generic Services page into dedicated pages per service + Hamilton/Frankton, each with its own title, FAQ block and booking CTA. 
 
+> **[4 Nov 2026]** The service half of this shipped: `/services/[slug]` is now a
+> CMS-driven landing-page template (fixed skeleton — hero, feature cards, steps,
+> audience band, FAQ, CTA — edited per service in the admin). First page live:
+> Hearing Aid Fittings, content supplied directly by Paul (via Trello) instead of
+> the Content Pack. Location (Hamilton/Frankton) pages remain open.
+
 ##### **[HIGH IMPACT]  FAQ blocks on every service page** 
 
 Lift the real "People Also Ask" questions surfaced in the keyword research (e.g. "Can an audiologist help with ear wax?", "How much is an appointment with an audiologist?") straight onto the relevant page, schema-marked.
