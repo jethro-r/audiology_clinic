@@ -13,7 +13,18 @@ export async function getServicesDirect(options?: { homepage?: boolean; footer?:
   return results.map((r) => ({
     ...r,
     featureTooltips: r.featureTooltips as Record<string, string> | null,
+    landing: r.landing as Service['landing'],
   }));
+}
+
+export async function getServiceBySlugDirect(slug: string): Promise<Service | null> {
+  const r = await prisma.service.findUnique({ where: { slug } });
+  if (!r) return null;
+  return {
+    ...r,
+    featureTooltips: r.featureTooltips as Record<string, string> | null,
+    landing: r.landing as Service['landing'],
+  };
 }
 
 export async function getTeamMembersDirect(): Promise<TeamMember[]> {
@@ -48,6 +59,8 @@ export interface Service {
   idealFor?: string | null;
   note?: string | null;
   featureTooltips?: Record<string, string> | null;
+  landingEnabled?: boolean;
+  landing?: import('./serviceLanding').ServiceLanding | null;
 }
 
 export interface TeamMember {

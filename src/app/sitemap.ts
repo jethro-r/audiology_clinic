@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getArticlesDirect } from "@/lib/data";
+import { getArticlesDirect, getServicesDirect } from "@/lib/data";
 import { SITE_URL } from "@/lib/site";
 
 // ISR so newly published articles appear without a redeploy.
@@ -73,5 +73,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...articleRoutes];
+  const services = await getServicesDirect();
+  const landingRoutes: MetadataRoute.Sitemap = services
+    .filter((service) => service.landingEnabled)
+    .map((service) => ({
+      url: `${baseUrl}/services/${service.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }));
+
+  return [...staticRoutes, ...articleRoutes, ...landingRoutes];
 }

@@ -87,12 +87,22 @@ export default function ServicesContent({ services }: { services: Service[] }) {
                   </div>
                 )}
 
-                <Link href="/booking">
-                  <Button>
-                    {service.buttonText || "Book Assessment"}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Link href="/booking">
+                    <Button>
+                      {service.buttonText || "Book Assessment"}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                  {service.landingEnabled && (
+                    <Link
+                      href={`/services/${service.slug}`}
+                      className="text-primary font-medium hover:text-primary-dark transition-colors"
+                    >
+                      Learn more
+                    </Link>
+                  )}
+                </div>
               </div>
 
               {/* Image */}

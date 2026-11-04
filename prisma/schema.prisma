@@ -26,6 +26,8 @@ model Service {
   idealFor         String?  @db.Text
   note             String?  @db.Text
   featureTooltips  Json?    // JSON object for feature tooltips
+  landingEnabled   Boolean  @default(false) // Publish the /services/[slug] landing page
+  landing          Json?    // Structured landing-page content (see src/lib/serviceLanding.ts)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 

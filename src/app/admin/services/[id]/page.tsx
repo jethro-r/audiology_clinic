@@ -3,11 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Save, X } from "lucide-react";
-import * as LucideIcons from "lucide-react";
 import AdminAuthWrapper from "../../../../components/admin/AdminAuthWrapper";
 import AdminLayout from "../../../../components/admin/AdminLayout";
 import RichTextEditor from "../../../../components/admin/RichTextEditor";
+import IconPicker from "@/components/admin/IconPicker";
+import LandingPageEditor, { defaultLanding } from "@/components/admin/LandingPageEditor";
 import { slugify } from "@/lib/utils";
+import type { ServiceLanding } from "@/lib/serviceLanding";
 
 interface Service {
   id: string;
@@ -24,21 +26,15 @@ interface Service {
   buttonText?: string | null;
   idealFor?: string | null;
   note?: string | null;
+  landingEnabled: boolean;
+  landing: ServiceLanding;
 }
-
-const POPULAR_ICONS = [
-  "Ear", "Headphones", "Volume2", "VolumeX", "Volume1", "Bell",
-  "Mic", "Radio", "Speaker", "Phone", "Stethoscope", "Activity",
-  "Heart", "Shield", "Settings", "Star", "Award", "CheckCircle",
-  "Users", "UserCheck", "Clock", "Calendar", "MapPin", "AlertCircle",
-  "Info", "HelpCircle", "Lightbulb", "Zap", "TrendingUp", "Target",
-  "Sunrise", "Moon", "Baby", "Home", "Briefcase", "GraduationCap",
-];
 
 const emptyService: Omit<Service, "id"> = {
   slug: "", title: "", shortDescription: "", fullDescription: "",
   iconName: "Ear", image: "", features: [], sortOrder: 0,
   showOnHomepage: true, showInFooter: true, buttonText: "", idealFor: "", note: "",
+  landingEnabled: false, landing: defaultLanding(),
 };
 
 export default function ServiceEditPage() {
@@ -63,9 +59,6 @@ function ServiceEditForm() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const [showIconPicker, setShowIconPicker] = useState(false);
-  const [iconSearch, setIconSearch] = useState("");
-  const iconPickerRef = useRef<HTMLDivElement>(null);
   const slugManuallyEdited = useRef(false);
 
   useEffect(() => {
@@ -86,6 +79,8 @@ function ServiceEditForm() {
             features: data.features, sortOrder: data.sortOrder,
             showOnHomepage: data.showOnHomepage, showInFooter: data.showInFooter,
             buttonText: data.buttonText || "", idealFor: data.idealFor || "", note: data.note || "",
+            landingEnabled: data.landingEnabled ?? false,
+            landing: { ...defaultLanding(), ...(data.landing || {}), hero: { ...defaultLanding().hero, ...(data.landing?.hero || {}) } },
           });
           setFeaturesText(data.features.join("\n"));
           setLoading(false);
@@ -96,19 +91,6 @@ function ServiceEditForm() {
         });
     }
   }, [id, isNew]);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (iconPickerRef.current && !iconPickerRef.current.contains(event.target as Node)) {
-        setShowIconPicker(false);
-        setIconSearch("");
-      }
-    }
-    if (showIconPicker) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [showIconPicker]);
 
   function showMessage(type: "success" | "error", text: string) {
     setMessage({ type, text });
@@ -174,10 +156,6 @@ function ServiceEditForm() {
       setSaving(false);
     }
   }
-
-  const filteredIcons = iconSearch
-    ? POPULAR_ICONS.filter((icon) => icon.toLowerCase().includes(iconSearch.toLowerCase()))
-    : POPULAR_ICONS;
 
   if (loading) {
     return (
@@ -369,58 +347,10 @@ function ServiceEditForm() {
             <p className="text-xs font-semibold text-muted uppercase tracking-widest">Appearance</p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={labelCls}>Icon</label>
-                <div className="relative" ref={iconPickerRef}>
-                  <button
-                    type="button"
-                    onClick={() => setShowIconPicker(!showIconPicker)}
-                    className={`${inputCls} flex items-center justify-between hover:bg-background/80`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {form.iconName && (() => {
-                        const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[form.iconName];
-                        return IconComponent ? <IconComponent className="w-4 h-4" /> : null;
-                      })()}
-                      <span>{form.iconName || "Select"}</span>
-                    </div>
-                    <svg className="w-3.5 h-3.5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showIconPicker && (
-                    <div className="absolute z-50 left-0 mt-1 w-64 bg-card border border-border rounded-lg shadow-lg max-h-80 overflow-hidden">
-                      <div className="p-2 border-b border-border sticky top-0 bg-card">
-                        <input
-                          type="text"
-                          value={iconSearch}
-                          onChange={(e) => setIconSearch(e.target.value)}
-                          placeholder="Search icons..."
-                          className="w-full px-2.5 py-1.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 text-sm"
-                        />
-                      </div>
-                      <div className="grid grid-cols-4 gap-1.5 p-2 max-h-60 overflow-y-auto">
-                        {filteredIcons.map((iconName) => {
-                          const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName];
-                          if (!IconComponent) return null;
-                          return (
-                            <button
-                              key={iconName}
-                              type="button"
-                              onClick={() => { setForm({ ...form, iconName }); setShowIconPicker(false); setIconSearch(""); }}
-                              className={`flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-background transition-colors ${
-                                form.iconName === iconName ? "bg-secondary/10 ring-2 ring-secondary" : ""
-                              }`}
-                              title={iconName}
-                            >
-                              <IconComponent className="w-4 h-4" />
-                              <span className="text-[9px] text-muted truncate w-full text-center">{iconName}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <IconPicker
+                  value={form.iconName}
+                  onChange={(iconName) => setForm({ ...form, iconName })}
+                />
               </div>
               <div>
                 <label className={labelCls}>Sort Order</label>
@@ -508,8 +438,25 @@ function ServiceEditForm() {
               />
               <span className="text-sm text-foreground">Show in Footer</span>
             </label>
+            <label className="flex items-center gap-2.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.landingEnabled}
+                onChange={(e) => setForm({ ...form, landingEnabled: e.target.checked })}
+                className="w-4 h-4 rounded border-border accent-primary"
+              />
+              <span className="text-sm text-foreground">Publish landing page</span>
+            </label>
           </div>
         </div>
+      </div>
+
+      {/* Landing page content */}
+      <div className="mt-4">
+        <LandingPageEditor
+          value={form.landing}
+          onChange={(landing) => setForm((f) => ({ ...f, landing }))}
+        />
       </div>
     </form>
   );
