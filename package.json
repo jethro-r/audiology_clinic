@@ -9,6 +9,7 @@
     "lint": "eslint",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
+    "db:seed:page": "tsx scripts/seedServicePages.ts",
     "db:studio": "prisma studio",
     "db:dump:remote": "tsx scripts/dumpRemoteDb.ts",
     "db:dump:remote:dry": "tsx scripts/dumpRemoteDb.ts --dry-run",

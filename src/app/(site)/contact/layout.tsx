@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
   title: "Contact Us",
   description:
-    "Contact Veritas Hearing to schedule an appointment or ask questions. Located at 37 Lake Road, Frankton, Hamilton 3204. Call 029 0451 0839.",
+    "Contact Veritas Hearing to schedule an appointment or ask questions. Located at 37 Lake Road, Frankton, Hamilton 3204. Call 029 045 10839.",
   openGraph: {
     url: "/contact",
     title: "Contact Us | Veritas Hearing",

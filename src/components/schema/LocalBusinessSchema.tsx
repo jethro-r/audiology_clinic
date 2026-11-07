@@ -2,7 +2,7 @@ import JsonLd from "./JsonLd";
 import { SITE_URL } from "@/lib/site";
 
 // Site-wide local-business markup. NAP + hours match the footer:
-// 37 Lake Road, Frankton, Hamilton 3204 · 029 0451 0839 · Mon–Fri 8–5.
+// 37 Lake Road, Frankton, Hamilton 3204 · 029 045 10839 · Mon–Fri 8–5.
 // LocalBusiness rather than MedicalBusiness: the practice is run by an
 // audiologist (an allied health professional, not a physician) and
 // schema.org has no Audiologist type — the generic keeps NAP + hours valid.
