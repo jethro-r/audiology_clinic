@@ -76,7 +76,7 @@ export default function CTASection({
             {secondaryButton && (
               <Link href={secondaryButton.href}>
                 <Button
-                  variant="outline"
+                  variant={variant === "primary" ? "outline-light" : "outline"}
                   size="lg"
                   className="w-full sm:w-auto"
                 >

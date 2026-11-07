@@ -1,122 +1,54 @@
 import Link from "next/link";
-import {
-  Ear,
-  Headphones,
-  Volume2,
-  Shield,
-  Wrench,
-  ArrowRight,
-  CheckCircle,
-  LucideIcon,
-} from "lucide-react";
-import Image from "next/image";
-import Button from "@/components/Button";
+import { ArrowRight } from "lucide-react";
 import AnimateInView from "@/components/AnimateInView";
+import { getLandingIcon } from "@/components/services/landingIcon";
 import { type Service } from "@/lib/data";
 
-const iconMap: Record<string, LucideIcon> = {
-  Ear,
-  Headphones,
-  Volume2,
-  Shield,
-  Wrench,
-};
-
+/**
+ * /services index — one card per service, built from each service's short
+ * description. Services whose individual page is live link through to it;
+ * drafts (or services without a page) show as plain cards.
+ *
+ * Each card keeps an id anchor ({slug}) because the homepage service cards
+ * link to /services#slug.
+ */
 export default function ServicesContent({ services }: { services: Service[] }) {
   return (
-    <div className="space-y-16">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {services.map((service, index) => {
-        const IconComponent = iconMap[service.iconName] || Ear;
+        const IconComponent = getLandingIcon(service.iconName);
 
         return (
-          <AnimateInView key={service.id}>
-            <div
+          <AnimateInView key={service.id} delay={(index % 3) * 100} className="h-full">
+            <article
               id={service.slug}
-              className={`grid lg:grid-cols-2 gap-6 lg:gap-12 items-center ${
-                index % 2 === 1 ? "lg:flex-row-reverse" : ""
-              }`}
+              className="bg-white border border-border rounded-xl p-6 h-full flex flex-col scroll-mt-24"
             >
-              {/* Content */}
-              <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-4">
-                  {service.title}
-                </h2>
-                <div
-                  className="rich-text text-muted mb-6"
-                  dangerouslySetInnerHTML={{ __html: service.fullDescription }}
-                />
+              <div className="w-14 h-14 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4">
+                <IconComponent className="w-6 h-6" aria-hidden="true" />
+              </div>
+              <h2 className="text-xl font-semibold text-foreground mb-2">{service.title}</h2>
+              <p className="text-muted mb-6">{service.shortDescription}</p>
 
-                {service.idealFor && (
-                  <div className="mb-6">
-                    <h3 className="font-semibold text-foreground mb-1">
-                      Ideal if:
-                    </h3>
-                    <p className="text-muted text-sm">
-                      {service.idealFor}
-                    </p>
-                  </div>
+              <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-2">
+                {service.isLive && (
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="text-primary font-medium inline-flex items-center gap-1.5 hover:text-primary-dark transition-colors"
+                  >
+                    Learn more
+                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                  </Link>
                 )}
-
-                {service.features && service.features.length > 0 && (
-                  <div className="mb-6">
-                    <h3 className="font-semibold text-foreground mb-3">
-                      Includes:
-                    </h3>
-                    <ul className="space-y-2">
-                      {service.features.map((item) => {
-                        const tooltip = service.featureTooltips?.[item];
-                        return (
-                          <li key={item} className="flex items-start gap-2">
-                            <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                            <span
-                              className={tooltip ? "text-primary border-b border-dotted border-muted cursor-help" : "text-primary"}
-                              title={tooltip || ""}
-                            >
-                              {item}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                )}
-
-                {service.note && (
-                  <div className="mb-6 text-sm text-muted">
-                    {service.note}
-                  </div>
-                )}
-
-                <Link href="/booking">
-                  <Button>
-                    {service.buttonText || "Book Assessment"}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                <Link
+                  href="/booking"
+                  className="text-muted font-medium inline-flex items-center gap-1.5 hover:text-primary transition-colors"
+                >
+                  Book assessment
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
-
-              {/* Image */}
-              <div
-                className={`relative aspect-[4/3] rounded-2xl overflow-hidden ${
-                  index % 2 === 1 ? "lg:order-1" : ""
-                }`}
-              >
-                {service.image ? (
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
-                    priority={index === 0}
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-primary/10 flex items-center justify-center">
-                    <IconComponent className="w-24 h-24 text-primary/30" />
-                  </div>
-                )}
-              </div>
-            </div>
+            </article>
           </AnimateInView>
         );
       })}
