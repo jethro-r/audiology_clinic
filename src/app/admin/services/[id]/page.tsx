@@ -452,7 +452,9 @@ function ServiceEditForm() {
           <span className="font-mono">/services/{form.slug || "your-slug"}</span> and links it from the
           Services page. <span className="text-foreground font-medium">Draft</span> keeps the page hidden
           while you work on it — the service still appears in the Services listing with its short
-          description. Remember to click Save after changing the status.
+          description. A Live page always renders: until the hero is filled in it simply shows the
+          service title and short description, and any sections you&rsquo;ve added. Remember to
+          click Save after changing the status.
         </p>
       </div>
     </form>

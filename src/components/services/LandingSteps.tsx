@@ -9,11 +9,13 @@ import type { LandingSteps as LandingStepsData } from "@/lib/servicePage";
 export default function LandingSteps({ data }: { data: LandingStepsData }) {
   return (
     <Section variant="white">
-      <SectionHeader
-        label={data.eyebrow}
-        title={data.heading}
-        description={data.intro}
-      />
+      {data.heading ? (
+        <SectionHeader
+          label={data.eyebrow}
+          title={data.heading}
+          description={data.intro}
+        />
+      ) : null}
       <ol className="list-none grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {data.steps.map((step, index) => {
           const highlighted = data.highlightStep === index + 1;

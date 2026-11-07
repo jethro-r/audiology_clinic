@@ -12,7 +12,7 @@ import type { LandingAudience as LandingAudienceData } from "@/lib/servicePage";
 export default function LandingAudience({ data }: { data: LandingAudienceData }) {
   return (
     <Section variant="primary">
-      <SectionHeader title={data.heading} variant="dark" />
+      {data.heading ? <SectionHeader title={data.heading} variant="dark" /> : null}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
         {data.columns.map((column, index) => {
           const Icon = getLandingIcon(column.icon);

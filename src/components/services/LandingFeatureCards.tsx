@@ -10,11 +10,13 @@ import type { LandingFeatureCards as LandingFeatureCardsData } from "@/lib/servi
 export default function LandingFeatureCards({ data }: { data: LandingFeatureCardsData }) {
   return (
     <Section variant="cream">
-      <SectionHeader
-        label={data.eyebrow}
-        title={data.heading}
-        description={data.intro}
-      />
+      {data.heading ? (
+        <SectionHeader
+          label={data.eyebrow}
+          title={data.heading}
+          description={data.intro}
+        />
+      ) : null}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {data.cards.map((card, index) => {
           const Icon = getLandingIcon(card.icon);

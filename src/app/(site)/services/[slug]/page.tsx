@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getServicesDirect, getServiceBySlugDirect } from "@/lib/data";
-import { parseServicePage, PHONE_DISPLAY, PHONE_TEL } from "@/lib/servicePage";
+import { parseServicePage, withHeroFallback, PHONE_DISPLAY, PHONE_TEL } from "@/lib/servicePage";
 import { CTASection } from "@/components/sections";
 import LandingHero from "@/components/services/LandingHero";
 import LandingFeatureCards from "@/components/services/LandingFeatureCards";
@@ -43,8 +43,13 @@ export default async function ServiceLandingPage({ params }: PageProps) {
   // services listing instead of a dead end.
   if (!service.isLive) redirect(`/services#${service.slug}`);
 
-  const landing = parseServicePage(service.pageContent);
-  if (!landing) notFound();
+  // A live page always renders — if the hero hasn't been filled in yet it
+  // falls back to the service title + short description.
+  const landing = withHeroFallback(
+    parseServicePage(service.pageContent),
+    service.title,
+    service.shortDescription,
+  );
 
   return (
     <>

@@ -100,9 +100,10 @@ function parseCards(v: unknown): LandingFeatureCards["cards"] {
 
 /**
  * Coerce an unknown JSON value into a renderable ServicePageContent.
- * Optional sections are included only when they have usable content, so the
- * template can simply check for their presence. Returns null when the hero
- * has no content (nothing to render).
+ * Optional sections are included whenever they have items — headings are
+ * optional (a section with cards but no heading still renders). Returns
+ * null only when there is no page content at all; an empty hero is kept
+ * so the route can apply withHeroFallback().
  */
 export function parseServicePage(raw: unknown): ServicePageContent | null {
   if (!raw || typeof raw !== "object") return null;
@@ -121,17 +122,16 @@ export function parseServicePage(raw: unknown): ServicePageContent | null {
         ? heroRaw.visual
         : undefined,
   };
-  if (!hero.headline && !hero.intro) return null;
 
   const landing: ServicePageContent = { hero };
 
   const fcRaw = r.featureCards as Record<string, unknown> | undefined;
   if (fcRaw) {
     const cards = parseCards(fcRaw.cards);
-    if (str(fcRaw.heading) && cards.length > 0) {
+    if (cards.length > 0) {
       landing.featureCards = {
         eyebrow: str(fcRaw.eyebrow),
-        heading: str(fcRaw.heading)!,
+        heading: str(fcRaw.heading) ?? "",
         intro: str(fcRaw.intro),
         cards,
       };
@@ -143,10 +143,10 @@ export function parseServicePage(raw: unknown): ServicePageContent | null {
     const steps = arr<Record<string, unknown>>(stepsRaw.steps)
       .map((s) => ({ title: str(s.title) ?? "", body: str(s.body) ?? "" }))
       .filter((s) => s.title || s.body);
-    if (str(stepsRaw.heading) && steps.length > 0) {
+    if (steps.length > 0) {
       landing.steps = {
         eyebrow: str(stepsRaw.eyebrow),
-        heading: str(stepsRaw.heading)!,
+        heading: str(stepsRaw.heading) ?? "",
         intro: str(stepsRaw.intro),
         highlightStep: num(stepsRaw.highlightStep),
         steps,
@@ -165,9 +165,9 @@ export function parseServicePage(raw: unknown): ServicePageContent | null {
         linkHref: str(c.linkHref),
       }))
       .filter((c) => c.title || c.body);
-    if (str(audRaw.heading) && columns.length > 0) {
+    if (columns.length > 0) {
       landing.audience = {
-        heading: str(audRaw.heading)!,
+        heading: str(audRaw.heading) ?? "",
         columns,
       };
     }
@@ -202,6 +202,30 @@ export function parseServicePage(raw: unknown): ServicePageContent | null {
   }
 
   return landing;
+}
+
+/**
+ * A live page must always render something, even mid-edit. When the hero has
+ * no headline/intro yet, fall back to the service title + short description
+ * so Paul can mark a page Live while it's still a work in progress.
+ */
+export function withHeroFallback(
+  landing: ServicePageContent | null | undefined,
+  title: string,
+  shortDescription: string,
+): ServicePageContent {
+  if (landing && (landing.hero.headline.trim() || landing.hero.intro.trim())) return landing;
+  if (!landing) {
+    return { hero: { headline: title, intro: shortDescription } };
+  }
+  return {
+    ...landing,
+    hero: {
+      ...landing.hero,
+      headline: landing.hero.headline || title,
+      intro: landing.hero.intro || shortDescription,
+    },
+  };
 }
 
 /** Site phone number, display and tel: formats (single source for landing pages) */
