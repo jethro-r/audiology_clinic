@@ -45,7 +45,7 @@ const sections: PolicySection[] = [
       },
       {
         type: "para",
-        text: "Our Privacy Officer is Paul Hsu. You can reach them at info@veritashearing.co.nz or 029 0451 0839.",
+        text: "Our Privacy Officer is Paul Hsu. You can reach them at info@veritashearing.co.nz or 029 045 10839.",
       },
     ],
   },
@@ -242,7 +242,7 @@ const sections: PolicySection[] = [
       },
       {
         type: "para",
-        text: "To make a request, email info@veritashearing.co.nz or call 029 0451 0839. We'll check your identity first, then respond as soon as we can and within 20 working days. There's usually no charge.",
+        text: "To make a request, email info@veritashearing.co.nz or call 029 045 10839. We'll check your identity first, then respond as soon as we can and within 20 working days. There's usually no charge.",
       },
       {
         type: "para",
@@ -388,7 +388,7 @@ export default function PrivacyPolicyPage() {
                   className="flex items-center gap-3 text-primary hover:text-primary-light transition-colors"
                 >
                   <Phone className="h-5 w-5 text-secondary flex-shrink-0" />
-                  029 0451 0839
+                  029 045 10839
                 </a>
                 <span className="flex items-center gap-3 text-muted">
                   <MapPin className="h-5 w-5 text-secondary flex-shrink-0" />
