@@ -208,7 +208,7 @@ export default function Header() {
                   className="flex items-center justify-center gap-2 py-3 text-primary font-medium"
                 >
                   <Phone className="h-4 w-4" />
-                  029 045 10839
+                  029 0451 0839
                 </a>
                 <Link href="/booking" onClick={() => setMobileMenuOpen(false)}>
                   <Button className="w-full">Book Now</Button>

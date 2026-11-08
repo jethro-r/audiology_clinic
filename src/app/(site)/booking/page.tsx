@@ -47,7 +47,7 @@ export default function BookingPage() {
     {
       icon: Phone,
       title: "Phone",
-      content: "029 045 10839",
+      content: "029 0451 0839",
       link: "tel:+642904510839",
     },
     {
