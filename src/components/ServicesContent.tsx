@@ -21,6 +21,7 @@ export default function ServicesContent({ services }: { services: Service[] }) {
           title={service.title}
           description={service.shortDescription}
           iconName={service.iconName}
+          image={service.image || undefined}
           footer={
             <>
               {service.isLive && (

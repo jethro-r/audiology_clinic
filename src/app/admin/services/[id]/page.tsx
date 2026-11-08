@@ -332,8 +332,8 @@ function ServiceEditForm() {
             <div>
               <label className={labelCls}>Image</label>
               <p className="text-xs text-muted-light mb-1">
-                Used as the service page hero image (when the hero visual is set to &ldquo;Service
-                image&rdquo;).
+                Shown on the service&rsquo;s card on the Services page, and as the service page
+                hero image (when the hero visual is set to &ldquo;Service image&rdquo;).
               </p>
               <div className="flex gap-2">
                 <input
