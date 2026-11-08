@@ -26,6 +26,8 @@ model Service {
   idealFor         String?  @db.Text
   note             String?  @db.Text
   featureTooltips  Json?    // JSON object for feature tooltips
+  isLive           Boolean  @default(false) // Service page live on the site (vs draft)
+  pageContent      Json?    // Structured service-page content (see src/lib/servicePage.ts)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 

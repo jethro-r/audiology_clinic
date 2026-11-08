@@ -20,11 +20,25 @@ Veritas Hearing marketing website for an independent audiology clinic in Hamilto
 
 ## Environments
 
-- **Local:** `.env.local` → `npm run dev`
-- **Staging:** `.env` → `docker compose up -d --build`
+- **Local:** `.env.local` → `npm run dev` (Next.js reads `.env.local`; Prisma CLI does **not**)
+- **Staging:** `docker compose up -d --build` (uncomment the prod URL in `.env` temporarily — see below)
 - **Production:** Vercel → Auto-deploy from GitHub
 
 All environments use Neon PostgreSQL. Only `DATABASE_URL` required.
+
+### ⛔ Production database rules (READ THIS)
+
+The `DATABASE_URL` in `.env` is the **live production Neon database** — treat
+it with extreme caution. (A dedicated staging database is planned; until it
+exists, local dev uses the throwaway Docker Postgres via `.env.local`, which
+Next.js reads automatically — the Prisma CLI does not, so prefix `db:*`
+commands with the local `DATABASE_URL` explicitly.)
+
+- **Seed scripts do not exist in this repo, by design** (removed 2026-11-08
+  after a seed wiped production; re-adding one needs a deliberate decision).
+  Local databases are populated with `npm run db:dump:remote` (read-only
+  prod copy) or by entering content through the admin.
+- Production schema pushes follow the user's explicit go-ahead only.
 
 ## Commands
 
@@ -35,7 +49,6 @@ npm run build            # Production build (includes prisma generate)
 
 # Database
 npm run db:push          # Push schema changes
-npm run db:seed          # Seed data
 npm run db:studio        # Open Prisma GUI
 npm run db:dump:remote   # Dump remote DB to local (use --dry-run first)
 
@@ -100,11 +113,11 @@ GA4 (Google Analytics 4) and Meta Pixel are gated behind visitor consent. Nothin
 
 **Models:** Service, TeamMember, Article, FAQ
 **Location:** `prisma/schema.prisma`
-**Seed:** `prisma/seed.ts`
+**Seeding:** none — seed files removed by design; populate local via `db:dump:remote` or the admin
 
 ### ⚠️ Database Safety
 
-**Never modify the database without explicit user permission.** Always report what you find and let the user decide whether to make changes.
+**Never modify the database without explicit user permission — and for the production Neon database, never touch it at all unless the user names it explicitly in the current conversation.** Always report what you find and let the user decide whether to make changes. See "Production database rules" under Environments above.
 
 ## Design System
 

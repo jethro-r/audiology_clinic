@@ -22,6 +22,7 @@ interface Service {
   buttonText?: string | null;
   idealFor?: string | null;
   note?: string | null;
+  isLive?: boolean;
 }
 
 export default function ServicesManager() {
@@ -115,6 +116,7 @@ export default function ServicesManager() {
               <th className="text-left text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5 hidden lg:table-cell">Image</th>
               <th className="text-center text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5 hidden sm:table-cell">Order</th>
               <th className="text-center text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5 hidden sm:table-cell">Homepage</th>
+              <th className="text-center text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5">Status</th>
               <th className="text-right text-xs font-semibold text-muted uppercase tracking-wider px-5 py-3.5">Actions</th>
             </tr>
           </thead>
@@ -144,6 +146,16 @@ export default function ServicesManager() {
                   <td className="px-5 py-4 text-center hidden sm:table-cell">
                     <span className={`inline-block w-2.5 h-2.5 rounded-full ${service.showOnHomepage ? "bg-success" : "bg-border"}`} />
                   </td>
+                  <td className="px-5 py-4 text-center">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        service.isLive ? "bg-success/10 text-success" : "bg-background border border-border text-muted"
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${service.isLive ? "bg-success" : "bg-muted"}`} />
+                      {service.isLive ? "Live" : "Draft"}
+                    </span>
+                  </td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-1">
                       <button
@@ -171,7 +183,7 @@ export default function ServicesManager() {
             })}
             {services.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-5 py-12 text-center text-sm text-muted">
+                <td colSpan={7} className="px-5 py-12 text-center text-sm text-muted">
                   No services yet. Click &quot;Add Service&quot; to create one.
                 </td>
               </tr>

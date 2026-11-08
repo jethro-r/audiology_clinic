@@ -3,11 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Save, X } from "lucide-react";
-import * as LucideIcons from "lucide-react";
 import AdminAuthWrapper from "../../../../components/admin/AdminAuthWrapper";
 import AdminLayout from "../../../../components/admin/AdminLayout";
-import RichTextEditor from "../../../../components/admin/RichTextEditor";
+import IconPicker from "@/components/admin/IconPicker";
+import LandingPageEditor, { defaultPageContent } from "@/components/admin/LandingPageEditor";
 import { slugify } from "@/lib/utils";
+import type { ServicePageContent } from "@/lib/servicePage";
 
 interface Service {
   id: string;
@@ -24,21 +25,15 @@ interface Service {
   buttonText?: string | null;
   idealFor?: string | null;
   note?: string | null;
+  isLive: boolean;
+  pageContent: ServicePageContent;
 }
-
-const POPULAR_ICONS = [
-  "Ear", "Headphones", "Volume2", "VolumeX", "Volume1", "Bell",
-  "Mic", "Radio", "Speaker", "Phone", "Stethoscope", "Activity",
-  "Heart", "Shield", "Settings", "Star", "Award", "CheckCircle",
-  "Users", "UserCheck", "Clock", "Calendar", "MapPin", "AlertCircle",
-  "Info", "HelpCircle", "Lightbulb", "Zap", "TrendingUp", "Target",
-  "Sunrise", "Moon", "Baby", "Home", "Briefcase", "GraduationCap",
-];
 
 const emptyService: Omit<Service, "id"> = {
   slug: "", title: "", shortDescription: "", fullDescription: "",
   iconName: "Ear", image: "", features: [], sortOrder: 0,
   showOnHomepage: true, showInFooter: true, buttonText: "", idealFor: "", note: "",
+  isLive: false, pageContent: defaultPageContent(),
 };
 
 export default function ServiceEditPage() {
@@ -63,9 +58,6 @@ function ServiceEditForm() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const [showIconPicker, setShowIconPicker] = useState(false);
-  const [iconSearch, setIconSearch] = useState("");
-  const iconPickerRef = useRef<HTMLDivElement>(null);
   const slugManuallyEdited = useRef(false);
 
   useEffect(() => {
@@ -86,6 +78,8 @@ function ServiceEditForm() {
             features: data.features, sortOrder: data.sortOrder,
             showOnHomepage: data.showOnHomepage, showInFooter: data.showInFooter,
             buttonText: data.buttonText || "", idealFor: data.idealFor || "", note: data.note || "",
+            isLive: data.isLive ?? false,
+            pageContent: { ...defaultPageContent(), ...(data.pageContent || {}), hero: { ...defaultPageContent().hero, ...(data.pageContent?.hero || {}) } },
           });
           setFeaturesText(data.features.join("\n"));
           setLoading(false);
@@ -96,19 +90,6 @@ function ServiceEditForm() {
         });
     }
   }, [id, isNew]);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (iconPickerRef.current && !iconPickerRef.current.contains(event.target as Node)) {
-        setShowIconPicker(false);
-        setIconSearch("");
-      }
-    }
-    if (showIconPicker) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [showIconPicker]);
 
   function showMessage(type: "success" | "error", text: string) {
     setMessage({ type, text });
@@ -175,10 +156,6 @@ function ServiceEditForm() {
     }
   }
 
-  const filteredIcons = iconSearch
-    ? POPULAR_ICONS.filter((icon) => icon.toLowerCase().includes(iconSearch.toLowerCase()))
-    : POPULAR_ICONS;
-
   if (loading) {
     return (
       <div className="flex justify-center py-16">
@@ -201,8 +178,18 @@ function ServiceEditForm() {
         >
           <ArrowLeft className="w-4 h-4" />
         </button>
-        <h2 className="text-xl font-semibold text-foreground flex-1">
+        <h2 className="text-xl font-semibold text-foreground flex-1 flex items-center gap-3">
           {isNew ? "New Service" : "Edit Service"}
+          {!isNew && (
+            <span
+              className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                form.isLive ? "bg-success/10 text-success" : "bg-background border border-border text-muted"
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${form.isLive ? "bg-success" : "bg-muted"}`} />
+              {form.isLive ? "Live" : "Draft"}
+            </span>
+          )}
         </h2>
         <div className="flex items-center gap-2">
           <button
@@ -304,61 +291,17 @@ function ServiceEditForm() {
                 className={inputCls}
                 required
               />
-            </div>
-            <div>
-              <label className={labelCls}>Full Description</label>
-              <RichTextEditor
-                value={form.fullDescription}
-                onChange={(html) => setForm({ ...form, fullDescription: html })}
-                placeholder="Write a detailed description of this service..."
-                uploadType="services"
-              />
+              <p className="text-xs text-muted-light mt-1">
+                Shown on the Services page listing and used as the page meta description fallback.
+              </p>
             </div>
           </div>
 
-          {/* Features & Details */}
-          <div className="bg-card rounded-xl border border-border p-4 shadow-sm space-y-3">
-            <p className="text-xs font-semibold text-muted uppercase tracking-widest">Details</p>
-            <div>
-              <label className={labelCls}>Features <span className="normal-case font-normal">(one per line)</span></label>
-              <textarea
-                value={featuresText}
-                onChange={(e) => setFeaturesText(e.target.value)}
-                rows={4}
-                placeholder={"Feature 1\nFeature 2\nFeature 3"}
-                className={`${inputCls} placeholder:text-muted-light`}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className={labelCls}>Button Text</label>
-                <input
-                  type="text"
-                  value={form.buttonText || ""}
-                  onChange={(e) => setForm({ ...form, buttonText: e.target.value })}
-                  className={inputCls}
-                />
-              </div>
-              <div>
-                <label className={labelCls}>Ideal For</label>
-                <input
-                  type="text"
-                  value={form.idealFor || ""}
-                  onChange={(e) => setForm({ ...form, idealFor: e.target.value })}
-                  className={inputCls}
-                />
-              </div>
-            </div>
-            <div>
-              <label className={labelCls}>Note</label>
-              <textarea
-                value={form.note || ""}
-                onChange={(e) => setForm({ ...form, note: e.target.value })}
-                rows={2}
-                className={inputCls}
-              />
-            </div>
-          </div>
+          {/* Service page content (generic template) */}
+          <LandingPageEditor
+            value={form.pageContent}
+            onChange={(pageContent) => setForm((f) => ({ ...f, pageContent }))}
+          />
         </div>
 
         {/* Right — sidebar (1/3) */}
@@ -369,58 +312,10 @@ function ServiceEditForm() {
             <p className="text-xs font-semibold text-muted uppercase tracking-widest">Appearance</p>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={labelCls}>Icon</label>
-                <div className="relative" ref={iconPickerRef}>
-                  <button
-                    type="button"
-                    onClick={() => setShowIconPicker(!showIconPicker)}
-                    className={`${inputCls} flex items-center justify-between hover:bg-background/80`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {form.iconName && (() => {
-                        const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[form.iconName];
-                        return IconComponent ? <IconComponent className="w-4 h-4" /> : null;
-                      })()}
-                      <span>{form.iconName || "Select"}</span>
-                    </div>
-                    <svg className="w-3.5 h-3.5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showIconPicker && (
-                    <div className="absolute z-50 left-0 mt-1 w-64 bg-card border border-border rounded-lg shadow-lg max-h-80 overflow-hidden">
-                      <div className="p-2 border-b border-border sticky top-0 bg-card">
-                        <input
-                          type="text"
-                          value={iconSearch}
-                          onChange={(e) => setIconSearch(e.target.value)}
-                          placeholder="Search icons..."
-                          className="w-full px-2.5 py-1.5 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 text-sm"
-                        />
-                      </div>
-                      <div className="grid grid-cols-4 gap-1.5 p-2 max-h-60 overflow-y-auto">
-                        {filteredIcons.map((iconName) => {
-                          const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName];
-                          if (!IconComponent) return null;
-                          return (
-                            <button
-                              key={iconName}
-                              type="button"
-                              onClick={() => { setForm({ ...form, iconName }); setShowIconPicker(false); setIconSearch(""); }}
-                              className={`flex flex-col items-center gap-1 p-1.5 rounded-lg hover:bg-background transition-colors ${
-                                form.iconName === iconName ? "bg-secondary/10 ring-2 ring-secondary" : ""
-                              }`}
-                              title={iconName}
-                            >
-                              <IconComponent className="w-4 h-4" />
-                              <span className="text-[9px] text-muted truncate w-full text-center">{iconName}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <IconPicker
+                  value={form.iconName}
+                  onChange={(iconName) => setForm({ ...form, iconName })}
+                />
               </div>
               <div>
                 <label className={labelCls}>Sort Order</label>
@@ -436,6 +331,10 @@ function ServiceEditForm() {
             {/* Image */}
             <div>
               <label className={labelCls}>Image</label>
+              <p className="text-xs text-muted-light mb-1">
+                Shown on the service&rsquo;s card on the Services page, and as the service page
+                hero image (when the hero visual is set to &ldquo;Service image&rdquo;).
+              </p>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -510,6 +409,53 @@ function ServiceEditForm() {
             </label>
           </div>
         </div>
+      </div>
+
+      {/* Page status — Draft / Live */}
+      <div className="mt-4 bg-card rounded-xl border border-border p-4 shadow-sm">
+        <p className="text-xs font-semibold text-muted uppercase tracking-widest mb-3">Page status</p>
+        <div
+          className="inline-flex rounded-lg border border-border overflow-hidden"
+          role="radiogroup"
+          aria-label="Page status"
+        >
+          <button
+            type="button"
+            role="radio"
+            aria-checked={!form.isLive}
+            onClick={() => setForm((f) => ({ ...f, isLive: false }))}
+            className={`px-5 py-2 text-sm font-medium transition-colors ${
+              !form.isLive
+                ? "bg-foreground text-white"
+                : "bg-card text-muted hover:text-foreground"
+            }`}
+          >
+            Draft
+          </button>
+          <button
+            type="button"
+            role="radio"
+            aria-checked={form.isLive}
+            onClick={() => setForm((f) => ({ ...f, isLive: true }))}
+            className={`px-5 py-2 text-sm font-medium transition-colors border-l border-border ${
+              form.isLive
+                ? "bg-success text-white"
+                : "bg-card text-muted hover:text-foreground"
+            }`}
+          >
+            Live
+          </button>
+        </div>
+        <p className="text-xs text-muted mt-3 max-w-2xl">
+          <span className="text-foreground font-medium">Live</span> publishes this service&rsquo;s
+          page at{" "}
+          <span className="font-mono">/services/{form.slug || "your-slug"}</span> and links it from the
+          Services page. <span className="text-foreground font-medium">Draft</span> keeps the page hidden
+          while you work on it — the service still appears in the Services listing with its short
+          description. A Live page always renders: until the hero is filled in it simply shows the
+          service title and short description, and any sections you&rsquo;ve added. Remember to
+          click Save after changing the status.
+        </p>
       </div>
     </form>
   );
