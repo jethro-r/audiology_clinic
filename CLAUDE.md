@@ -20,11 +20,31 @@ Veritas Hearing marketing website for an independent audiology clinic in Hamilto
 
 ## Environments
 
-- **Local:** `.env.local` → `npm run dev`
-- **Staging:** `.env` → `docker compose up -d --build`
+- **Local:** `.env.local` → `npm run dev` (Next.js reads `.env.local`; Prisma CLI does **not**)
+- **Staging:** `docker compose up -d --build` (uncomment the prod URL in `.env` temporarily — see below)
 - **Production:** Vercel → Auto-deploy from GitHub
 
 All environments use Neon PostgreSQL. Only `DATABASE_URL` required.
+
+### ⛔ Production database rules (READ THIS)
+
+The `DATABASE_URL` in `.env` is the **live production Neon database**, and is
+kept **commented out** on purpose. Local dev uses the throwaway Docker
+Postgres via `.env.local` (Next.js) — Prisma CLI commands (`db:push`,
+`db:seed`, `db:seed:page`, tsx scripts) must be prefixed explicitly:
+
+```bash
+docker run --rm -d --name vh-verify -e POSTGRES_PASSWORD=verify -p 5433:5432 postgres:16-alpine
+DATABASE_URL="postgresql://postgres:verify@localhost:5433/postgres" npm run db:push   # etc.
+```
+
+- **Never** run `db:seed` against production — it wipes services, team,
+  articles, FAQs and settings. Database seeds run **only when the user
+  explicitly asks for one in the current conversation**.
+- `scripts/db-guard.js` (wired into the `db:*` npm scripts) blocks any write
+  command whose effective DATABASE_URL is a Neon host unless
+  `ALLOW_PROD_DB=1` is set. Do not set that flag unless the user asked.
+- Production schema pushes follow the user's explicit go-ahead only.
 
 ## Commands
 
@@ -104,7 +124,7 @@ GA4 (Google Analytics 4) and Meta Pixel are gated behind visitor consent. Nothin
 
 ### ⚠️ Database Safety
 
-**Never modify the database without explicit user permission.** Always report what you find and let the user decide whether to make changes.
+**Never modify the database without explicit user permission — and for the production Neon database, never touch it at all unless the user names it explicitly in the current conversation.** Always report what you find and let the user decide whether to make changes. See "Production database rules" under Environments above.
 
 ## Design System
 
