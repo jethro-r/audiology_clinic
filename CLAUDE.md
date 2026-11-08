@@ -34,9 +34,10 @@ exists, local dev uses the throwaway Docker Postgres via `.env.local`, which
 Next.js reads automatically — the Prisma CLI does not, so prefix `db:*`
 commands with the local `DATABASE_URL` explicitly.)
 
-- **Never** run `db:seed` against production — it wipes services, team,
-  articles, FAQs and settings. Database seeds run **only when the user
-  explicitly asks for one in the current conversation.**
+- **Seed scripts do not exist in this repo, by design** (removed 2026-11-08
+  after a seed wiped production; re-adding one needs a deliberate decision).
+  Local databases are populated with `npm run db:dump:remote` (read-only
+  prod copy) or by entering content through the admin.
 - Production schema pushes follow the user's explicit go-ahead only.
 
 ## Commands
@@ -48,7 +49,6 @@ npm run build            # Production build (includes prisma generate)
 
 # Database
 npm run db:push          # Push schema changes
-npm run db:seed          # Seed data
 npm run db:studio        # Open Prisma GUI
 npm run db:dump:remote   # Dump remote DB to local (use --dry-run first)
 
@@ -113,7 +113,7 @@ GA4 (Google Analytics 4) and Meta Pixel are gated behind visitor consent. Nothin
 
 **Models:** Service, TeamMember, Article, FAQ
 **Location:** `prisma/schema.prisma`
-**Seed:** `prisma/seed.ts`
+**Seeding:** none — seed files removed by design; populate local via `db:dump:remote` or the admin
 
 ### ⚠️ Database Safety
 
