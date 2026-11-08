@@ -28,22 +28,15 @@ All environments use Neon PostgreSQL. Only `DATABASE_URL` required.
 
 ### ⛔ Production database rules (READ THIS)
 
-The `DATABASE_URL` in `.env` is the **live production Neon database**, and is
-kept **commented out** on purpose. Local dev uses the throwaway Docker
-Postgres via `.env.local` (Next.js) — Prisma CLI commands (`db:push`,
-`db:seed`, `db:seed:page`, tsx scripts) must be prefixed explicitly:
-
-```bash
-docker run --rm -d --name vh-verify -e POSTGRES_PASSWORD=verify -p 5433:5432 postgres:16-alpine
-DATABASE_URL="postgresql://postgres:verify@localhost:5433/postgres" npm run db:push   # etc.
-```
+The `DATABASE_URL` in `.env` is the **live production Neon database** — treat
+it with extreme caution. (A dedicated staging database is planned; until it
+exists, local dev uses the throwaway Docker Postgres via `.env.local`, which
+Next.js reads automatically — the Prisma CLI does not, so prefix `db:*`
+commands with the local `DATABASE_URL` explicitly.)
 
 - **Never** run `db:seed` against production — it wipes services, team,
   articles, FAQs and settings. Database seeds run **only when the user
-  explicitly asks for one in the current conversation**.
-- `scripts/db-guard.js` (wired into the `db:*` npm scripts) blocks any write
-  command whose effective DATABASE_URL is a Neon host unless
-  `ALLOW_PROD_DB=1` is set. Do not set that flag unless the user asked.
+  explicitly asks for one in the current conversation.**
 - Production schema pushes follow the user's explicit go-ahead only.
 
 ## Commands
